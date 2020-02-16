@@ -1,0 +1,22 @@
+---
+- name: Create directory
+  file:
+    path: "{{ runner_dir }}"
+    state: directory
+    mode: '0755'
+    recurse: yes
+
+- name: Download runner package
+  local_action:
+    module: get_url
+    url: "https://github.com/actions/runner/releases/download/v{{ runner_version }}/actions-runner-linux-x64-{{ runner_version }}.tar.gz"
+    dest: ./actions-runner-linux.tar.gz
+  run_once: yes
+
+- name: Unarchive package 
+  unarchive:
+    src: ./actions-runner-linux.tar.gz
+    dest: "{{ runner_dir }}/"
+
+- name: Run 
+  command: '{{ runner_dir }}/config.sh --url {{ github_server }}/{{ github_account }}/{{ github_repo }} --token {{ repo_token }}'

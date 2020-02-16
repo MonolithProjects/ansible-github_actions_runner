@@ -1,0 +1,7 @@
+---
+runner_dir: "/opt/actions-runner"
+runner_version: "2.165.2"
+access_token: "{{ GITHUB_ACCESS_TOKEN }}"
+github_server: "https://github.com"
+github_account: "monolithprojects"
+github_repo: "ansible-home_cluster"
