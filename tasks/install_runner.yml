@@ -3,8 +3,11 @@
   file:
     path: "{{ runner_dir }}"
     state: directory
-    mode: '0755'
+    mode: "0755"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
     recurse: yes
+  become: yes
 
 - name: Download runner package
   local_action:
@@ -19,4 +22,4 @@
     dest: "{{ runner_dir }}/"
 
 - name: Run 
-  command: '{{ runner_dir }}/config.sh --url {{ github_server }}/{{ github_account }}/{{ github_repo }} --token {{ repo_token }}'
+  command: "{{ runner_dir }}/config.sh --url {{ github_server }}/{{ github_account }}/{{ github_repo }} --token {{ lookup('env', 'GITHUB_ACCESS_TOKEN') }}"

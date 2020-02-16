@@ -1,0 +1,27 @@
+---
+- name: Install dependencies on Debian/Ubuntu systems
+  package:
+    name:
+      - liblttng-ust0
+      - libkrb5-3
+      - zlib1g
+      - libssl1.1
+      - libicu63
+    state: present
+  when: (ansible_facts['distribution'] == "Debian") or
+        (ansible_facts['distribution'] == "Ubuntu")
+  become: yes
+
+- name: Install dependencies on RHEL/CentOS/Fedora systems
+  package:
+    name:
+      - lttng-ust
+      - openssl-libs
+      - krb5-libs
+      - zlib
+      - libicu
+    state: present
+  when: (ansible_facts['distribution'] == "RedHat") or
+        (ansible_facts['distribution'] == "CentOS") or
+        (ansible_facts['distribution'] == "Fedora")
+  become: yes
