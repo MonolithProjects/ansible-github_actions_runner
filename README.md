@@ -1,8 +1,8 @@
 GitHub Actions Runner
 =========
 
-<a href="https://galaxy.ansible.com/monolithprojects/system_update"><img src="https://img.shields.io/ansible/quality/46110?style=flat&logo=ansible"/></a> 
-<a href="https://galaxy.ansible.com/monolithprojects/system_update"><img src="https://img.shields.io/ansible/role/d/46110"/></a> 
+<a href="https://galaxy.ansible.com/monolithprojects/system_update"><img src="https://img.shields.io/ansible/quality/47118?style=flat&logo=ansible"/></a> 
+<a href="https://galaxy.ansible.com/monolithprojects/system_update"><img src="https://img.shields.io/ansible/role/d/47118"/></a> 
 <a href="https://github.com/MonolithProjects/ansible-github_actions_runner/blob/master/LICENSE"><img src="https://img.shields.io/github/license/MonolithProjects/ansible-github_actions_runner"/></a>
 
 This role will deploy local GitHub Actions Runner.
