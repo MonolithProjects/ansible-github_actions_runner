@@ -7,7 +7,7 @@
     owner: "{{ runner_user }}"
     group: "{{ runner_user }}"
     recurse: yes
-  tags: 
+  tags:
     - install
 
 - name: Download runner package
@@ -16,15 +16,15 @@
     url: "https://github.com/actions/runner/releases/download/v{{ runner_version }}/actions-runner-linux-x64-{{ runner_version }}.tar.gz"
     dest: ./actions-runner-linux.tar.gz
   run_once: yes
-  tags: 
+  tags:
     - install
 
-- name: Unarchive package 
+- name: Unarchive package
   unarchive:
     src: ./actions-runner-linux.tar.gz
     dest: "{{ runner_dir }}/"
     owner: "{{ runner_user }}"
-  tags: 
+  tags:
     - install
 
 # - name: Sstop and disable Github Actions Runner service if it is running
@@ -41,15 +41,15 @@
 #   tags: 
 #     - uninstall
 
-- name: Register runner 
+- name: Register runner
   command: "{{ runner_dir }}/config.sh --url {{ github_server }}/{{ github_account }}/{{ github_repo }} --token {{ access_token }} --unattended"
   become_user: "{{ runner_user }}"
   tags: 
     - install
   
-- name: Install service 
+- name: Install service
   shell: "cd {{ runner_dir }} && ./svc.sh install"
-  tags: 
+  tags:
     - install
 
 - name: Start and enable Github Actions Runner service
@@ -57,5 +57,5 @@
     name: "actions.runner.{{ github_account }}-{{ github_repo }}.{{ ansible_hostname }}"
     state: started
     enabled: yes
-  tags: 
+  tags:
     - install
