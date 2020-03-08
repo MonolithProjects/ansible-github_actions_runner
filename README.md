@@ -25,6 +25,7 @@ System must have access to the packages repository (Internet, Red Hat Satellite,
 
 CentOS/Fedora systems require EPEL repository.
 
+`GITHUB_ACCESS_TOKEN` variable needs to be exported to your environment.
 
 Role Variables
 --------------
