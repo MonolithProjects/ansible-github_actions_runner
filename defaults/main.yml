@@ -12,7 +12,7 @@ access_token: "{{ lookup('env', 'GITHUB_ACCESS_TOKEN') }}"
 github_server: "https://github.com"
 
 # GitHub account name
-github_account: "monolithprojects"
+# github_account: "youruser"
 
 # Github repository name
-github_repo: "ansible-home_cluster"
+# github_repo: "yourrepo"
