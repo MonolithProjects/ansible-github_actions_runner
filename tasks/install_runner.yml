@@ -44,9 +44,9 @@
 - name: Register runner
   command: "{{ runner_dir }}/config.sh --url {{ github_server }}/{{ github_account }}/{{ github_repo }} --token {{ access_token }} --unattended"
   become_user: "{{ runner_user }}"
-  tags: 
+  tags:
     - install
-  
+
 - name: Install service
   shell: "cd {{ runner_dir }} && ./svc.sh install"
   tags:

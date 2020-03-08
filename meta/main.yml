@@ -29,5 +29,5 @@
       - local
       - runner
       - cicd
-  dependencies: 
+  dependencies:
     - role: robertdebock.epel
