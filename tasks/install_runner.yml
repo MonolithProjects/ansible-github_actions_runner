@@ -4,10 +4,11 @@
     path: "{{ runner_dir }}"
     state: directory
     mode: "0755"
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
+    owner: "{{ runner_user }}"
+    group: "{{ runner_user }}"
     recurse: yes
-  become: yes
+  tags: 
+    - install
 
 - name: Download runner package
   local_action:
@@ -15,11 +16,46 @@
     url: "https://github.com/actions/runner/releases/download/v{{ runner_version }}/actions-runner-linux-x64-{{ runner_version }}.tar.gz"
     dest: ./actions-runner-linux.tar.gz
   run_once: yes
+  tags: 
+    - install
 
 - name: Unarchive package 
   unarchive:
     src: ./actions-runner-linux.tar.gz
     dest: "{{ runner_dir }}/"
+    owner: "{{ runner_user }}"
+  tags: 
+    - install
 
-- name: Run 
-  command: "{{ runner_dir }}/config.sh --url {{ github_server }}/{{ github_account }}/{{ github_repo }} --token {{ lookup('env', 'GITHUB_ACCESS_TOKEN') }}"
+# - name: Sstop and disable Github Actions Runner service if it is running
+#   systemd:
+#     name: "actions.runner.{{ github_account }}-{{ github_repo }}.{{ ansible_hostname }}"
+#     state: stopped
+#     enabled: no
+#   tags: 
+#     - uninstall
+
+# - name: Unregister runner 
+#   command: "{{ runner_dir }}/./config.sh remove --token {{ access_token }} --unattended"
+#   become_user: "{{ runner_user }}"
+#   tags: 
+#     - uninstall
+
+- name: Register runner 
+  command: "{{ runner_dir }}/config.sh --url {{ github_server }}/{{ github_account }}/{{ github_repo }} --token {{ access_token }} --unattended"
+  become_user: "{{ runner_user }}"
+  tags: 
+    - install
+  
+- name: Install service 
+  shell: "cd {{ runner_dir }} && ./svc.sh install"
+  tags: 
+    - install
+
+- name: Start and enable Github Actions Runner service
+  systemd:
+    name: "actions.runner.{{ github_account }}-{{ github_repo }}.{{ ansible_hostname }}"
+    state: started
+    enabled: yes
+  tags: 
+    - install

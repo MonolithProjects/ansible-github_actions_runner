@@ -1,16 +1,33 @@
 ---
-- name: Install dependencies on Debian/Ubuntu systems
+- name: Install dependencies on Debian Stretch / Ubuntu Xenial systems
   package:
-    name:
+    pkg:
+      - liblttng-ust0
+      - libkrb5-3
+      - zlib1g
+      - libssl1.0.0
+      - libicu55
+    state: present
+    update_cache: yes
+  when: (ansible_distribution == "Debian" and ansible_distribution_major_version == "9") or
+        (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "16")
+  tags: 
+    - install
+
+- name: Install dependencies on Debian Buster / Ubuntu Bionic systems
+  package:
+    pkg:
       - liblttng-ust0
       - libkrb5-3
       - zlib1g
       - libssl1.1
-      - libicu63
+      - libicu60
     state: present
-  when: (ansible_facts['distribution'] == "Debian") or
-        (ansible_facts['distribution'] == "Ubuntu")
-  become: yes
+    update_cache: yes
+  when: (ansible_distribution == "Debian" and ansible_distribution_major_version == "10") or
+        (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "18")
+  tags: 
+    - install
 
 - name: Install dependencies on RHEL/CentOS/Fedora systems
   package:
@@ -21,7 +38,8 @@
       - zlib
       - libicu
     state: present
-  when: (ansible_facts['distribution'] == "RedHat") or
-        (ansible_facts['distribution'] == "CentOS") or
-        (ansible_facts['distribution'] == "Fedora")
-  become: yes
+  when: (ansible_distribution == "RedHat") or
+        (ansible_distribution == "CentOS") or
+        (ansible_distribution == "Fedora")
+  tags: 
+    - install

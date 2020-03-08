@@ -5,7 +5,7 @@
     description: Deploy Github Actions private runner
     company: MonolithProjects
     license: "license (MIT)"
-    min_ansible_version: 2.4
+    min_ansible_version: 2.8
     platforms:
       - name: EL
         versions:
@@ -20,7 +20,6 @@
           - stretch
       - name: Ubuntu
         versions:
-          - trusty
           - xenial
           - bionic
     galaxy_tags:

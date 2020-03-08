@@ -1,7 +1,18 @@
 ---
+# Directory where the local runner will be installed
 runner_dir: "/opt/actions-runner"
+
+# Version of the GitHub Actions Runner
 runner_version: "2.165.2"
-access_token: "{{ GITHUB_ACCESS_TOKEN }}"
+
+# GitHub Access token for the repository
+access_token: "{{ lookup('env', 'GITHUB_ACCESS_TOKEN') }}"
+
+# GitHub address
 github_server: "https://github.com"
+
+# GitHub account name
 github_account: "monolithprojects"
+
+# Github repository name
 github_repo: "ansible-home_cluster"
