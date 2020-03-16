@@ -75,7 +75,7 @@
 - name: Unregister runner from the GitHub
   command: "{{ runner_dir }}/./config.sh remove --token {{ registration.json.token }} --unattended"
   become_user: "{{ runner_user }}"
-  when: "'ansible_hostname' in '{{ registered_runners.json.name }}'"
+  when: ansible_hostname in registered_runners.json.name 
   tags: 
     - uninstall
 
