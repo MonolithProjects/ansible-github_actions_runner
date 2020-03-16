@@ -27,6 +27,18 @@
   tags:
     - install
 
+- name: Get registration token
+  uri:
+    url: "https://api.github.com/repos/{{ github_account }}/{{ github_repo }}/actions/runners/registration-token"
+    user: "{{ github_account }}"
+    password: "{{ access_token }}"
+    method: POST
+    status_code: 201
+    force_basic_auth: yes
+  register: registration
+  run_once: yes
+
+
 # - name: Sstop and disable Github Actions Runner service if it is running
 #   systemd:
 #     name: "actions.runner.{{ github_account }}-{{ github_repo }}.{{ ansible_hostname }}"
@@ -36,13 +48,13 @@
 #     - uninstall
 
 # - name: Unregister runner 
-#   command: "{{ runner_dir }}/./config.sh remove --token {{ access_token }} --unattended"
+#   command: "{{ runner_dir }}/./config.sh remove --token {{ registration.json.token }} --unattended"
 #   become_user: "{{ runner_user }}"
 #   tags: 
 #     - uninstall
 
 - name: Register runner
-  command: "{{ runner_dir }}/config.sh --url {{ github_server }}/{{ github_account }}/{{ github_repo }} --token {{ access_token }} --unattended"
+  command: "{{ runner_dir }}/config.sh --url {{ github_server }}/{{ github_account }}/{{ github_repo }} --token {{ registration.json.token }} --unattended"
   become_user: "{{ runner_user }}"
   tags:
     - install
