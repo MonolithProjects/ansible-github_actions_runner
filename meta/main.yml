@@ -30,4 +30,4 @@
       - runner
       - cicd
   dependencies:
-    - role: robertdebock.epel
+    - robertdebock.epel
