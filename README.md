@@ -11,6 +11,7 @@ This role will deploy local GitHub Actions Runner.
 The role is in early development stage.  
 Role is able to:
 - install and cofigure local runner
+- request reistration token
 - register the runner to GitHub
 
 Currently is missing:
@@ -25,7 +26,7 @@ System must have access to the packages repository (Internet, Red Hat Satellite,
 
 CentOS/Fedora systems require EPEL repository.
 
-`GITHUB_ACCESS_TOKEN` variable needs to be exported to your environment.
+`PERSONAL_ACCESS_TOKEN` variable needs to be exported to your environment.
 
 Role Variables
 --------------
@@ -39,17 +40,17 @@ runner_dir: "/opt/actions-runner"
 # Version of the GitHub Actions Runner
 runner_version: "2.165.2"
 
-# GitHub Access token for the repository
-access_token: "{{ lookup('env', 'GITHUB_ACCESS_TOKEN') }}"
+# Personal Access Token for your GitHub account
+access_token: "{{ lookup('env', 'PERSONAL_ACCESS_TOKEN') }}"
 
 # GitHub address
 github_server: "https://github.com"
 
 # GitHub account name
-# github_account: "yourgithubname"
+# github_account: "youruser"
 
 # Github repository name
-# github_repo: "yourreponame"
+# github_repo: "yourrepo"
 ```
 
 Example Playbook
@@ -65,9 +66,9 @@ Simple example.
   vars:
     - runner_user: runner
     - github_account: example
-    - github_repo: example"
+    - github_repo: example
   roles:
-    - role: ansible-github_actions_runner
+    - role: monolithprojects/github_actions_runner
 ```
 
 License
