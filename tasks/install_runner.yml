@@ -37,7 +37,9 @@
     force_basic_auth: yes
   register: registration
   run_once: yes
-
+  tags:
+    - install
+    - uninstall
 
 # - name: Sstop and disable Github Actions Runner service if it is running
 #   systemd:
