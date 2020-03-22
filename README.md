@@ -17,7 +17,7 @@ System must have access to the GitHub.
 
 CentOS/Fedora systems require EPEL repository.
 
-`PERSONAL_ACCESS_TOKEN` variable needs to be exported to your environment.  
+`PERSONAL_ACCESS_TOKEN` variable needs to be exported to your environment. The token has to have admin rights for the repo.  
 Personal Access Token for your GitHub account can be created [here](https://github.com/settings/tokens).
 
 Role Variables
