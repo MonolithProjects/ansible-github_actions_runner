@@ -20,7 +20,7 @@
   when: runner_version != "latest"
   tags:
     - install
-  
+
 - name: Unarchive package
   unarchive:
     src: "./actions-runner-linux-{{ runner_version }}.tar.gz"
@@ -29,70 +29,11 @@
   tags:
     - install
 
-- name: Get registration token (RUN ONCE)
-  uri:
-    url: "https://api.github.com/repos/{{ github_account }}/{{ github_repo }}/actions/runners/registration-token"
-    user: "{{ github_account }}"
-    password: "{{ access_token }}"
-    method: POST
-    status_code: 201
-    force_basic_auth: yes
-  register: registration
-  run_once: yes
-  tags:
-    - install
-    - uninstall
-
-- name: Check currently registered runners (RUN ONCE)
-  uri:
-    url: "https://api.github.com/repos/{{ github_account }}/{{ github_repo }}/actions/runners"
-    user: "{{ github_account }}"
-    password: "{{ access_token }}"
-    method: GET
-    status_code: 200
-    force_basic_auth: yes
-  register: registered_runners
-  run_once: yes
-  tags:
-    - install
-    - uninstall
-
-- name: Check service facts
-  service_facts:
-  tags:
-    - install
-    - uninstall
-
-- name: Combine Github account and repo names
-  set_fact:
-    svc_name: "{{ github_account }}-{{ github_repo }}"
-
-- name: Build service name
-  set_fact:
-    runner_service: "actions.runner.{{ svc_name[:45] }}.{{ ansible_hostname }}.service"
-
-- debug:
-    var: services
-
-- name: Stop and disable GitHub Actions Runner service
-  systemd:
-    name: "{{ runner_service }}"
-    state: stopped
-    enabled: no
-  when: runner_service in services
-  tags: 
-    - uninstall
-
-- name: Unregister runner from the GitHub
-  command: "{{ runner_dir }}/./config.sh remove --token {{ registration.json.token }} --unattended"
-  become_user: "{{ runner_user }}"
-  no_log: "{{ hide_sensitive_logs }}"
-  when: ansible_hostname in registered_runners.json.runners|map(attribute='name')|list 
-  tags: 
-    - uninstall
-
 - name: Register runner
-  command: "{{ runner_dir }}/config.sh --url {{ github_server }}/{{ github_account }}/{{ github_repo }} --token {{ registration.json.token }} --unattended"
+  command: "{{ runner_dir }}/./config.sh --url {{ github_server }}/{{ github_account }}/{{ github_repo }} --token {{ registration.json.token }} --unattended"
+  args:
+    chdir: "{{ runner_dir }}"
+  # became: yes
   become_user: "{{ runner_user }}"
   no_log: "{{ hide_sensitive_logs }}"
   when: ansible_hostname not in registered_runners.json.runners|map(attribute='name')|list
@@ -101,6 +42,9 @@
 
 - name: Replace registered runner
   command: "{{ runner_dir }}/config.sh --url {{ github_server }}/{{ github_account }}/{{ github_repo }} --token {{ registration.json.token }} --unattended --replace"
+  args:
+    chdir: "{{ runner_dir }}"
+  # became: yes
   become_user: "{{ runner_user }}"
   no_log: "{{ hide_sensitive_logs }}"
   when: replace_runner and ansible_hostname in registered_runners.json.runners|map(attribute='name')|list
@@ -108,7 +52,9 @@
     - install
 
 - name: Install service
-  shell: "cd {{ runner_dir }} && ./svc.sh install"
+  command: "./svc.sh install"
+  args:
+    chdir: "{{ runner_dir }}"
   tags:
     - install
 

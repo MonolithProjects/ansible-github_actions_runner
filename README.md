@@ -1,32 +1,24 @@
 GitHub Actions Runner
 =========
 
-<a href="https://galaxy.ansible.com/monolithprojects/system_update"><img src="https://img.shields.io/ansible/quality/47118?style=flat&logo=ansible"/></a> 
-<a href="https://galaxy.ansible.com/monolithprojects/system_update"><img src="https://img.shields.io/ansible/role/d/47118"/></a> 
+<a href="https://galaxy.ansible.com/monolithprojects/ansible-github_actions_runner"><img src="https://img.shields.io/ansible/quality/47118?style=flat&logo=ansible"/></a> 
+<a href="https://galaxy.ansible.com/monolithprojects/ansible-github_actions_runner"><img src="https://img.shields.io/ansible/role/d/47118"/></a> 
+<a href="https://galaxy.ansible.com/monolithprojects/github_actions_runner"><img src="https://img.shields.io/github/v/release/MonolithProjects/github_actions_runner"/></a> 
+<a href="https://github.com/MonolithProjects/ansible-github_actions_runner/actions"><img src="https://github.com/MonolithProjects/ansible-github_actions_runner/workflows/molecule%20test/badge.svg?branch=master"/></a>
 <a href="https://github.com/MonolithProjects/ansible-github_actions_runner/blob/master/LICENSE"><img src="https://img.shields.io/github/license/MonolithProjects/ansible-github_actions_runner"/></a>
 
-This role will deploy local GitHub Actions Runner.
+This role will deploy or redeploy or uninstall and register or unregister local GitHub Actions Runner (version you specified).
 
-**Note:**  
-The role is in early development stage.  
-Role is able to:
-- install and cofigure local runner
-- request reistration token
-- register the runner to GitHub
-
-Currently is missing:
-- idempotency
-- runner unregistration
-- automated testing
 
 Requirements
 ------------
 
-System must have access to the packages repository (Internet, Red Hat Satellite, etc.).
+System must have access to the GitHub.
 
 CentOS/Fedora systems require EPEL repository.
 
-`PERSONAL_ACCESS_TOKEN` variable needs to be exported to your environment.
+`PERSONAL_ACCESS_TOKEN` variable needs to be exported to your environment.  
+Personal Access Token for your GitHub account can be created [here](https://github.com/settings/tokens).
 
 Role Variables
 --------------
@@ -35,10 +27,16 @@ This is a copy from `defaults/main.yml`
 
 ```yaml
 # Directory where the local runner will be installed
-runner_dir: "/opt/actions-runner"
+runner_dir: /opt/actions-runner
 
 # Version of the GitHub Actions Runner
 runner_version: "2.165.2"
+
+# If found, replace already registered runner
+replace_runner: yes
+
+# Do not show Ansible logs which may contain sensitive data (registration token)
+hide_sensitive_logs: yes
 
 # Personal Access Token for your GitHub account
 access_token: "{{ lookup('env', 'PERSONAL_ACCESS_TOKEN') }}"
@@ -53,22 +51,41 @@ github_server: "https://github.com"
 # github_repo: "yourrepo"
 ```
 
+
 Example Playbook
 ----------------
 
-Simple example.
+In this example the role will deploy (or redeploy) the GitHub Actions runner service (default version ins ) and register the runner for the GitHub repo.
 
 ```yaml
 ---
-- name: Converge
+- name: GitHub Actions Runner
   hosts: all
   become: yes
   vars:
+    - runner_version: "2.165.2"
     - runner_user: runner
-    - github_account: example
-    - github_repo: example
+    - github_account: myuser
+    - github_repo: my_awesome_repo
   roles:
-    - role: monolithprojects/github_actions_runner
+    - role: monolithprojects.github_actions_runner
+```
+
+Here the GitHub Actions runners will be uninstalled, service stopped and unregistered from the GitHub.
+```yaml
+---
+- name: GitHub Actions Runner
+  hosts: all
+  become: yes
+  tags:
+    - uninstall
+  vars:
+    - runner_version: "2.165.2"
+    - runner_user: runner
+    - github_account: myuser
+    - github_repo: my_awesome_repo
+  roles:
+    - role: monolithprojects.github_actions_runner
 ```
 
 License

@@ -1,3 +1,17 @@
 ---
+- include_tasks: collect_info.yml
+  tags:
+    - install
+    - uninstall
+
 - include_tasks: install_deps.yml
+  tags:
+    - install
+
+- include_tasks: uninstall_runner.yml
+  tags:
+    - uninstall
+
 - include_tasks: install_runner.yml
+  tags:
+    - install
