@@ -57,6 +57,7 @@
   command: "./svc.sh install"
   args:
     chdir: "{{ runner_dir }}"
+  when: runner_service not in services
   tags:
     - install
 
