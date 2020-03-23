@@ -1,8 +1,8 @@
 GitHub Actions Runner
 =========
 
-<a href="https://galaxy.ansible.com/monolithprojects/ansible-github_actions_runner"><img src="https://img.shields.io/ansible/quality/47118?style=flat&logo=ansible"/></a> 
-<a href="https://galaxy.ansible.com/monolithprojects/ansible-github_actions_runner"><img src="https://img.shields.io/ansible/role/d/47118"/></a> 
+<a href="https://galaxy.ansible.com/monolithprojects/ansible-github_actions_runner"><img src="https://img.shields.io/ansible/quality/47375?style=flat&logo=ansible"/></a> 
+<a href="https://galaxy.ansible.com/monolithprojects/ansible-github_actions_runner"><img src="https://img.shields.io/ansible/role/d/47375"/></a> 
 <a href="https://galaxy.ansible.com/monolithprojects/github_actions_runner"><img src="https://img.shields.io/github/v/release/MonolithProjects/ansible-github_actions_runner"/></a> 
 <a href="https://github.com/MonolithProjects/ansible-github_actions_runner/actions"><img src="https://github.com/MonolithProjects/ansible-github_actions_runner/workflows/molecule%20test/badge.svg?branch=master"/></a>
 <a href="https://github.com/MonolithProjects/ansible-github_actions_runner/blob/master/LICENSE"><img src="https://img.shields.io/github/license/MonolithProjects/ansible-github_actions_runner"/></a>
