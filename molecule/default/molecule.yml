@@ -61,6 +61,7 @@ dependency:
     ignore-certs: True
     ignore-errors: True
 scenario:
+  name: default
   test_sequence:
     - dependency
     - lint
