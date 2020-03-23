@@ -35,6 +35,7 @@
   command: "./config.sh remove --token {{ registration.json.token }} --unattended"
   args:
     chdir: "{{ runner_dir }}"
+  become: yes
   become_user: "{{ runner_user }}"
   no_log: "{{ hide_sensitive_logs }}"
   when: ansible_hostname in registered_runners.json.runners|map(attribute='name')|list and runner_file.stat.exists
