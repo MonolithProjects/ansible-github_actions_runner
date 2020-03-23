@@ -30,10 +30,11 @@
     - install
 
 - name: Register runner
-  command: "{{ runner_dir }}/./config.sh --url {{ github_server }}/{{ github_account }}/{{ github_repo }} --token {{ registration.json.token }} --unattended"
+  command: "{{ runner_dir }}/./config.sh --url {{ github_server }}/{{ github_account }}/{{ github_repo }} \
+            --token {{ registration.json.token }} --unattended"
   args:
     chdir: "{{ runner_dir }}"
-  # became: yes
+  become: yes
   become_user: "{{ runner_user }}"
   no_log: "{{ hide_sensitive_logs }}"
   when: ansible_hostname not in registered_runners.json.runners|map(attribute='name')|list
@@ -41,10 +42,11 @@
     - install
 
 - name: Replace registered runner
-  command: "{{ runner_dir }}/config.sh --url {{ github_server }}/{{ github_account }}/{{ github_repo }} --token {{ registration.json.token }} --unattended --replace"
+  command: "{{ runner_dir }}/config.sh --url {{ github_server }}/{{ github_account }}/{{ github_repo }} \
+            --token {{ registration.json.token }} --unattended --replace"
   args:
     chdir: "{{ runner_dir }}"
-  # became: yes
+  become: yes
   become_user: "{{ runner_user }}"
   no_log: "{{ hide_sensitive_logs }}"
   when: replace_runner and ansible_hostname in registered_runners.json.runners|map(attribute='name')|list

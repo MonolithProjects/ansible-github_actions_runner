@@ -46,9 +46,10 @@ platforms:
   #   pre_build_image: yes
 provisioner:
   name: ansible
+  playbooks:
+    converge: converge.yml
+    cleanup: cleanup.yml 
   log: false
-  # env: 
-  #   PERSONAL_ACCESS_TOKEN: $PERSONAL_ACCESS_TOKEN
   inventory:
     host_vars:
       CentOS8:
