@@ -47,7 +47,6 @@ platforms:
 provisioner:
   name: ansible
   log: false
-  tags: install
   env: 
     PERSONAL_ACCESS_TOKEN: $PERSONAL_ACCESS_TOKEN
   inventory:
