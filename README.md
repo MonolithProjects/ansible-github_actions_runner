@@ -1,14 +1,13 @@
 GitHub Actions Runner
 =========
 
-<a href="https://galaxy.ansible.com/monolithprojects/ansible-github_actions_runner"><img src="https://img.shields.io/ansible/quality/47375?style=flat&logo=ansible"/></a> 
-<a href="https://galaxy.ansible.com/monolithprojects/ansible-github_actions_runner"><img src="https://img.shields.io/ansible/role/d/47375"/></a> 
-<a href="https://galaxy.ansible.com/monolithprojects/github_actions_runner"><img src="https://img.shields.io/github/v/release/MonolithProjects/ansible-github_actions_runner"/></a> 
-<a href="https://github.com/MonolithProjects/ansible-github_actions_runner/actions"><img src="https://github.com/MonolithProjects/ansible-github_actions_runner/workflows/molecule%20test/badge.svg?branch=master"/></a>
-<a href="https://github.com/MonolithProjects/ansible-github_actions_runner/blob/master/LICENSE"><img src="https://img.shields.io/github/license/MonolithProjects/ansible-github_actions_runner"/></a>
+[![Galaxy Quality](https://img.shields.io/ansible/quality/47375?style=flat&logo=ansible)](https://galaxy.ansible.com/monolithprojects/github_actions_runner)
+[![Role version](https://img.shields.io/github/v/release/MonolithProjects/ansible-github_actions_runner)](https://galaxy.ansible.com/monolithprojects/github_actions_runner)
+[![Role downloads](https://img.shields.io/ansible/role/d/47375)](https://galaxy.ansible.com/monolithprojects/github_actions_runner)
+[![GitHub Actions](https://github.com/MonolithProjects/ansible-github_actions_runner/workflows/molecule%20test/badge.svg?branch=master)](https://github.com/MonolithProjects/ansible-github_actions_runner/actions)
+[![License](https://img.shields.io/github/license/MonolithProjects/ansible-github_actions_runner)](https://github.com/MonolithProjects/ansible-github_actions_runner/blob/master/LICENSE)
 
 This role will deploy or redeploy or uninstall and register or unregister local GitHub Actions Runner (version you specified).
-
 
 Requirements
 ------------
@@ -51,7 +50,6 @@ github_server: "https://github.com"
 # github_repo: "yourrepo"
 ```
 
-
 Example Playbook
 ----------------
 
@@ -72,6 +70,7 @@ In this example the role will deploy (or redeploy) the GitHub Actions runner ser
 ```
 
 Here the GitHub Actions runners will be uninstalled, service stopped and unregistered from the GitHub.
+
 ```yaml
 ---
 - name: GitHub Actions Runner
@@ -90,6 +89,7 @@ Here the GitHub Actions runners will be uninstalled, service stopped and unregis
 
 ToDo
 ----
+
 Full Debian/Ubuntu support
 
 License
