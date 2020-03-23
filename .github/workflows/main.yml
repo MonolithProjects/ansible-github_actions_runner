@@ -1,0 +1,36 @@
+name: molecule test
+
+on:
+    push:
+        branches:
+            - master
+            - develop
+    schedule:
+        - cron: '0 6 * * 0'
+
+jobs:
+  lint:
+      runs-on: ubuntu-latest
+      steps:
+        - name: checkout
+          uses: actions/checkout@v2
+        - name: molecule
+          uses: robertdebock/molecule-action@2.0.0
+          with:
+            entrypoint: /usr/local/bin/molecule
+            args: lint
+  test:
+    needs:
+      - lint
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          path: "${{ github.repository }}"
+      - name: molecule
+        uses: robertdebock/molecule-action@2.0.0
+        env:
+          PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
