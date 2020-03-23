@@ -69,22 +69,10 @@ In this example the role will deploy (or redeploy) the GitHub Actions runner ser
     - role: monolithprojects.github_actions_runner
 ```
 
-Here the GitHub Actions runners will be uninstalled, service stopped and unregistered from the GitHub.
+By using tag `uninstall`, GitHub Actions runner will be removed from the host and unregistered from the GitHub.
 
-```yaml
----
-- name: GitHub Actions Runner
-  hosts: all
-  become: yes
-  tags:
-    - uninstall
-  vars:
-    - runner_version: "2.165.2"
-    - runner_user: runner
-    - github_account: myuser
-    - github_repo: my_awesome_repo
-  roles:
-    - role: monolithprojects.github_actions_runner
+```bash
+ansible-playbook playbook.yml --tags uninstall
 ```
 
 ToDo
