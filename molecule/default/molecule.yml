@@ -71,9 +71,5 @@ scenario:
     - create
     - prepare
     - converge
-    # - idempotence
-    - side_effect
-    - uninstall
-    - verify
     - cleanup
     - destroy
