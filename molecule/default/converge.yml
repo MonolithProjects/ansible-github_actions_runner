@@ -1,0 +1,24 @@
+---
+- name: Converge
+  user: ansible
+  hosts: all
+  become: yes
+  vars:
+    - runner_user: ansible
+    - github_repo: ansible-github_actions_runner-testrepo
+    - github_account: monolithprojects
+  roles:
+    - role: ansible-github_actions_runner
+
+- name: Uninstall
+  user: ansible
+  hosts: all
+  become: yes
+  tags:
+    - uninstall
+  vars:
+    - runner_user: ansible
+    - github_repo: ansible-github_actions_runner-testrepo
+    - github_account: monolithprojects
+  roles:
+    - role: ansible-github_actions_runner
