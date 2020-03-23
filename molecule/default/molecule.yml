@@ -47,8 +47,8 @@ platforms:
 provisioner:
   name: ansible
   log: false
-  env: 
-    PERSONAL_ACCESS_TOKEN: $PERSONAL_ACCESS_TOKEN
+  # env: 
+  #   PERSONAL_ACCESS_TOKEN: $PERSONAL_ACCESS_TOKEN
   inventory:
     host_vars:
       CentOS8:
