@@ -32,3 +32,5 @@ jobs:
           path: "${{ github.repository }}"
       - name: molecule
         uses: robertdebock/molecule-action@2.0.0
+        env:
+          PERSONAL_ACCESS_TOKEN: $PERSONAL_ACCESS_TOKEN
