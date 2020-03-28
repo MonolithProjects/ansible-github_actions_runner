@@ -15,7 +15,7 @@ Requirements
 * Supported Linux distros:
   * CentOS/RHEL 7,8
   * Fedora 16+
-  * Ubuntu 16,17
+  * Ubuntu 16,18
 
 * System must have access to the GitHub.
 
