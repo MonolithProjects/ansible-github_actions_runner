@@ -37,6 +37,6 @@ jobs:
         with:
           entrypoint: /usr/local/bin/molecule
           args: 
-            - "converge -- --tags uninstall"
+            - 'converge -- --tags uninstall'
         env:
           PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
