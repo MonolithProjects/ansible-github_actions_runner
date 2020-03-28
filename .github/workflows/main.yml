@@ -24,7 +24,7 @@ jobs:
   uninstall:
     # needs:
     #   - test
-    runs-on: znerolmolecule/molecule-prebuilt:centos
+    runs-on: molecule-prebuilt:centos
     strategy:
       fail-fast: false
     steps:
