@@ -30,6 +30,8 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v2
+        with:
+          path: "${{ github.repository }}"
       - name: molecule
         uses: robertdebock/molecule-action@2.0.0
         with:
