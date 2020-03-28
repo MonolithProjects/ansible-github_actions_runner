@@ -18,10 +18,10 @@
       #   versions:
       #     - jessie
       #     - stretch
-      # - name: Ubuntu
-      #   versions:
-      #     - xenial
-      #     - bionic
+      - name: Ubuntu
+        versions:
+          - xenial
+          - bionic
     galaxy_tags:
       - github
       - actions
