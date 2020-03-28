@@ -9,8 +9,6 @@ on:
         - cron: '0 6 * * 0'
 jobs:
   test:
-    needs:
-      - lint
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
