@@ -41,3 +41,10 @@
   when: ansible_hostname in registered_runners.json.runners|map(attribute='name')|list and runner_file.stat.exists
   tags:
     - uninstall
+
+- name: Delete runner directory
+  file:
+    path: "{{ runner_dir }}"
+    state: absent
+  tags:
+    - uninstall
