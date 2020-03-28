@@ -12,11 +12,20 @@ This role will deploy or redeploy or uninstall and register or unregister local 
 Requirements
 ------------
 
-System must have access to the GitHub.
+* Supported Linux distros:
+  * CentOS/RHEL 7,8
+  * Fedora 16+
+  * Ubuntu 16,17
 
-CentOS/Fedora systems require EPEL repository.
+* System must have access to the GitHub.
 
-`PERSONAL_ACCESS_TOKEN` variable needs to be exported to your environment. The token has to have admin rights for the repo.  
+* Runner user has to be pre-created.  
+  Recommended role: `monolithprojects.user_management`
+
+* CentOS/Fedora systems require EPEL repository.  
+  Recommended role: `robertdebock.epel`
+
+* `PERSONAL_ACCESS_TOKEN` variable needs to be exported to your environment. The token has to have admin rights for the repo.  
 Personal Access Token for your GitHub account can be created [here](https://github.com/settings/tokens).
 
 Role Variables
@@ -25,6 +34,9 @@ Role Variables
 This is a copy from `defaults/main.yml`
 
 ```yaml
+# Runner user - user inder which is the local runner service running
+runner_user: runner
+
 # Directory where the local runner will be installed
 runner_dir: /opt/actions-runner
 
@@ -74,11 +86,6 @@ By using tag `uninstall`, GitHub Actions runner will be removed from the host an
 ```bash
 ansible-playbook playbook.yml --tags uninstall
 ```
-
-ToDo
-----
-
-Full Debian/Ubuntu support
 
 License
 -------
