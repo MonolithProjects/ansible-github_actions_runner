@@ -36,6 +36,6 @@ jobs:
         uses: gofrolist/molecule-action@master
         with:
           molecule_command: converge
-          molecule_args: "-- --tags uninstall"
+          molecule_args: [ -- --tags uninstall ]
         env:
           PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
