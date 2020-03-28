@@ -35,7 +35,6 @@ jobs:
       - name: molecule
         uses: robertdebock/molecule-action@2.0.0
         with:
-          entrypoint: /usr/local/bin/molecule
-          args: converge -- --tags uninstall
+          entrypoint: "/usr/local/bin/molecule converge -- --tags uninstall"
         env:
           PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
