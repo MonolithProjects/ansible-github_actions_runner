@@ -8,7 +8,22 @@ on:
     schedule:
         - cron: '0 6 * * 0'
 jobs:
-  # test:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          path: "${{ github.repository }}"
+      - name: molecule
+        uses: robertdebock/molecule-action@2.0.0
+        env:
+          PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+  # uninstall:
+  #   needs:
+  #     - test
   #   runs-on: ubuntu-latest
   #   strategy:
   #     fail-fast: false
@@ -19,20 +34,8 @@ jobs:
   #         path: "${{ github.repository }}"
   #     - name: molecule
   #       uses: robertdebock/molecule-action@2.0.0
+  #       with:
+  #         entrypoint: /usr/local/bin/molecule
+  #         optionst: "converge -- --tags uninstall"
   #       env:
-  #         PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-  uninstall:
-    # needs:
-    #   - test
-    runs-on: molecule-prebuilt:centos
-    strategy:
-      fail-fast: false
-    steps:
-      - name: checkout
-        uses: actions/checkout@v2
-        with:
-          path: "${{ github.repository }}"
-      - name: molecule
-        run: molecule converge -- --tags uninstall
-        env:
-          PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          # PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
