@@ -1,4 +1,7 @@
 ---
+# Runner user - user inder which is the local runner service running
+runner_user: runner
+
 # Directory where the local runner will be installed
 runner_dir: /opt/actions-runner
 
