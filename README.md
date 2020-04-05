@@ -66,7 +66,7 @@ github_server: "https://github.com"
 Example Playbook
 ----------------
 
-In this example the role will deploy (or redeploy) the GitHub Actions runner service (default version ins ) and register the runner for the GitHub repo.
+In this example the role will deploy (or redeploy) the GitHub Actions runner service (version 2.165.2) and register the runner for the GitHub repo.
 
 ```yaml
 ---
