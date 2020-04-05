@@ -75,7 +75,7 @@ In this example the role will deploy (or redeploy) the GitHub Actions runner ser
   become: yes
   vars:
     - runner_version: "2.165.2"
-    - runner_user: runner
+    - runner_user: ansible
     - github_account: myuser
     - github_repo: my_awesome_repo
   roles:
