@@ -14,10 +14,10 @@
       - name: Fedora
         versions:
           - all
-      # - name: Debian
-      #   versions:
-      #     - jessie
-      #     - stretch
+      - name: Debian
+        versions:
+          - buster
+          - stretch
       - name: Ubuntu
         versions:
           - xenial
