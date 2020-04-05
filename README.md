@@ -14,6 +14,7 @@ Requirements
 
 * Supported Linux distros:
   * CentOS/RHEL 7,8
+  * Debian 9,10
   * Fedora 16+
   * Ubuntu 16,18
 

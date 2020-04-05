@@ -29,7 +29,7 @@
   tags:
     - install
 
-- name: Register runner
+- name: Register runner (if new installation)
   command: "{{ runner_dir }}/./config.sh --url {{ github_server }}/{{ github_account }}/{{ github_repo }} \
             --token {{ registration.json.token }} --unattended"
   args:
