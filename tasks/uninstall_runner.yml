@@ -7,7 +7,7 @@
   when: runner_service in services
   tags:
     - uninstall
-  
+
 - name: Refresh services facts
   service_facts:
   tags:

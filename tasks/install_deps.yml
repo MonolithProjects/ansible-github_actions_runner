@@ -40,7 +40,7 @@
   when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "16")
   tags:
     - install
-  
+
 - name: Install dependencies on Ubuntu Bionic systems
   package:
     pkg:
