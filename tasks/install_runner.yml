@@ -40,7 +40,7 @@
   run_once: yes
   delegate_to: localhost
   tags:
-    - install  
+    - install
 
 - name: Unarchive package
   unarchive:
