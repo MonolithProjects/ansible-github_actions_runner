@@ -1,5 +1,33 @@
 ---
-- name: Install dependencies on Debian Stretch / Ubuntu Xenial systems
+- name: Install dependencies on Debian Stretch
+  package:
+    pkg:
+      - liblttng-ust0
+      - libkrb5-3
+      - zlib1g
+      - libssl1.1
+      - libicu57
+    state: present
+    update_cache: yes
+  when: (ansible_distribution == "Debian" and ansible_distribution_major_version == "9")
+  tags:
+    - install
+
+- name: Install dependencies on Debian Buster
+  package:
+    pkg:
+      - liblttng-ust0
+      - libkrb5-3
+      - zlib1g
+      - libssl1.1
+      - libicu63
+    state: present
+    update_cache: yes
+  when: (ansible_distribution == "Debian" and ansible_distribution_major_version == "10")
+  tags:
+    - install
+
+- name: Install dependencies on Ubuntu Xenial systems
   package:
     pkg:
       - liblttng-ust0
@@ -9,12 +37,11 @@
       - libicu55
     state: present
     update_cache: yes
-  when: (ansible_distribution == "Debian" and ansible_distribution_major_version == "9") or
-        (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "16")
+  when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "16")
   tags:
     - install
 
-- name: Install dependencies on Debian Buster / Ubuntu Bionic systems
+- name: Install dependencies on Ubuntu Bionic systems
   package:
     pkg:
       - liblttng-ust0
@@ -24,8 +51,7 @@
       - libicu60
     state: present
     update_cache: yes
-  when: (ansible_distribution == "Debian" and ansible_distribution_major_version == "10") or
-        (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "18")
+  when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "18")
   tags:
     - install
 

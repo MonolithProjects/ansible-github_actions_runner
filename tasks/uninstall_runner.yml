@@ -8,6 +8,11 @@
   tags:
     - uninstall
 
+- name: Refresh services facts
+  service_facts:
+  tags:
+    - uninstall
+
 - name: Remove GitHub Actions Runner service
   file:
     path: "{{ item }}"

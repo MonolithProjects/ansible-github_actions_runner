@@ -14,6 +14,7 @@ Requirements
 
 * Supported Linux distros:
   * CentOS/RHEL 7,8
+  * Debian 9,10
   * Fedora 16+
   * Ubuntu 16,18
 
@@ -34,14 +35,14 @@ Role Variables
 This is a copy from `defaults/main.yml`
 
 ```yaml
-# Runner user - user inder which is the local runner service running
+# Runner user - user under which is the local runner service running
 runner_user: runner
 
 # Directory where the local runner will be installed
 runner_dir: /opt/actions-runner
 
 # Version of the GitHub Actions Runner
-runner_version: "2.165.2"
+runner_version: "latest"
 
 # If found, replace already registered runner
 replace_runner: yes
@@ -65,7 +66,7 @@ github_server: "https://github.com"
 Example Playbook
 ----------------
 
-In this example the role will deploy (or redeploy) the GitHub Actions runner service (default version ins ) and register the runner for the GitHub repo.
+In this example the role will deploy (or redeploy) the GitHub Actions runner service (version 2.165.2) and register the runner for the GitHub repo.
 
 ```yaml
 ---
@@ -74,7 +75,7 @@ In this example the role will deploy (or redeploy) the GitHub Actions runner ser
   become: yes
   vars:
     - runner_version: "2.165.2"
-    - runner_user: runner
+    - runner_user: ansible
     - github_account: myuser
     - github_repo: my_awesome_repo
   roles:
