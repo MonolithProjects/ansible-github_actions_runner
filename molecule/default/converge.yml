@@ -4,6 +4,7 @@
   hosts: all
   become: yes
   vars:
+    - runner_version: "2.168.0"
     - runner_user: ansible
     - github_repo: ansible-github_actions_runner-testrepo
     - github_account: monolithprojects
