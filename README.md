@@ -35,14 +35,14 @@ Role Variables
 This is a copy from `defaults/main.yml`
 
 ```yaml
-# Runner user - user inder which is the local runner service running
+# Runner user - user under which is the local runner service running
 runner_user: runner
 
 # Directory where the local runner will be installed
 runner_dir: /opt/actions-runner
 
 # Version of the GitHub Actions Runner
-runner_version: "2.165.2"
+runner_version: "latest"
 
 # If found, replace already registered runner
 replace_runner: yes

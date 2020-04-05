@@ -10,6 +10,26 @@
   tags:
     - install
 
+- name: Find the lates runner version
+  uri:
+    url: "https://api.github.com/repos/actions/runner/releases/latest"
+    method: GET
+    force_basic_auth: yes
+    return_content: yes
+    status_code: 200
+    body_format: json
+  register: api_response
+  # run_once: yes
+  # delegate_to: localhost
+  when: runner_version == "latest"
+  tags:
+    - install
+
+- name: Set runner_version variable ("{{ api_response.json.tag_name | regex_replace('^v', '') }}")
+  set_fact:
+    runner_version: "{{ api_response.json.tag_name | regex_replace('^v', '') }}"
+  when: runner_version == "latest"
+
 - name: Download runner package version - "{{ runner_version }}"
   get_url:
     url: "https://github.com/actions/runner/releases/download/v{{ runner_version }}/actions-runner-linux-x64-{{ runner_version }}.tar.gz"
@@ -17,9 +37,8 @@
     force: no
   run_once: yes
   delegate_to: localhost
-  when: runner_version != "latest"
   tags:
-    - install
+    - install  
 
 - name: Unarchive package
   unarchive:
