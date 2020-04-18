@@ -10,7 +10,7 @@
   tags:
     - install
 
-- name: Find the latest runner version
+- name: Find the latest runner version (RUN ONCE)
   uri:
     url: "https://api.github.com/repos/actions/runner/releases/latest"
     url_username: "{{ github_account }}"
@@ -32,7 +32,7 @@
     runner_version: "{{ api_response.json.tag_name | regex_replace('^v', '') }}"
   when: runner_version == "latest"
 
-- name: Download runner package version - "{{ runner_version }}"
+- name: Download runner package version - "{{ runner_version }}" (RUN ONCE)
   get_url:
     url: "https://github.com/actions/runner/releases/download/v{{ runner_version }}/actions-runner-linux-x64-{{ runner_version }}.tar.gz"
     dest: "./actions-runner-linux-{{ runner_version }}.tar.gz"
@@ -57,7 +57,7 @@
     chdir: "{{ runner_dir }}"
   become: yes
   become_user: "{{ runner_user }}"
-  no_log: "{{ hide_sensitive_logs }}"
+  no_log: "{{ hide_sensitive_logs | bool }}"
   when: ansible_hostname not in registered_runners.json.runners|map(attribute='name')|list
   tags:
     - install
@@ -69,7 +69,7 @@
     chdir: "{{ runner_dir }}"
   become: yes
   become_user: "{{ runner_user }}"
-  no_log: "{{ hide_sensitive_logs }}"
+  no_log: "{{ hide_sensitive_logs | bool }}"
   when: replace_runner and ansible_hostname in registered_runners.json.runners|map(attribute='name')|list
   tags:
     - install
