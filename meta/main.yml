@@ -31,3 +31,4 @@
       - cicd
   dependencies:
     - robertdebock.epel
+    - monolithprojects.user_management
