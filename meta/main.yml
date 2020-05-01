@@ -29,6 +29,3 @@
       - local
       - runner
       - cicd
-  dependencies:
-    - robertdebock.epel
-    - monolithprojects.user_management
