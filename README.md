@@ -13,7 +13,7 @@ This role will deploy or redeploy or uninstall and register or unregister local 
 * Supported Linux distros:
   * CentOS/RHEL 7,8
   * Debian 9,10
-  * Fedora 16+
+  * Fedora 31,30,29,28
   * Ubuntu 16,18
 
 * System must have access to the GitHub.

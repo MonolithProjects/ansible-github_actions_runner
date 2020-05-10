@@ -13,7 +13,10 @@
           - 7
       - name: Fedora
         versions:
-          - all
+          - 28
+          - 29
+          - 30
+          - 31
       - name: Debian
         versions:
           - buster
