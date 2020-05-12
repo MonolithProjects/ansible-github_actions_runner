@@ -75,7 +75,7 @@
     - install
 
 - name: Install service
-  command: "./svc.sh install"
+  command: "./svc.sh install {{ runner_user }}"
   args:
     chdir: "{{ runner_dir }}"
   when: runner_service not in services
