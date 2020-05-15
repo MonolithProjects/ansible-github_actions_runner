@@ -55,6 +55,21 @@
   tags:
     - install
 
+- name: Install dependencies on Ubuntu Focal systems
+  package:
+    pkg:
+      - liblttng-ust0
+      - libkrb5-3
+      - zlib1g
+      - libssl1.1
+      - libicu66
+    state: present
+    update_cache: yes
+  when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "20")
+  tags:
+    - install
+
+
 - name: Install dependencies on RHEL/CentOS/Fedora systems
   package:
     name:
