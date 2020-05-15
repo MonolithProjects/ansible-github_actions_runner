@@ -2,7 +2,9 @@
 driver:
   name: docker
 lint: |
+  set -e
   yamllint .
+  ansible-lint
 platforms:
   - name: CentOS7
     image: monolithprojects/systemd-centos7:latest
