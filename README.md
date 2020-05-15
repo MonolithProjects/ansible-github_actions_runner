@@ -13,8 +13,10 @@ This role will deploy or redeploy or uninstall and register or unregister local 
 * Supported Linux distros:
   * CentOS/RHEL 7,8
   * Debian 9,10
-  * Fedora 31,30,29,28
-  * Ubuntu 16,18
+  * Fedora 32,31,30,29,28
+  * Ubuntu 16,18,20
+
+  **Note:** Fedora 32 and Ubuntu 20 must use Ansible 2.9.8+. Other distros/releases will work also with older 2.8.0+ Ansible.
 
 * System must have access to the GitHub.
 
@@ -26,7 +28,7 @@ Personal Access Token for GitHub account can be created [here](https://github.co
 * Runner user has to be pre-created.  
   Recommended role: `monolithprojects.user_management`
 
-* CentOS/Fedora systems require EPEL repository.  
+* CentOS systems require EPEL repository.  
   Recommended role: `robertdebock.epel`
 
 ## Role Variables

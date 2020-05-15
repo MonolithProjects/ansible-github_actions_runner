@@ -34,6 +34,16 @@ platforms:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     privileged: yes
     pre_build_image: yes
+  - name: Fedora32
+    image: monolithprojects/systemd-fedora32:latest
+    command: /sbin/init
+    tmpfs:
+      - /run
+      - /tmp
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: yes
+    pre_build_image: yes
   - name: Ubuntu16
     image: monolithprojects/systemd-ubuntu16:latest
     command: /sbin/init
@@ -46,6 +56,16 @@ platforms:
     pre_build_image: yes
   - name: Ubuntu18
     image: monolithprojects/systemd-ubuntu18:latest
+    command: /sbin/init
+    tmpfs:
+      - /run
+      - /tmp
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: yes
+    pre_build_image: yes
+  - name: Ubuntu20
+    image: monolithprojects/systemd-ubuntu20:latest
     command: /sbin/init
     tmpfs:
       - /run
@@ -83,6 +103,14 @@ provisioner:
   inventory:
     host_vars:
       CentOS8:
+        ansible_python_interpreter: /usr/bin/python3      
+      Debian9:
+        ansible_python_interpreter: /usr/bin/python3
+      Debian10:
+        ansible_python_interpreter: /usr/bin/python3
+      Ubuntu18:
+        ansible_python_interpreter: /usr/bin/python3
+      Ubuntu20:
         ansible_python_interpreter: /usr/bin/python3
 verifier:
   name: ansible
