@@ -17,11 +17,8 @@ jobs:
         uses: actions/checkout@v2
         with:
           path: "${{ github.repository }}"
-      - name: molecule
-        uses: monolithprojects/action-molecule@master
-        with:
-          molecule_command: converge
-          converge_tags: uninstall
+      - name: Molecule for Ansible
+        uses: MonolithProjects/action-molecule@1.0.0
         env:
           PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
   # uninstall:
