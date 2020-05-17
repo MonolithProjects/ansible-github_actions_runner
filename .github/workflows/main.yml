@@ -17,25 +17,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           path: "${{ github.repository }}"
-      - name: molecule
-        uses: robertdebock/molecule-action@2.0.0
+      - name: Molecule for Ansible
+        uses: MonolithProjects/action-molecule@v1.0.1
         env:
           PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-  # uninstall:
-  #   needs:
-  #     - test
-  #   runs-on: ubuntu-latest
-  #   strategy:
-  #     fail-fast: false
-  #   steps:
-  #     - name: checkout
-  #       uses: actions/checkout@v2
-  #       with:
-  #         path: "${{ github.repository }}"
-  #     - name: molecule
-  #       uses: robertdebock/molecule-action@2.0.0
-  #       with:
-  #         entrypoint: /usr/local/bin/molecule
-  #         optionst: "converge -- --tags uninstall"
-  #       env:
-          # PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
