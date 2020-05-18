@@ -35,18 +35,18 @@
 - name: Download runner package version - "{{ runner_version }}" (RUN ONCE)
   get_url:
     url: "https://github.com/actions/runner/releases/download/v{{ runner_version }}/actions-runner-linux-x64-{{ runner_version }}.tar.gz"
-    dest: "./actions-runner-linux-{{ runner_version }}.tar.gz"
+    dest: "/tmp/actions-runner-linux-{{ runner_version }}.tar.gz"
     force: no
   run_once: yes
-  delegate_to: localhost
   tags:
     - install
 
 - name: Unarchive package
   unarchive:
-    src: "./actions-runner-linux-{{ runner_version }}.tar.gz"
+    src: "/tmp/actions-runner-linux-{{ runner_version }}.tar.gz"
     dest: "{{ runner_dir }}/"
     owner: "{{ runner_user }}"
+    remote_src: yes
   tags:
     - install
 
