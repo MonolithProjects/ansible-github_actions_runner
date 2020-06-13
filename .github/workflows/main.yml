@@ -18,6 +18,6 @@ jobs:
         with:
           path: "${{ github.repository }}"
       - name: Molecule for Ansible
-        uses: MonolithProjects/action-molecule@v1.0.1
+        uses: MonolithProjects/action-molecule@v1.2.0
         env:
           PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
