@@ -70,7 +70,7 @@
     - install
 
 
-- name: Clear metadata
+- name: Clean metadata
   command: yum clean metadata
   when: (ansible_distribution == "RedHat") or
         (ansible_distribution == "CentOS") or
