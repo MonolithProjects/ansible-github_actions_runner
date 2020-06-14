@@ -69,15 +69,6 @@
   tags:
     - install
 
-
-- name: Clean metadata
-  command: yum clean metadata
-  when: (ansible_distribution == "RedHat") or
-        (ansible_distribution == "CentOS") or
-        (ansible_distribution == "Fedora")
-  tags:
-    - install
-
 - name: Install dependencies on RHEL/CentOS/Fedora systems
   package:
     name:
