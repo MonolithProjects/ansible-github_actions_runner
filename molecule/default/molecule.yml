@@ -125,7 +125,7 @@ scenario:
   name: default
   test_sequence:
     - dependency
-    # - lint
+    - lint
     - cleanup
     - destroy
     - syntax
