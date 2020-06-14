@@ -38,7 +38,6 @@ jobs:
           PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         with:
           molecule_command: converge
-          converge_tags: install
 
   test_uninstall:
     runs-on: ubuntu-latest
