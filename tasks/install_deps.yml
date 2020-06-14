@@ -69,7 +69,6 @@
   tags:
     - install
 
-
 - name: Install dependencies on RHEL/CentOS/Fedora systems
   package:
     name:
@@ -79,6 +78,7 @@
       - zlib
       - libicu
     state: present
+    update_cache: yes
   when: (ansible_distribution == "RedHat") or
         (ansible_distribution == "CentOS") or
         (ansible_distribution == "Fedora")
