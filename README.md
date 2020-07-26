@@ -64,7 +64,7 @@ github_server: "https://github.com"
 # github_repo: "yourrepo"
 ```
 
-## Example Playbook 
+## Example Playbook
 
 In this example the role will deploy (or redeploy) the GitHub Actions runner service (latest available version) and register the runner for the GitHub repo.
 Runner service will run under the same user as the Ansible is using for ssh connection (*ansible*).
