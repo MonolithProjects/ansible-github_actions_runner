@@ -10,14 +10,6 @@ This role will deploy/redeploy/uninstall and register/unregister local GitHub Ac
 
 ## Requirements
 
-* Weekly tested on:
-  * CentOS/RHEL 7,8
-  * Debian 9,10
-  * Fedora 31,32
-  * Ubuntu 16,18,20
-
-  **Note:** Fedora 32 and Ubuntu 20 must use Ansible 2.9.8+. Other distros/releases will work also with older 2.8.0+ Ansible.
-
 * System must have access to the GitHub.
 
 * The role require Personal Access Token for the GitHub user. The token has to be a value of `PERSONAL_ACCESS_TOKEN` variable.
@@ -30,6 +22,14 @@ Personal Access Token for GitHub account can be created [here](https://github.co
 
 * CentOS systems require EPEL repository.  
   Recommended role: `robertdebock.epel`
+
+* Weekly tested on:
+  * CentOS/RHEL 7,8
+  * Debian 9,10
+  * Fedora 31,32
+  * Ubuntu 16,18,20
+
+  **Note:** Fedora 32 and Ubuntu 20 must use Ansible 2.9.8+. Other distros/releases will work also with older 2.8.0+ Ansible.
 
 ## Role Variables
 
