@@ -6,14 +6,14 @@
 [![GitHub Actions](https://github.com/MonolithProjects/ansible-github_actions_runner/workflows/molecule%20test/badge.svg?branch=master)](https://github.com/MonolithProjects/ansible-github_actions_runner/actions)
 [![License](https://img.shields.io/github/license/MonolithProjects/ansible-github_actions_runner)](https://github.com/MonolithProjects/ansible-github_actions_runner/blob/master/LICENSE)
 
-This role will deploy or redeploy or uninstall and register or unregister local GitHub Actions Runner.
+This role will deploy/redeploy/uninstall and register/unregister local GitHub Actions Runner.
 
 ## Requirements
 
-* Supported Linux distros:
+* Weekly tested on:
   * CentOS/RHEL 7,8
   * Debian 9,10
-  * Fedora 32,31,30,29,28
+  * Fedora 31,32
   * Ubuntu 16,18,20
 
   **Note:** Fedora 32 and Ubuntu 20 must use Ansible 2.9.8+. Other distros/releases will work also with older 2.8.0+ Ansible.
@@ -82,7 +82,7 @@ Runner service will run under the same user as the Ansible is using for ssh conn
     - role: monolithprojects.github_actions_runner
 ```
 
-In this example the role will deploy (or redeploy) the GitHub Actions runner service (version 2.165.2) and register the runner for the GitHub repo.
+In this example the role will deploy (or redeploy) the GitHub Actions runner service (version 2.165.2) and register the runner for the GitHub repo. Runner service will run under the used `runner-user`.
 
 ```yaml
 ---
@@ -98,7 +98,7 @@ In this example the role will deploy (or redeploy) the GitHub Actions runner ser
     - role: monolithprojects.github_actions_runner
 ```
 
-By using tag `uninstall`, GitHub Actions runner will be removed from the host and unregistered from the GitHub.
+By using tag `uninstall`, GitHub Actions runner will be removed from the host and unregistered from the GitHub repository.
 
 ```bash
 ansible-playbook playbook.yml --tags uninstall
