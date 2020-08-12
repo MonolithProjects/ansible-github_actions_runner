@@ -12,7 +12,7 @@ This role will deploy/redeploy/uninstall and register/unregister local GitHub Ac
 
 * System must have access to the GitHub.
 
-* The role require Personal Access Token to access the Github Repository. The token has to be a value of `PERSONAL_ACCESS_TOKEN` variable.
+* The role require Personal Access Token to access the GitHub. The token has to be a value of `PERSONAL_ACCESS_TOKEN` variable.
 Export the token to the local host environment. The token has to have admin rights for the repo.  
 Personal Access Token for GitHub account can be created [here](https://github.com/settings/tokens).  
 **Note:** Never store you personal access token in the GitHub repository. Use [GitHub Secrets](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets) or some different secrets service.
@@ -54,10 +54,10 @@ hide_sensitive_logs: yes
 # GitHub address
 github_server: "https://github.com"
 
-# Personal Access Token for your GitHub account
+# Personal Access Token
 access_token: "{{ lookup('env', 'PERSONAL_ACCESS_TOKEN') }}"
 
-# GitHub Repository user or Organization owner used for Runner registration
+# Account used for Runner registration (GitHub Repository user with admin rights or Organization owner)
 # github_account: "youruser"
 
 # Github repository name
