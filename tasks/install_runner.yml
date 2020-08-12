@@ -13,8 +13,11 @@
 - name: Find the latest runner version (RUN ONCE)
   uri:
     url: "https://api.github.com/repos/actions/runner/releases/latest"
-    url_username: ""
-    url_password: "{{ access_token }}"
+    # url_username: " "
+    # url_password: "{{ access_token }}"
+    headers:
+      api_keys: "{{ access_token }}"
+      Accept: application/vnd.github.v3+json""
     method: GET
     force_basic_auth: yes
     return_content: yes
