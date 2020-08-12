@@ -23,5 +23,8 @@ github_server: "https://github.com"
 # GitHub account name
 # github_account: "youruser"
 
+# Github repository owner name
+# github_owner: "youruser"
+
 # Github repository name
 # github_repo: "yourrepo"

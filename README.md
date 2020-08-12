@@ -13,14 +13,14 @@ This role will deploy/redeploy/uninstall and register/unregister local GitHub Ac
 * System must have access to the GitHub.
 
 * The role require Personal Access Token for the GitHub user. The token has to be a value of `PERSONAL_ACCESS_TOKEN` variable.
-Export the token to the local host environment. The token has to have admin rights for the repo.  
-Personal Access Token for GitHub account can be created [here](https://github.com/settings/tokens).  
+Export the token to the local host environment. The token has to have admin rights for the repo.
+Personal Access Token for GitHub account can be created [here](https://github.com/settings/tokens).
 **Note:** Never store you personal access token in the GitHub repository. Use [GitHub Secrets](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets) or some different secrets service.
 
-* Runner user has to be pre-created.  
+* Runner user has to be pre-created.
   Recommended role: `monolithprojects.user_management`
 
-* CentOS systems require EPEL repository.  
+* CentOS systems require EPEL repository.
   Recommended role: `robertdebock.epel`
 
 * Weekly tested on:
@@ -77,6 +77,7 @@ Runner service will run under the same user as the Ansible is using for ssh conn
   become: yes
   vars:
     - github_account: my-github-user
+    - github_owner: my-github-user
     - github_repo: my_awesome_repo
   roles:
     - role: monolithprojects.github_actions_runner
@@ -93,6 +94,7 @@ In this example the role will deploy (or redeploy) the GitHub Actions runner ser
     - runner_version: "2.165.2"
     - runner_user: runner-user
     - github_account: my-github-user
+    - github_owner: my-github-user
     - github_repo: my_awesome_repo
   roles:
     - role: monolithprojects.github_actions_runner

@@ -51,7 +51,7 @@
     - install
 
 - name: Register runner (if new installation)
-  command: "{{ runner_dir }}/./config.sh --url {{ github_server }}/{{ github_account }}/{{ github_repo }} \
+  command: "{{ runner_dir }}/./config.sh --url {{ github_server }}/{{ github_owner }}/{{ github_repo }} \
             --token {{ registration.json.token }} --unattended"
   args:
     chdir: "{{ runner_dir }}"
@@ -63,7 +63,7 @@
     - install
 
 - name: Replace registered runner
-  command: "{{ runner_dir }}/config.sh --url {{ github_server }}/{{ github_account }}/{{ github_repo }} \
+  command: "{{ runner_dir }}/config.sh --url {{ github_server }}/{{ github_owner }}/{{ github_repo }} \
             --token {{ registration.json.token }} --unattended --replace"
   args:
     chdir: "{{ runner_dir }}"
