@@ -107,10 +107,6 @@ By using tag `uninstall`, GitHub Actions runner will be removed from the host an
 ansible-playbook playbook.yml --tags uninstall
 ```
 
-## Colaboraton
-
-TODO
-
 ## License
 
 MIT
