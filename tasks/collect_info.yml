@@ -2,7 +2,7 @@
 - name: Get registration token (RUN ONCE)
   uri:
     url: "https://api.github.com/repos/{{ github_owner | default(github_account) }}/{{ github_repo }}/actions/runners/registration-token"
-    user: null
+    user: "fakeuser"
     password: "{{ access_token }}"
     method: POST
     status_code: 201
@@ -16,7 +16,7 @@
 - name: Check currently registered runners (RUN ONCE)
   uri:
     url: "https://api.github.com/repos/{{ github_owner | default(github_account) }}/{{ github_repo }}/actions/runners"
-    user: null
+    user: "fakeuser"
     password: "{{ access_token }}"
     method: GET
     status_code: 200
