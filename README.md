@@ -51,14 +51,17 @@ replace_runner: yes
 # Do not show Ansible logs which may contain sensitive data (registration token)
 hide_sensitive_logs: yes
 
-# Personal Access Token for your GitHub account
-access_token: "{{ lookup('env', 'PERSONAL_ACCESS_TOKEN') }}"
-
 # GitHub address
 github_server: "https://github.com"
 
-# GitHub account name
+# Personal Access Token for your GitHub account
+access_token: "{{ lookup('env', 'PERSONAL_ACCESS_TOKEN') }}"
+
+# GitHub access account
 # github_account: "youruser"
+
+# GitHub Organization owner or Repository admin used for Runner registration (can be omitted if it is the same as "github_acount")
+# github_owner: "owneruser"
 
 # Github repository name
 # github_repo: "yourrepo"
@@ -104,12 +107,14 @@ By using tag `uninstall`, GitHub Actions runner will be removed from the host an
 ansible-playbook playbook.yml --tags uninstall
 ```
 
-License
--------
+## Colaboraton
+
+TODO
+
+## License
 
 MIT
 
-Author Information
-------------------
+## Author Information
 
 Created in 2020 by Michal Muransky
