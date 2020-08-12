@@ -60,7 +60,7 @@ access_token: "{{ lookup('env', 'PERSONAL_ACCESS_TOKEN') }}"
 # GitHub access account
 # github_account: "youruser"
 
-# GitHub Organization owner or Repository admin used for Runner registration (can be omitted if it is the same as "github_acount")
+# GitHub Organization owner or Repository admin used for Runner registration (can be omitted if it is the same as "github_account")
 # github_owner: "owneruser"
 
 # Github repository name
