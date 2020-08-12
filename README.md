@@ -79,7 +79,24 @@ Runner service will run under the same user as the Ansible is using for ssh conn
   user: ansible
   become: yes
   vars:
-    - github_account: my-github-user
+    - github_account: github-access-user
+    - github_repo: my_awesome_repo
+  roles:
+    - role: monolithprojects.github_actions_runner
+```
+
+In this example the role will deploy (or redeploy) the GitHub Actions runner service. The Ansible will access the GitHub using the `github_account` and register the runner to the GitHub Organization Repository using the Repository admin user (or Organization owner)`github_owner`.
+Runner service will run under the same user as the Ansible is using for ssh connection (*ansible*).
+
+```yaml
+---
+- name: GitHub Actions Runner
+  hosts: all
+  user: ansible
+  become: yes
+  vars:
+    - github_account: github-access-user
+    - github_owner: github-repo-admin
     - github_repo: my_awesome_repo
   roles:
     - role: monolithprojects.github_actions_runner
@@ -95,7 +112,7 @@ In this example the role will deploy (or redeploy) the GitHub Actions runner ser
   vars:
     - runner_version: "2.165.2"
     - runner_user: runner-user
-    - github_account: my-github-user
+    - github_account: github-access-user
     - github_repo: my_awesome_repo
   roles:
     - role: monolithprojects.github_actions_runner
