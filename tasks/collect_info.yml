@@ -5,7 +5,7 @@
     # user: ""
     # password: "{{ access_token }}"
     headers:
-      api_keys: "{{ access_token }}"
+      Authorization: "token {{ access_token }}"
       Accept: application/vnd.github.v3+json""
     method: POST
     status_code: 201
@@ -22,7 +22,7 @@
     # user: ""
     # password: "{{ access_token }}"
     headers:
-      api_keys: "{{ access_token }}"
+      Authorization: "token {{ access_token }}"
       Accept: application/vnd.github.v3+json""
     method: GET
     status_code: 200

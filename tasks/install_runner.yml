@@ -16,7 +16,7 @@
     # url_username: " "
     # url_password: "{{ access_token }}"
     headers:
-      api_keys: "{{ access_token }}"
+      Authorization: "token {{ access_token }}"
       Accept: application/vnd.github.v3+json""
     method: GET
     force_basic_auth: yes
