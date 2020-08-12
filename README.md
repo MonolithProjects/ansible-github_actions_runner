@@ -12,7 +12,7 @@ This role will deploy/redeploy/uninstall and register/unregister local GitHub Ac
 
 * System must have access to the GitHub.
 
-* The role require Personal Access Token for the GitHub user. The token has to be a value of `PERSONAL_ACCESS_TOKEN` variable.
+* The role require Personal Access Token to access the Github Repository. The token has to be a value of `PERSONAL_ACCESS_TOKEN` variable.
 Export the token to the local host environment. The token has to have admin rights for the repo.  
 Personal Access Token for GitHub account can be created [here](https://github.com/settings/tokens).  
 **Note:** Never store you personal access token in the GitHub repository. Use [GitHub Secrets](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets) or some different secrets service.
@@ -57,11 +57,8 @@ github_server: "https://github.com"
 # Personal Access Token for your GitHub account
 access_token: "{{ lookup('env', 'PERSONAL_ACCESS_TOKEN') }}"
 
-# GitHub access account
+# GitHub Repository user or Organization owner used for Runner registration
 # github_account: "youruser"
-
-# GitHub Organization owner or Repository admin used for Runner registration (can be omitted if it is the same as "github_account")
-# github_owner: "owneruser"
 
 # Github repository name
 # github_repo: "yourrepo"
@@ -85,24 +82,7 @@ Runner service will run under the same user as the Ansible is using for ssh conn
     - role: monolithprojects.github_actions_runner
 ```
 
-In this example the Ansible role will deploy (or redeploy) the GitHub Actions runner service. The Ansible will access the GitHub using the `github_account` and register the runner to the GitHub Organization Repository using the Repository admin user (or Organization owner) `github_owner`.
-Runner service will run under the same user as the Ansible is using for ssh connection (*ansible*).
-
-```yaml
----
-- name: GitHub Actions Runner
-  hosts: all
-  user: ansible
-  become: yes
-  vars:
-    - github_account: github-access-user
-    - github_owner: github-repo-admin
-    - github_repo: my_awesome_repo
-  roles:
-    - role: monolithprojects.github_actions_runner
-```
-
-In this example the Ansible role will deploy (or redeploy) the GitHub Actions runner service (version 2.165.2) and register the runner for the GitHub repo. Runner service will run under the used `runner-user`.
+In this example the Ansible role will deploy (or redeploy) the GitHub Actions runner service (version 2.165.2) and register the runner for the GitHub repo. Runner service will run under the user `runner-user`.
 
 ```yaml
 ---

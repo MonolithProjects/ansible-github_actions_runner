@@ -1,12 +1,10 @@
 ---
 - name: Get registration token (RUN ONCE)
   uri:
-    url: "https://api.github.com/repos/{{ github_owner | default(github_account) }}/{{ github_repo }}/actions/runners/registration-token"
-    # user: ""
-    # password: "{{ access_token }}"
+    url: "https://api.github.com/repos/{{ github_account }}/{{ github_repo }}/actions/runners/registration-token"
     headers:
       Authorization: "token {{ access_token }}"
-      Accept: application/vnd.github.v3+json""
+      Accept: "application/vnd.github.v3+json"
     method: POST
     status_code: 201
     force_basic_auth: yes
@@ -18,12 +16,10 @@
 
 - name: Check currently registered runners (RUN ONCE)
   uri:
-    url: "https://api.github.com/repos/{{ github_owner | default(github_account) }}/{{ github_repo }}/actions/runners"
-    # user: ""
-    # password: "{{ access_token }}"
+    url: "https://api.github.com/repos/{{ github_account }}/{{ github_repo }}/actions/runners"
     headers:
       Authorization: "token {{ access_token }}"
-      Accept: application/vnd.github.v3+json""
+      Accept: "application/vnd.github.v3+json"
     method: GET
     status_code: 200
     force_basic_auth: yes

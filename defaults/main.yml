@@ -20,11 +20,8 @@ github_server: "https://github.com"
 # Personal Access Token for your GitHub account
 access_token: "{{ lookup('env', 'PERSONAL_ACCESS_TOKEN') }}"
 
-# GitHub access account
+# GitHub Repository user or Organization owner used for Runner registration
 # github_account: "youruser"
-
-# GitHub Organization owner or Repository admin used for Runner registration (can be omited if it is the same as "github_account")
-# github_owner: "owneruser"
 
 # Github repository name
 # github_repo: "yourrepo"
