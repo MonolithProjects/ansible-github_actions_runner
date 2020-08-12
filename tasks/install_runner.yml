@@ -13,8 +13,9 @@
 - name: Find the latest runner version (RUN ONCE)
   uri:
     url: "https://api.github.com/repos/actions/runner/releases/latest"
-    url_username: "{{ github_account }}"
-    url_password: "{{ access_token }}"
+    headers:
+      Authorization: "token {{ access_token }}"
+      Accept: "application/vnd.github.v3+json"
     method: GET
     force_basic_auth: yes
     return_content: yes
@@ -51,7 +52,7 @@
     - install
 
 - name: Register runner (if new installation)
-  command: "{{ runner_dir }}/./config.sh --url {{ github_server }}/{{ github_account }}/{{ github_repo }} \
+  command: "{{ runner_dir }}/./config.sh --url {{ github_server }}/{{ github_owner | default(github_account) }}/{{ github_repo }} \
             --token {{ registration.json.token }} --unattended"
   args:
     chdir: "{{ runner_dir }}"
@@ -63,7 +64,7 @@
     - install
 
 - name: Replace registered runner
-  command: "{{ runner_dir }}/config.sh --url {{ github_server }}/{{ github_account }}/{{ github_repo }} \
+  command: "{{ runner_dir }}/config.sh --url {{ github_server }}/{{ github_owner | default(github_account) }}/{{ github_repo }} \
             --token {{ registration.json.token }} --unattended --replace"
   args:
     chdir: "{{ runner_dir }}"

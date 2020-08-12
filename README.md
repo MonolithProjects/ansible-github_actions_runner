@@ -12,7 +12,7 @@ This role will deploy/redeploy/uninstall and register/unregister local GitHub Ac
 
 * System must have access to the GitHub.
 
-* The role require Personal Access Token for the GitHub user. The token has to be a value of `PERSONAL_ACCESS_TOKEN` variable.
+* The role require Personal Access Token to access the GitHub. The token has to be a value of `PERSONAL_ACCESS_TOKEN` variable.
 Export the token to the local host environment. The token has to have admin rights for the repo.  
 Personal Access Token for GitHub account can be created [here](https://github.com/settings/tokens).  
 **Note:** Never store you personal access token in the GitHub repository. Use [GitHub Secrets](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets) or some different secrets service.
@@ -51,13 +51,13 @@ replace_runner: yes
 # Do not show Ansible logs which may contain sensitive data (registration token)
 hide_sensitive_logs: yes
 
-# Personal Access Token for your GitHub account
-access_token: "{{ lookup('env', 'PERSONAL_ACCESS_TOKEN') }}"
-
 # GitHub address
 github_server: "https://github.com"
 
-# GitHub account name
+# Personal Access Token
+access_token: "{{ lookup('env', 'PERSONAL_ACCESS_TOKEN') }}"
+
+# Account used for Runner registration (GitHub Repository user with admin rights or Organization owner)
 # github_account: "youruser"
 
 # Github repository name
@@ -66,7 +66,7 @@ github_server: "https://github.com"
 
 ## Example Playbook
 
-In this example the role will deploy (or redeploy) the GitHub Actions runner service (latest available version) and register the runner for the GitHub repo.
+In this example the Ansible role will deploy (or redeploy) the GitHub Actions runner service (latest available version) and register the runner for the GitHub repo.
 Runner service will run under the same user as the Ansible is using for ssh connection (*ansible*).
 
 ```yaml
@@ -76,13 +76,13 @@ Runner service will run under the same user as the Ansible is using for ssh conn
   user: ansible
   become: yes
   vars:
-    - github_account: my-github-user
+    - github_account: github-access-user
     - github_repo: my_awesome_repo
   roles:
     - role: monolithprojects.github_actions_runner
 ```
 
-In this example the role will deploy (or redeploy) the GitHub Actions runner service (version 2.165.2) and register the runner for the GitHub repo. Runner service will run under the used `runner-user`.
+In this example the Ansible role will deploy (or redeploy) the GitHub Actions runner service (version 2.165.2) and register the runner for the GitHub repo. Runner service will run under the user `runner-user`.
 
 ```yaml
 ---
@@ -92,7 +92,7 @@ In this example the role will deploy (or redeploy) the GitHub Actions runner ser
   vars:
     - runner_version: "2.165.2"
     - runner_user: runner-user
-    - github_account: my-github-user
+    - github_account: github-access-user
     - github_repo: my_awesome_repo
   roles:
     - role: monolithprojects.github_actions_runner
@@ -104,12 +104,10 @@ By using tag `uninstall`, GitHub Actions runner will be removed from the host an
 ansible-playbook playbook.yml --tags uninstall
 ```
 
-License
--------
+## License
 
 MIT
 
-Author Information
-------------------
+## Author Information
 
 Created in 2020 by Michal Muransky
