@@ -69,7 +69,7 @@ access_token: "{{ lookup('env', 'PERSONAL_ACCESS_TOKEN') }}"
 
 ## Example Playbook
 
-In this example the role will deploy (or redeploy) the GitHub Actions runner service (latest available version) and register the runner for the GitHub repo.
+In this example the Ansible role will deploy (or redeploy) the GitHub Actions runner service (latest available version) and register the runner for the GitHub repo.
 Runner service will run under the same user as the Ansible is using for ssh connection (*ansible*).
 
 ```yaml
@@ -85,7 +85,7 @@ Runner service will run under the same user as the Ansible is using for ssh conn
     - role: monolithprojects.github_actions_runner
 ```
 
-In this example the role will deploy (or redeploy) the GitHub Actions runner service. The Ansible will access the GitHub using the `github_account` and register the runner to the GitHub Organization Repository using the Repository admin user (or Organization owner)`github_owner`.
+In this example the Ansible role will deploy (or redeploy) the GitHub Actions runner service. The Ansible will access the GitHub using the `github_account` and register the runner to the GitHub Organization Repository using the Repository admin user (or Organization owner) `github_owner`.
 Runner service will run under the same user as the Ansible is using for ssh connection (*ansible*).
 
 ```yaml
@@ -102,7 +102,7 @@ Runner service will run under the same user as the Ansible is using for ssh conn
     - role: monolithprojects.github_actions_runner
 ```
 
-In this example the role will deploy (or redeploy) the GitHub Actions runner service (version 2.165.2) and register the runner for the GitHub repo. Runner service will run under the used `runner-user`.
+In this example the Ansible role will deploy (or redeploy) the GitHub Actions runner service (version 2.165.2) and register the runner for the GitHub repo. Runner service will run under the used `runner-user`.
 
 ```yaml
 ---
