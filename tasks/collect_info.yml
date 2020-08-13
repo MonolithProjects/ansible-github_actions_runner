@@ -2,8 +2,9 @@
 - name: Get registration token (RUN ONCE)
   uri:
     url: "https://api.github.com/repos/{{ github_account }}/{{ github_repo }}/actions/runners/registration-token"
-    user: "{{ github_account }}"
-    password: "{{ access_token }}"
+    headers:
+      Authorization: "token {{ access_token }}"
+      Accept: "application/vnd.github.v3+json"
     method: POST
     status_code: 201
     force_basic_auth: yes
@@ -16,8 +17,9 @@
 - name: Check currently registered runners (RUN ONCE)
   uri:
     url: "https://api.github.com/repos/{{ github_account }}/{{ github_repo }}/actions/runners"
-    user: "{{ github_account }}"
-    password: "{{ access_token }}"
+    headers:
+      Authorization: "token {{ access_token }}"
+      Accept: "application/vnd.github.v3+json"
     method: GET
     status_code: 200
     force_basic_auth: yes
@@ -35,7 +37,7 @@
 
 - name: Combine Github account and repo names
   set_fact:
-    svc_name: "{{ github_account }}-{{ github_repo }}"
+    svc_name: "{{ github_owner | default(github_account) }}-{{ github_repo }}"
   tags:
     - install
     - uninstall
