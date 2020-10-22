@@ -23,6 +23,7 @@
     body_format: json
   register: api_response
   run_once: yes
+  become: false
   delegate_to: localhost
   when: runner_version == "latest"
   tags:
@@ -39,6 +40,7 @@
     dest: "./actions-runner-linux-{{ runner_version }}.tar.gz"
     force: no
   run_once: yes
+  become: false
   delegate_to: localhost
   tags:
     - install
