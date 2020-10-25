@@ -50,6 +50,7 @@
     src: "./actions-runner-linux-{{ runner_version }}.tar.gz"
     dest: "{{ runner_dir }}/"
     owner: "{{ runner_user }}"
+    mode: 0755
   tags:
     - install
 
