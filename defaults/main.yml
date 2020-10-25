@@ -11,6 +11,9 @@ runner_version: "latest"
 # If found, replace already registered runner
 replace_runner: yes
 
+# If found, delete already existed runner before install
+uninstall_runner: no
+
 # Do not show Ansible logs which may contain sensitive data (registration token)
 hide_sensitive_logs: yes
 
