@@ -9,6 +9,7 @@
     - install
 
 - include_tasks: uninstall_runner.yml
+  when: uninstall_runner
   tags:
     - uninstall
 
