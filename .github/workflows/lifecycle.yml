@@ -44,4 +44,4 @@ jobs:
           PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         with:
           molecule_command: converge
-          converge_extra_args: -e "uninstall_runner=yes" --tags uninstall
+          converge_extra_args: '-e "uninstall_runner=yes" --tags uninstall'
