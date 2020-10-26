@@ -34,23 +34,44 @@
     runner_version: "{{ api_response.json.tag_name | regex_replace('^v', '') }}"
   when: runner_version == "latest"
 
+- name: Check if desired version already installed
+  command: "grep -i {{ runner_version }} {{ runner_dir }}/bin/Runner.Listener.deps.json"
+  register: runner_installed
+  changed_when: False
+  ignore_errors: yes
+  tags:
+    - install
+
+- name:  Create temporary directory for archive
+  tempfile:
+    state: directory
+  register: tempdir
+  run_once: yes
+  delegate_to: localhost
+  become: false
+  when: runner_version not in runner_installed.stdout
+  tags:
+    - install
+
 - name: Download runner package version - "{{ runner_version }}" (RUN ONCE)
   get_url:
     url: "https://github.com/actions/runner/releases/download/v{{ runner_version }}/actions-runner-linux-x64-{{ runner_version }}.tar.gz"
-    dest: "./actions-runner-linux-{{ runner_version }}.tar.gz"
+    dest: "{{ tempdir.path }}/actions-runner-linux-{{ runner_version }}.tar.gz"
     force: no
   run_once: yes
   become: false
   delegate_to: localhost
+  when: runner_version not in runner_installed.stdout
   tags:
     - install
 
 - name: Unarchive package
   unarchive:
-    src: "./actions-runner-linux-{{ runner_version }}.tar.gz"
+    src: "{{ tempdir.path }}/actions-runner-linux-{{ runner_version }}.tar.gz"
     dest: "{{ runner_dir }}/"
     owner: "{{ runner_user }}"
     mode: 0755
+  when: runner_version not in runner_installed.stdout
   tags:
     - install
 
