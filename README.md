@@ -101,7 +101,7 @@ In this example the Ansible role will deploy (or redeploy) the GitHub Actions ru
     - role: monolithprojects.github_actions_runner
 ```
 
-By using tag `uninstall` with compination of variable `uninstall_runner: yes`, GitHub Actions runner will be removed from the host and unregistered from the GitHub repository.
+By using tag `uninstall` with combination of variable `uninstall_runner: yes`, GitHub Actions runner will be removed from the host and unregistered from the GitHub repository.
 
 ```bash
 ansible-playbook playbook.yml --tags uninstall -e "uninstall_runner=yes"
