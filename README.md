@@ -104,7 +104,7 @@ In this example the Ansible role will deploy (or redeploy) the GitHub Actions ru
 By using tag `uninstall` with compination of variable `uninstall_runner: yes`, GitHub Actions runner will be removed from the host and unregistered from the GitHub repository.
 
 ```bash
-ansible-playbook playbook.yml --tags uninstall --extra_vars "uninstall_runner=yes"
+ansible-playbook playbook.yml --tags uninstall -e "uninstall_runner=yes"
 ```
 
 ## License
