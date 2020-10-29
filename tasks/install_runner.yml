@@ -72,10 +72,12 @@
     owner: "{{ runner_user }}"
     mode: 0755
   when: runner_version not in runner_installed.stdout
+  notify:
+    - Restart runner service
   tags:
     - install
 
-- name: Register runner (if new installation)
+- name: Register runner (if new installation) for repo
   command: "{{ runner_dir }}/./config.sh --url {{ github_server }}/{{ github_owner | default(github_account) }}/{{ github_repo }} \
             --token {{ registration.json.token }} --unattended"
   args:
@@ -83,11 +85,23 @@
   become: yes
   become_user: "{{ runner_user }}"
   no_log: "{{ hide_sensitive_logs | bool }}"
-  when: ansible_hostname not in registered_runners.json.runners|map(attribute='name')|list
+  when: ansible_hostname not in registered_runners.json.runners|map(attribute='name')|list and not runner_org
   tags:
     - install
 
-- name: Replace registered runner
+- name: Register runner (if new installation) for organization
+  command: "{{ runner_dir }}/./config.sh --url {{ github_server }}/{{ github_owner | default(github_account) }} \
+            --token {{ registration.json.token }} --unattended"
+  args:
+    chdir: "{{ runner_dir }}"
+  become: yes
+  become_user: "{{ runner_user }}"
+  no_log: "{{ hide_sensitive_logs | bool }}"
+  when: ansible_hostname not in registered_runners.json.runners|map(attribute='name')|list and runner_org
+  tags:
+    - install
+
+- name: Replace registered runner for repo
   command: "{{ runner_dir }}/config.sh --url {{ github_server }}/{{ github_owner | default(github_account) }}/{{ github_repo }} \
             --token {{ registration.json.token }} --unattended --replace"
   args:
@@ -95,7 +109,19 @@
   become: yes
   become_user: "{{ runner_user }}"
   no_log: "{{ hide_sensitive_logs | bool }}"
-  when: replace_runner and ansible_hostname in registered_runners.json.runners|map(attribute='name')|list
+  when: replace_runner and ansible_hostname in registered_runners.json.runners|map(attribute='name')|list and not github_org
+  tags:
+    - install
+
+- name: Replace registered runner for organization
+  command: "{{ runner_dir }}/config.sh --url {{ github_server }}/{{ github_owner | default(github_account) }} \
+            --token {{ registration.json.token }} --unattended --replace"
+  args:
+    chdir: "{{ runner_dir }}"
+  become: yes
+  become_user: "{{ runner_user }}"
+  no_log: "{{ hide_sensitive_logs | bool }}"
+  when: replace_runner and ansible_hostname in registered_runners.json.runners|map(attribute='name')|list and github_org
   tags:
     - install
 

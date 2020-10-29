@@ -60,6 +60,9 @@ github_server: "https://github.com"
 # Personal Access Token
 access_token: "{{ lookup('env', 'PERSONAL_ACCESS_TOKEN') }}"
 
+# Is it runner for organization or not
+runner_org: false
+
 # Account used for Runner registration (GitHub Repository user with admin rights or Organization owner)
 # github_account: "youruser"
 
@@ -81,6 +84,21 @@ Runner service will run under the same user as the Ansible is using for ssh conn
   vars:
     - github_account: github-access-user
     - github_repo: my_awesome_repo
+  roles:
+    - role: monolithprojects.github_actions_runner
+```
+
+Same example, but runner will be added to an organization
+
+```yaml
+---
+- name: GitHub Actions Runner
+  hosts: all
+  user: ansible
+  become: yes
+  vars:
+    - github_account: my_awesome_org
+    - runner_org: true
   roles:
     - role: monolithprojects.github_actions_runner
 ```
