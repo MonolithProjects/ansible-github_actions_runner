@@ -1,5 +1,12 @@
 ---
-- include_tasks: collect_info.yml
+- include_tasks: collect_info_org.yml
+  when: runner_org
+  tags:
+    - install
+    - uninstall
+
+- include_tasks: collect_info_repo.yml
+  when: not runner_org
   tags:
     - install
     - uninstall
