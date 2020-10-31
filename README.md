@@ -61,7 +61,7 @@ github_server: "https://github.com"
 access_token: "{{ lookup('env', 'PERSONAL_ACCESS_TOKEN') }}"
 
 # Is it runner for organization or not
-runner_org: false
+runner_org: no
 
 # Account used for Runner registration (GitHub Repository user with admin rights or Organization owner)
 # github_account: "youruser"

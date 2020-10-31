@@ -25,17 +25,7 @@ platforms:
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     privileged: yes
-    pre_build_image: yes  
-  # - name: Fedora31
-  #   image: monolithprojects/systemd-fedora31:latest
-  #   command: /sbin/init
-  #   tmpfs:
-  #     - /run
-  #     - /tmp
-  #   volumes:
-  #     - /sys/fs/cgroup:/sys/fs/cgroup:ro
-  #   privileged: yes
-  #   pre_build_image: yes
+    pre_build_image: yes
   - name: Fedora32
     image: monolithprojects/systemd-fedora32:latest
     command: /sbin/init
