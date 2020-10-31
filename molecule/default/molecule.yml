@@ -122,6 +122,6 @@ scenario:
     - create
     - prepare
     - converge
-    - idempotence
+    # - idempotence
     - cleanup
     - destroy
