@@ -7,9 +7,9 @@ on:
             - feature/*
 jobs:
   lint:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     strategy:
-      fail-fast: false
+      fail-fast: true
     steps:
       - name: checkout
         uses: actions/checkout@v2
