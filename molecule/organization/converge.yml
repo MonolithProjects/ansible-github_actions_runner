@@ -13,18 +13,3 @@
   roles:
     - robertdebock.epel
     - ansible-github_actions_runner
-
-- name: Reinstall
-  user: ansible
-  hosts: all
-  become: yes
-  vars:
-    - runner_user: ansible
-    - github_repo: ansible-github_actions_runner-testrepo
-    - github_account: monolithprojects-testorg
-    - runner_org: yes
-    # - reinstall_runner: yes
-    - runner_version: "latest"
-  roles:
-    - robertdebock.epel
-    - ansible-github_actions_runner
