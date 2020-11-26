@@ -11,9 +11,6 @@ runner_version: "latest"
 # State in which the runner service will be after the role is done (started, stopped, absent)
 runner_state: "started"
 
-# If found in GitGub, replace already registered runner
-# replace_runner: yes
-
 # If found on the server, delete already existed runner service before install
 reinstall_runner: no
 
