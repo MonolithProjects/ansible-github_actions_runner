@@ -79,7 +79,7 @@
 
 - name: Register runner (if new installation) for repo
   command: "{{ runner_dir }}/./config.sh --url {{ github_server }}/{{ github_owner | default(github_account) }}/{{ github_repo }} \
-            --token {{ registration.json.token }} --unattended"
+            --token {{ registration.json.token }} --name {{ runner_name }} --unattended"
   args:
     chdir: "{{ runner_dir }}"
   become: yes
@@ -91,7 +91,7 @@
 
 - name: Register runner (if new installation) for organization
   command: "{{ runner_dir }}/./config.sh --url {{ github_server }}/{{ github_owner | default(github_account) }} \
-            --token {{ registration.json.token }} --unattended"
+            --token {{ registration.json.token }} --name {{ runner_name }} --unattended"
   args:
     chdir: "{{ runner_dir }}"
   become: yes
@@ -103,7 +103,7 @@
 
 - name: Replace registered runner for repo
   command: "{{ runner_dir }}/config.sh --url {{ github_server }}/{{ github_owner | default(github_account) }}/{{ github_repo }} \
-            --token {{ registration.json.token }} --unattended --replace"
+            --token {{ registration.json.token }} --name {{ runner_name }} --unattended --replace"
   args:
     chdir: "{{ runner_dir }}"
   become: yes
@@ -115,7 +115,7 @@
 
 - name: Replace registered runner for organization
   command: "{{ runner_dir }}/config.sh --url {{ github_server }}/{{ github_owner | default(github_account) }} \
-            --token {{ registration.json.token }} --unattended --replace"
+            --token {{ registration.json.token }} --name {{ runner_name }} --unattended --replace"
   args:
     chdir: "{{ runner_dir }}"
   become: yes

@@ -63,6 +63,9 @@ access_token: "{{ lookup('env', 'PERSONAL_ACCESS_TOKEN') }}"
 # Is it runner for organization or not
 runner_org: no
 
+# Name to assign to this runner in GitHub
+runner_name: "{{ lookup('pipe', 'hostname') }}"
+
 # Account used for Runner registration (GitHub Repository user with admin rights or Organization owner)
 # github_account: "youruser"
 

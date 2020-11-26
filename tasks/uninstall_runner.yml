@@ -37,7 +37,7 @@
     - uninstall
 
 - name: Unregister runner from the GitHub
-  command: "./config.sh remove --token {{ registration.json.token }} --unattended"
+  command: "./config.sh remove --token {{ registration.json.token }} --name {{ runner_name }} --unattended"
   args:
     chdir: "{{ runner_dir }}"
   become: yes
