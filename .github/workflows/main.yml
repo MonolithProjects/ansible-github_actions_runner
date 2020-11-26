@@ -24,7 +24,6 @@ jobs:
           PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         with:
           molecule_command: test
-          scenario: organization
       - name: Molecule for Ansible - GHR Organizations
         uses: MonolithProjects/action-molecule@v1.4.0
         env:
