@@ -114,7 +114,8 @@ provisioner:
       Ubuntu20:
         ansible_python_interpreter: /usr/bin/python3
 verifier:
-  name: ansible
+  name: testinfra
+  directory: tests
 dependency:
   name: galaxy
   options:
@@ -131,6 +132,6 @@ scenario:
     - create
     # - prepare
     - converge
-    # - idempotence
+    - idempotence
     - cleanup
     - destroy
