@@ -2,7 +2,6 @@
 driver:
   name: docker
 lint: |
-  set -e
   yamllint .
   ansible-lint
 platforms:
@@ -16,16 +15,16 @@ platforms:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     privileged: yes
     pre_build_image: yes
-  - name: CentOS8
-    image: monolithprojects/systemd-centos8:latest
-    command: /sbin/init
-    tmpfs:
-      - /run
-      - /tmp
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-    privileged: yes
-    pre_build_image: yes
+  # - name: CentOS8
+  #   image: monolithprojects/systemd-centos8:latest
+  #   command: /sbin/init
+  #   tmpfs:
+  #     - /run
+  #     - /tmp
+  #   volumes:
+  #     - /sys/fs/cgroup:/sys/fs/cgroup:ro
+  #   privileged: yes
+  #   pre_build_image: yes
   - name: Fedora32
     image: monolithprojects/systemd-fedora32:latest
     command: /sbin/init
@@ -36,6 +35,16 @@ platforms:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     privileged: yes
     pre_build_image: yes
+  # - name: Fedora33
+  #   image: monolithprojects/systemd-fedora33:latest
+  #   command: /sbin/init
+  #   tmpfs:
+  #     - /run
+  #     - /tmp
+  #   volumes:
+  #     - /sys/fs/cgroup:/sys/fs/cgroup:ro
+  #   privileged: yes
+  #   pre_build_image: yes
   - name: Ubuntu16
     image: monolithprojects/systemd-ubuntu16:latest
     command: /sbin/init
@@ -46,26 +55,26 @@ platforms:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     privileged: yes
     pre_build_image: yes
-  - name: Ubuntu18
-    image: monolithprojects/systemd-ubuntu18:latest
-    command: /sbin/init
-    tmpfs:
-      - /run
-      - /tmp
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-    privileged: yes
-    pre_build_image: yes
-  - name: Ubuntu20
-    image: monolithprojects/systemd-ubuntu20:latest
-    command: /sbin/init
-    tmpfs:
-      - /run
-      - /tmp
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-    privileged: yes
-    pre_build_image: yes
+  # - name: Ubuntu18
+  #   image: monolithprojects/systemd-ubuntu18:latest
+  #   command: /sbin/init
+  #   tmpfs:
+  #     - /run
+  #     - /tmp
+  #   volumes:
+  #     - /sys/fs/cgroup:/sys/fs/cgroup:ro
+  #   privileged: yes
+  #   pre_build_image: yes
+  # - name: Ubuntu20
+  #   image: monolithprojects/systemd-ubuntu20:latest
+  #   command: /sbin/init
+  #   tmpfs:
+  #     - /run
+  #     - /tmp
+  #   volumes:
+  #     - /sys/fs/cgroup:/sys/fs/cgroup:ro
+  #   privileged: yes
+  #   pre_build_image: yes
   - name: Debian9
     image: monolithprojects/systemd-debian9:latest
     command: /sbin/init
@@ -76,16 +85,16 @@ platforms:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     privileged: yes
     pre_build_image: yes
-  - name: Debian10
-    image: monolithprojects/systemd-debian10:latest
-    command: /sbin/init
-    tmpfs:
-      - /run
-      - /tmp
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-    privileged: yes
-    pre_build_image: yes
+  # - name: Debian10
+  #   image: monolithprojects/systemd-debian10:latest
+  #   command: /sbin/init
+  #   tmpfs:
+  #     - /run
+  #     - /tmp
+  #   volumes:
+  #     - /sys/fs/cgroup:/sys/fs/cgroup:ro
+  #   privileged: yes
+  #   pre_build_image: yes
 provisioner:
   name: ansible
   playbooks:
@@ -120,7 +129,7 @@ scenario:
     - destroy
     - syntax
     - create
-    - prepare
+    # - prepare
     - converge
     # - idempotence
     - cleanup
