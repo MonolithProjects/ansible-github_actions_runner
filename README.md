@@ -69,6 +69,9 @@ runner_name: "{{ lookup('pipe', 'hostname') }}"
 # Account used for Runner registration (GitHub Repository user with admin rights or Organization owner)
 # github_account: "youruser"
 
+# GitHub repository owner name (if other than github_account)
+# github_owner: "yourorg"
+
 # Github repository name
 # github_repo: "yourrepo"
 ```
