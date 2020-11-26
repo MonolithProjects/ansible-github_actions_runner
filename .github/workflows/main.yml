@@ -4,6 +4,8 @@ on:
     push:
         branches:
             - master
+            - develop
+            - feature/*
     schedule:
         - cron: '0 6 * * 0'
 jobs:
@@ -17,6 +19,16 @@ jobs:
         with:
           path: "${{ github.repository }}"
       - name: Molecule for Ansible
-        uses: MonolithProjects/action-molecule@v1.3.0
+        uses: MonolithProjects/action-molecule@v1.4.0
         env:
           PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        with:
+          molecule_command: test
+          scenario: organization
+      - name: Molecule for Ansible - converge organizations tag uninstall
+        uses: MonolithProjects/action-molecule@v1.4.0
+        env:
+          PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        with:
+          molecule_command: test
+          scenario: organization
