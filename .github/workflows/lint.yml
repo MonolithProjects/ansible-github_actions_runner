@@ -1,0 +1,21 @@
+name: molecule lint
+
+on:
+    push:
+        branches:
+            - develop
+            - feature/*
+jobs:
+  lint:
+    runs-on: ubuntu-18.04
+    strategy:
+      fail-fast: true
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          path: "${{ github.repository }}"
+      - name: Molecule for Ansible - lint
+        uses: MonolithProjects/action-molecule@v1.4.0
+        with:
+          molecule_command: lint

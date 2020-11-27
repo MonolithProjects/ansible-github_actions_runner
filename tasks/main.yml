@@ -12,14 +12,16 @@
     - uninstall
 
 - include_tasks: install_deps.yml
+  when: runner_state|lower == "started" or runner_state|lower == "stopped"
   tags:
     - install
 
 - include_tasks: uninstall_runner.yml
-  when: uninstall_runner
+  when: reinstall_runner or runner_state|lower == "absent"
   tags:
     - uninstall
 
 - include_tasks: install_runner.yml
+  when: runner_state|lower == "started" or runner_state|lower == "stopped"
   tags:
     - install

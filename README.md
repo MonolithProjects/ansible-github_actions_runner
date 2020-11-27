@@ -6,7 +6,8 @@
 [![GitHub Actions](https://github.com/MonolithProjects/ansible-github_actions_runner/workflows/molecule%20test/badge.svg?branch=master)](https://github.com/MonolithProjects/ansible-github_actions_runner/actions)
 [![License](https://img.shields.io/github/license/MonolithProjects/ansible-github_actions_runner)](https://github.com/MonolithProjects/ansible-github_actions_runner/blob/master/LICENSE)
 
-This role will deploy/redeploy/uninstall and register/unregister local GitHub Actions Runner.
+This role will deploy/redeploy/uninstall and register/unregister local GitHub Actions Runner.  
+It supports both, Organization and Repository Runners.
 
 ## Requirements
 
@@ -26,10 +27,10 @@ Personal Access Token for GitHub account can be created [here](https://github.co
 * Weekly tested on:
   * CentOS/RHEL 7,8
   * Debian 9,10
-  * Fedora 31,32
+  * Fedora 32,33
   * Ubuntu 16,18,20
 
-  **Note:** Fedora 32 and Ubuntu 20 must use Ansible 2.9.8+. Other distros/releases will work also with older 2.8.0+ Ansible.
+  **Note:** Fedora 32+ and Ubuntu 20 must use Ansible 2.9.8+. Other distros/releases will work also with older 2.8.0+ Ansible.
 
 ## Role Variables
 
@@ -45,22 +46,22 @@ runner_dir: /opt/actions-runner
 # Version of the GitHub Actions Runner
 runner_version: "latest"
 
-# If found, replace already registered runner
-replace_runner: yes
+# State in which the runner service will be after the role is done (started, stopped, absent)
+runner_state: "started"
 
-# If found, delete already existed runner before install
-uninstall_runner: no
+# If found on the server, delete already existed runner service before install
+reinstall_runner: no
 
-# Do not show Ansible logs which may contain sensitive data (registration token)
+# Do not show Ansible error logs which may contain sensitive data (registration token)
 hide_sensitive_logs: yes
 
 # GitHub address
 github_server: "https://github.com"
 
-# Personal Access Token
+# Personal Access Token for your GitHub account
 access_token: "{{ lookup('env', 'PERSONAL_ACCESS_TOKEN') }}"
 
-# Is it runner for organization or not
+# Is it the runner for organization or not
 runner_org: no
 
 # Name to assign to this runner in GitHub
@@ -78,12 +79,12 @@ runner_name: "{{ lookup('pipe', 'hostname') }}"
 
 ## Example Playbook
 
-In this example the Ansible role will deploy (or redeploy) the GitHub Actions runner service (latest available version) and register the runner for the GitHub repo.
-Runner service will run under the same user as the Ansible is using for ssh connection (*ansible*).
+In this example the Ansible role will install (or update) the GitHub Actions Runner service (latest available version). The runner will be registered for *my_awesome_repo* GitHub repo.
+Runner service will be stated and will run under the same user as the Ansible is using for ssh connection (*ansible*).
 
 ```yaml
 ---
-- name: GitHub Actions Runner
+- name: Install GitHub Actions Runner
   hosts: all
   user: ansible
   become: yes
@@ -94,11 +95,11 @@ Runner service will run under the same user as the Ansible is using for ssh conn
     - role: monolithprojects.github_actions_runner
 ```
 
-Same example, but runner will be added to an organization
+Same example as above, but runner will be added to an organization.
 
 ```yaml
 ---
-- name: GitHub Actions Runner
+- name: Install GitHub Actions Runner
   hosts: all
   user: ansible
   become: yes
@@ -109,11 +110,12 @@ Same example, but runner will be added to an organization
     - role: monolithprojects.github_actions_runner
 ```
 
-In this example the Ansible role will deploy (or redeploy) the GitHub Actions runner service (version 2.165.2) and register the runner for the GitHub repo. Runner service will run under the user `runner-user`.
+In this example the Ansible role will deploy (or update) the GitHub Actions runner service (version 2.165.2) and register the runner for the GitHub repo. Runner service will run under the user `runner-user`.
+The runner service will be *stopped*.
 
 ```yaml
 ---
-- name: GitHub Actions Runner
+- name: Stop GitHub Actions Runner
   hosts: all
   become: yes
   vars:
@@ -121,14 +123,24 @@ In this example the Ansible role will deploy (or redeploy) the GitHub Actions ru
     - runner_user: runner-user
     - github_account: github-access-user
     - github_repo: my_awesome_repo
+    - runner_state: "stopped"
   roles:
     - role: monolithprojects.github_actions_runner
 ```
 
-By using tag `uninstall` with combination of variable `uninstall_runner: yes`, GitHub Actions runner will be removed from the host and unregistered from the GitHub repository.
+In this example the Ansible role will uninstall the runner service and unregister it from the GitHub Repository.
 
-```bash
-ansible-playbook playbook.yml --tags uninstall -e "uninstall_runner=yes"
+```yaml
+---
+- name: Uninstall GitHub Actions Runner
+  hosts: all
+  become: yes
+  vars:
+    - github_account: github-access-user
+    - github_repo: my_awesome_repo
+    - runner_state: "absent"
+  roles:
+    - role: monolithprojects.github_actions_runner
 ```
 
 ## License

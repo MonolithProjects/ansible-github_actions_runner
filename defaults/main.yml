@@ -8,11 +8,11 @@ runner_dir: /opt/actions-runner
 # Version of the GitHub Actions Runner
 runner_version: "latest"
 
-# If found, replace already registered runner
-replace_runner: yes
+# State in which the runner service will be after the role is done (started, stopped, absent)
+runner_state: "started"
 
-# If found, delete already existed runner before install
-uninstall_runner: no
+# If found on the server, delete already existed runner service before install
+reinstall_runner: no
 
 # Do not show Ansible logs which may contain sensitive data (registration token)
 hide_sensitive_logs: yes
@@ -23,7 +23,7 @@ github_server: "https://github.com"
 # Personal Access Token for your GitHub account
 access_token: "{{ lookup('env', 'PERSONAL_ACCESS_TOKEN') }}"
 
-# Is it runner for organization or not
+# Is it the runner for organization or not
 runner_org: no
 
 # Name to assign to this runner in GitHub
