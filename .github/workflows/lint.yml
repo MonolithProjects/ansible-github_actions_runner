@@ -5,6 +5,10 @@ on:
         branches:
             - develop
             - feature/*
+    pull_request:
+        branches:
+            - develop
+        types: [opened, synchronize, reopened]
 jobs:
   lint:
     runs-on: ubuntu-18.04
