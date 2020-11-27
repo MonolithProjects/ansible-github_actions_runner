@@ -61,7 +61,7 @@
   run_once: yes
   become: false
   delegate_to: localhost
-  when: runner_version not in runner_installed.stdout
+  when: runner_version not in runner_installed.stdout or reinstall_runner
   tags:
     - install
 
@@ -71,7 +71,7 @@
     dest: "{{ runner_dir }}/"
     owner: "{{ runner_user }}"
     mode: 0755
-  when: runner_version not in runner_installed.stdout
+  when: runner_version not in runner_installed.stdout or reinstall_runner
   notify:
     - Restart runner service
   tags:
@@ -109,7 +109,7 @@
   become: yes
   become_user: "{{ runner_user }}"
   no_log: "{{ hide_sensitive_logs | bool }}"
-  when: reinstall_runner and ansible_hostname in registered_runners.json.runners|map(attribute='name')|list and not runner_org
+  when: ansible_hostname in registered_runners.json.runners|map(attribute='name')|list and not runner_org
   tags:
     - install
 
@@ -121,7 +121,7 @@
   become: yes
   become_user: "{{ runner_user }}"
   no_log: "{{ hide_sensitive_logs | bool }}"
-  when: reinstall_runner and ansible_hostname in registered_runners.json.runners|map(attribute='name')|list and runner_org
+  when: ansible_hostname in registered_runners.json.runners|map(attribute='name')|list and runner_org
   tags:
     - install
 
