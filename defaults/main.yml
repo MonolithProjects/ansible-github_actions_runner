@@ -15,7 +15,7 @@ runner_state: "started"
 reinstall_runner: no
 
 # Do not show Ansible logs which may contain sensitive data (registration token)
-hide_sensitive_logs: no
+hide_sensitive_logs: yes
 
 # GitHub address
 github_server: "https://github.com"
