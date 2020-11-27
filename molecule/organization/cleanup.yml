@@ -1,0 +1,12 @@
+---
+- name: Cleanup
+  user: ansible
+  hosts: all
+  become: yes
+  vars:
+    - runner_user: ansible
+    - github_account: monolithprojects-testorg
+    - runner_state: absent
+    - runner_org: yes
+  roles:
+    - ansible-github_actions_runner

@@ -61,7 +61,7 @@
   run_once: yes
   become: false
   delegate_to: localhost
-  when: runner_version not in runner_installed.stdout
+  when: runner_version not in runner_installed.stdout or reinstall_runner
   tags:
     - install
 
@@ -71,7 +71,7 @@
     dest: "{{ runner_dir }}/"
     owner: "{{ runner_user }}"
     mode: 0755
-  when: runner_version not in runner_installed.stdout
+  when: runner_version not in runner_installed.stdout or reinstall_runner
   notify:
     - Restart runner service
   tags:
@@ -79,49 +79,49 @@
 
 - name: Register runner (if new installation) for repo
   command: "{{ runner_dir }}/./config.sh --url {{ github_server }}/{{ github_owner | default(github_account) }}/{{ github_repo }} \
-            --token {{ registration.json.token }} --unattended"
+            --token {{ registration.json.token }} --name {{ runner_name }} --unattended"
   args:
     chdir: "{{ runner_dir }}"
   become: yes
   become_user: "{{ runner_user }}"
   no_log: "{{ hide_sensitive_logs | bool }}"
-  when: ansible_hostname not in registered_runners.json.runners|map(attribute='name')|list and not runner_org
+  when: runner_name not in registered_runners.json.runners|map(attribute='name')|list and not runner_org
   tags:
     - install
 
 - name: Register runner (if new installation) for organization
   command: "{{ runner_dir }}/./config.sh --url {{ github_server }}/{{ github_owner | default(github_account) }} \
-            --token {{ registration.json.token }} --unattended"
+            --token {{ registration.json.token }} --name {{ runner_name }} --unattended"
   args:
     chdir: "{{ runner_dir }}"
   become: yes
   become_user: "{{ runner_user }}"
   no_log: "{{ hide_sensitive_logs | bool }}"
-  when: ansible_hostname not in registered_runners.json.runners|map(attribute='name')|list and runner_org
+  when: runner_name not in registered_runners.json.runners|map(attribute='name')|list and runner_org
   tags:
     - install
 
 - name: Replace registered runner for repo
   command: "{{ runner_dir }}/config.sh --url {{ github_server }}/{{ github_owner | default(github_account) }}/{{ github_repo }} \
-            --token {{ registration.json.token }} --unattended --replace"
+            --token {{ registration.json.token }} --name {{ runner_name }} --unattended --replace"
   args:
     chdir: "{{ runner_dir }}"
   become: yes
   become_user: "{{ runner_user }}"
   no_log: "{{ hide_sensitive_logs | bool }}"
-  when: replace_runner and ansible_hostname in registered_runners.json.runners|map(attribute='name')|list and not runner_org
+  when: runner_name in registered_runners.json.runners|map(attribute='name')|list and not runner_org
   tags:
     - install
 
 - name: Replace registered runner for organization
   command: "{{ runner_dir }}/config.sh --url {{ github_server }}/{{ github_owner | default(github_account) }} \
-            --token {{ registration.json.token }} --unattended --replace"
+            --token {{ registration.json.token }} --name {{ runner_name }} --unattended --replace"
   args:
     chdir: "{{ runner_dir }}"
   become: yes
   become_user: "{{ runner_user }}"
   no_log: "{{ hide_sensitive_logs | bool }}"
-  when: replace_runner and ansible_hostname in registered_runners.json.runners|map(attribute='name')|list and runner_org
+  when: runner_name in registered_runners.json.runners|map(attribute='name')|list and runner_org
   tags:
     - install
 
@@ -133,10 +133,20 @@
   tags:
     - install
 
-- name: Start and enable Github Actions Runner service
+- name: Enable and START Github Actions Runner service
   systemd:
     name: "{{ runner_service }}"
     state: started
     enabled: yes
+  when: runner_state|lower == "started"
+  tags:
+    - install
+
+- name: Enable and STOP Github Actions Runner service
+  systemd:
+    name: "{{ runner_service }}"
+    state: stopped
+    enabled: yes
+  when: runner_state|lower == "stopped"
   tags:
     - install

@@ -2,7 +2,6 @@
 driver:
   name: docker
 lint: |
-  set -e
   yamllint .
   ansible-lint
 platforms:
@@ -28,6 +27,16 @@ platforms:
     pre_build_image: yes
   - name: Fedora32
     image: monolithprojects/systemd-fedora32:latest
+    command: /sbin/init
+    tmpfs:
+      - /run
+      - /tmp
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: yes
+    pre_build_image: yes
+  - name: Fedora33
+    image: monolithprojects/systemd-fedora33:latest
     command: /sbin/init
     tmpfs:
       - /run
@@ -105,7 +114,8 @@ provisioner:
       Ubuntu20:
         ansible_python_interpreter: /usr/bin/python3
 verifier:
-  name: ansible
+  name: testinfra
+  directory: tests
 dependency:
   name: galaxy
   options:
@@ -116,11 +126,10 @@ scenario:
   test_sequence:
     - dependency
     - lint
-    - cleanup
     - destroy
     - syntax
     - create
-    - prepare
+    # - prepare
     - converge
     # - idempotence
     - cleanup

@@ -8,7 +8,7 @@ on:
 
 jobs:
   release:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     steps:
       - name: galaxy
         uses: robertdebock/galaxy-action@1.0.1
