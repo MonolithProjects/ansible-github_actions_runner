@@ -85,7 +85,7 @@
   become: yes
   become_user: "{{ runner_user }}"
   no_log: "{{ hide_sensitive_logs | bool }}"
-  when: ansible_hostname not in registered_runners.json.runners|map(attribute='name')|list and not runner_org
+  when: runner_name not in registered_runners.json.runners|map(attribute='name')|list and not runner_org
   tags:
     - install
 
@@ -97,7 +97,7 @@
   become: yes
   become_user: "{{ runner_user }}"
   no_log: "{{ hide_sensitive_logs | bool }}"
-  when: ansible_hostname not in registered_runners.json.runners|map(attribute='name')|list and runner_org
+  when: runner_name not in registered_runners.json.runners|map(attribute='name')|list and runner_org
   tags:
     - install
 
@@ -109,7 +109,7 @@
   become: yes
   become_user: "{{ runner_user }}"
   no_log: "{{ hide_sensitive_logs | bool }}"
-  when: ansible_hostname in registered_runners.json.runners|map(attribute='name')|list and not runner_org
+  when: runner_name in registered_runners.json.runners|map(attribute='name')|list and not runner_org
   tags:
     - install
 
@@ -121,7 +121,7 @@
   become: yes
   become_user: "{{ runner_user }}"
   no_log: "{{ hide_sensitive_logs | bool }}"
-  when: ansible_hostname in registered_runners.json.runners|map(attribute='name')|list and runner_org
+  when: runner_name in registered_runners.json.runners|map(attribute='name')|list and runner_org
   tags:
     - install
 

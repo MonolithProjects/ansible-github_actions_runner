@@ -37,7 +37,7 @@
 
 - name: Build service name
   set_fact:
-    runner_service: "actions.runner.{{ github_account[:45] }}.{{ ansible_hostname }}.service"
+    runner_service: "actions.runner.{{ github_account[:45] }}.{{ runner_name }}.service"
   tags:
     - install
     - uninstall
