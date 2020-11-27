@@ -14,9 +14,11 @@ It supports both, Organization and Repository Runners.
 * System must have access to the GitHub.
 
 * The role require Personal Access Token to access the GitHub. The token has to be a value of `PERSONAL_ACCESS_TOKEN` variable.
-Export the token to the local host environment. The token has to have admin rights for the repo.
+Export the token to the local host environment.
+> The token must have the `repo` scope (when creating a repo runner) or the `admin:org` scope (when creating a runner for an organization).
 Personal Access Token for GitHub account can be created [here](https://github.com/settings/tokens).
-**Note:** Never store you personal access token in the GitHub repository. Use [GitHub Secrets](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets) or some different secrets service.
+
+> :warning: **Never** store you personal access token in the GitHub repository. Use [GitHub Secrets](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets) or some different secrets service.
 
 * Runner user has to be pre-created.
   Recommended role: `monolithprojects.user_management`
