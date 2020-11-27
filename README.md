@@ -52,7 +52,7 @@ runner_state: "started"
 # If found on the server, delete already existed runner service before install
 reinstall_runner: no
 
-# Do not show Ansible error logs which may contain sensitive data (registration token)
+# Do not show Ansible logs which may contain sensitive data (registration token)
 hide_sensitive_logs: yes
 
 # GitHub address
@@ -64,10 +64,10 @@ access_token: "{{ lookup('env', 'PERSONAL_ACCESS_TOKEN') }}"
 # Is it the runner for organization or not
 runner_org: no
 
-# Name to assign to this runner in GitHub
+# Name to assign to this runner in GitHub (hostname as default)
 runner_name: "{{ lookup('pipe', 'hostname') }}"
 
-# Account used for Runner registration (GitHub Repository user with admin rights or Organization owner)
+# GitHub Repository user or Organization owner used for Runner registration
 # github_account: "youruser"
 
 # GitHub repository owner name (if other than github_account)
