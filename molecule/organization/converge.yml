@@ -8,7 +8,7 @@
     - github_account: monolithprojects-testorg
     - runner_org: yes
     - runner_state: "stopped"
-    - runner_version: "2.274.1"
+    - runner_version: "2.274.2"
   roles:
     - robertdebock.epel
     - ansible-github_actions_runner
