@@ -11,7 +11,8 @@ on:
     schedule:
         - cron: '0 6 * * 0'
 jobs:
-  test:
+  repo:
+    name: Test Repo Runner
     runs-on: ubuntu-18.04
     strategy:
       fail-fast: true
@@ -26,6 +27,16 @@ jobs:
           PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         with:
           molecule_command: test
+  org:
+    name: Test Org Runner
+    runs-on: ubuntu-18.04
+    strategy:
+      fail-fast: true
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          path: "${{ github.repository }}"
       - name: Molecule for Ansible - GHR Organization
         uses: MonolithProjects/action-molecule@v1.4.0
         env:
