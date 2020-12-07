@@ -67,7 +67,7 @@ access_token: "{{ lookup('env', 'PERSONAL_ACCESS_TOKEN') }}"
 runner_org: no
 
 # Name to assign to this runner in GitHub (hostname as default)
-runner_name: "{{ lookup('pipe', 'hostname') }}"
+runner_name: "{{ ansible_hostname }}"
 
 # GitHub Repository user or Organization owner used for Runner registration
 # github_account: "youruser"
