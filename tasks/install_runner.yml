@@ -42,10 +42,23 @@
   tags:
     - install
 
+# - name:  Create temporary directory for archive
+#   tempfile:
+#     state: directory
+#   register: tempdir
+#   run_once: yes
+#   delegate_to: localhost
+#   become: false
+#   when: runner_version not in runner_installed.stdout
+#   tags:
+#     - install
+
 - name:  Create temporary directory for archive
-  tempfile:
+  file:
+    path: "{{ runner_pkg_tempdir }}"
     state: directory
-  register: tempdir
+    recurse: yes
+    mode: '0777'
   run_once: yes
   delegate_to: localhost
   become: false
@@ -56,7 +69,7 @@
 - name: Download runner package version - "{{ runner_version }}" (RUN ONCE)
   get_url:
     url: "https://github.com/actions/runner/releases/download/v{{ runner_version }}/actions-runner-linux-x64-{{ runner_version }}.tar.gz"
-    dest: "{{ tempdir.path }}/actions-runner-linux-{{ runner_version }}.tar.gz"
+    dest: "{{ runner_pkg_tempdir }}/actions-runner-linux-{{ runner_version }}.tar.gz"
     force: no
   run_once: yes
   become: false
@@ -67,7 +80,7 @@
 
 - name: Unarchive package
   unarchive:
-    src: "{{ tempdir.path }}/actions-runner-linux-{{ runner_version }}.tar.gz"
+    src: "{{ runner_pkg_tempdir }}/actions-runner-linux-{{ runner_version }}.tar.gz"
     dest: "{{ runner_dir }}/"
     owner: "{{ runner_user }}"
     mode: 0755
