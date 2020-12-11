@@ -2,12 +2,14 @@
 - name: Install
   user: ansible
   hosts: all
+  gather_facts: yes
   become: yes
   vars:
     - runner_user: ansible
     - github_repo: ansible-github_actions_runner-testrepo
     - github_account: monolithprojects
     - runner_version: "latest"
+    - reinstall_runner: yes
   roles:
     - robertdebock.epel
     - ansible-github_actions_runner
@@ -16,6 +18,7 @@
   user: ansible
   hosts: all
   become: yes
+  gather_facts: yes
   vars:
     - runner_user: ansible
     - github_repo: ansible-github_actions_runner-testrepo
