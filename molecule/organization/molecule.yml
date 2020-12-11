@@ -101,18 +101,6 @@ provisioner:
     converge: converge.yml
     cleanup: cleanup.yml 
   log: false
-  inventory:
-    host_vars:
-      CentOS8:
-        ansible_python_interpreter: /usr/bin/python3      
-      Debian9:
-        ansible_python_interpreter: /usr/bin/python3
-      Debian10:
-        ansible_python_interpreter: /usr/bin/python3
-      Ubuntu18:
-        ansible_python_interpreter: /usr/bin/python3
-      Ubuntu20:
-        ansible_python_interpreter: /usr/bin/python3
 verifier:
   name: testinfra
   directory: tests
