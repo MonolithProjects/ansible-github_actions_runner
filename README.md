@@ -45,13 +45,16 @@ runner_user: "{{ lookup('env','USER') }}"
 # Directory where the local runner will be installed
 runner_dir: /opt/actions-runner
 
+# Directory where the runner package will be dowloaded
+runner_pkg_tempdir: /tmp/gh_actions_runner
+
 # Version of the GitHub Actions Runner
 runner_version: "latest"
 
 # State in which the runner service will be after the role is done (started, stopped, absent)
 runner_state: "started"
 
-# If found on the server, delete already existed runner service before install
+# If found on the server, delete already existing runner service and install it again
 reinstall_runner: no
 
 # Do not show Ansible logs which may contain sensitive data (registration token)
@@ -63,10 +66,10 @@ github_server: "https://github.com"
 # Personal Access Token for your GitHub account
 access_token: "{{ lookup('env', 'PERSONAL_ACCESS_TOKEN') }}"
 
-# Is it the runner for organization or not
+# Is it the runner for organization or not?
 runner_org: no
 
-# Name to assign to this runner in GitHub (hostname as default)
+# Name to assign to this runner in GitHub (System hostname as default)
 runner_name: "{{ ansible_hostname }}"
 
 # GitHub Repository user or Organization owner used for Runner registration
