@@ -1,4 +1,15 @@
 ---
+- name: Check variables
+  assert:
+    that:
+      - github_account is defined
+      - access_token is defined and access_token | length>0
+    quiet: true
+  run_once: yes
+  tags:
+    - install
+    - uninstall
+
 - name: Get registration token (RUN ONCE)
   uri:
     url: "https://api.github.com/repos/{{ github_owner | default(github_account) }}/{{ github_repo }}/actions/runners/registration-token"
