@@ -1,4 +1,9 @@
 ---
+- include_tasks: assert.yml
+  tags:
+    - install
+    - uninstall
+
 - include_tasks: collect_info_org.yml
   when: runner_org
   tags:
