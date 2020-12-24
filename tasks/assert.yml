@@ -1,0 +1,12 @@
+---
+- name: Check variables
+  assert:
+    that:
+      - github_account is defined
+      - access_token is defined
+      - access_token | length > 0
+    quiet: true
+  run_once: yes
+  tags:
+    - install
+    - uninstall
