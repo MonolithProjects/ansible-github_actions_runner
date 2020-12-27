@@ -1,5 +1,5 @@
 ---
-- name: Check variables
+- name: Check variables (RUN ONCE)
   assert:
     that:
       - github_account is defined

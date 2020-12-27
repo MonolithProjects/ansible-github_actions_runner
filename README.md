@@ -26,11 +26,16 @@ Personal Access Token for GitHub account can be created [here](https://github.co
 * CentOS systems require EPEL repository.
   Recommended role: `robertdebock.epel`
 
-* Weekly tested on:
-  * CentOS/RHEL 7,8
-  * Debian 9,10
-  * Fedora 32,33
-  * Ubuntu 16,18,20
+## Supported CPU architecture:
+
+* ARM, ARM64 (dependencies installation is not covered by this role)
+* AMD64, x86_64
+## Weekly tested on:
+
+* CentOS/RHEL 7,8
+* Debian 9,10
+* Fedora 32,33
+* Ubuntu 16,18,20
 
   **Note:** Fedora 32+ and Ubuntu 20 must use Ansible 2.9.8+. Other distros/releases will work also with older 2.8.0+ Ansible.
 
