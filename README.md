@@ -80,7 +80,7 @@ runner_org: no
 # Name to assign to this runner in GitHub (System hostname as default)
 runner_name: "{{ ansible_hostname }}"
 
-# Custom service name whe usign Github Enterprise server
+# Custom service name when usign Github Enterprise server
 # service_name: actions.runner._services.{{ runner_name }}.service
 
 # GitHub Repository user or Organization owner used for Runner registration
