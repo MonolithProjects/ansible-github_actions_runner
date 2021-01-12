@@ -10,7 +10,6 @@
     - github_account: monolithprojects
     - runner_version: "latest"
     - reinstall_runner: yes
-    - hide_sensitive_logs: no
   roles:
     - robertdebock.epel
     - ansible-github_actions_runner
