@@ -21,7 +21,10 @@ reinstall_runner: no
 hide_sensitive_logs: yes
 
 # GitHub address
-github_server: "https://github.com"
+github_url: "https://github.com"
+
+# GitHub API
+github_api_url: "https://api.github.com"
 
 # Personal Access Token for your GitHub account
 access_token: "{{ lookup('env', 'PERSONAL_ACCESS_TOKEN') }}"
@@ -31,6 +34,9 @@ runner_org: no
 
 # Name to assign to this runner in GitHub (System hostname as default)
 runner_name: "{{ ansible_hostname }}"
+
+# Custom service name whe usign Github Enterprise server
+# service_name: actions.runner._services.{{ runner_name }}.service
 
 # GitHub Repository user or Organization owner used for Runner registration
 # github_account: "youruser"
