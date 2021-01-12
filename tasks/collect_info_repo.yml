@@ -1,7 +1,7 @@
 ---
 - name: Get registration token (RUN ONCE)
   uri:
-    url: "https://api.github.com/repos/{{ github_owner | default(github_account) }}/{{ github_repo }}/actions/runners/registration-token"
+    url: "{{ github_api_url }}/repos/{{ github_owner | default(github_account) }}/{{ github_repo }}/actions/runners/registration-token"
     headers:
       Authorization: "token {{ access_token }}"
       Accept: "application/vnd.github.v3+json"
@@ -16,7 +16,7 @@
 
 - name: Check currently registered runners (RUN ONCE)
   uri:
-    url: "https://api.github.com/repos/{{ github_owner | default(github_account) }}/{{ github_repo }}/actions/runners"
+    url: "{{ github_api_url }}/repos/{{ github_owner | default(github_account) }}/{{ github_repo }}/actions/runners"
     headers:
       Authorization: "token {{ access_token }}"
       Accept: "application/vnd.github.v3+json"

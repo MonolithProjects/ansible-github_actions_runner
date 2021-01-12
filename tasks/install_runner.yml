@@ -14,10 +14,8 @@
   uri:
     url: "https://api.github.com/repos/actions/runner/releases/latest"
     headers:
-      Authorization: "token {{ access_token }}"
-      Accept: "application/vnd.github.v3+json"
+      Content-Type: "application/json"
     method: GET
-    force_basic_auth: yes
     return_content: yes
     status_code: 200
     body_format: json
