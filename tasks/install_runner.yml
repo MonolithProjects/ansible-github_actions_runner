@@ -14,10 +14,8 @@
   uri:
     url: "https://api.github.com/repos/actions/runner/releases/latest"
     headers:
-      Authorization: "token {{ access_token }}"
-      Accept: "application/vnd.github.v3+json"
+      Content-Type: "application/json"
     method: GET
-    force_basic_auth: yes
     return_content: yes
     status_code: 200
     body_format: json
@@ -81,7 +79,7 @@
     - install
 
 - name: Register runner (if new installation) for repo
-  command: "{{ runner_dir }}/./config.sh --url {{ github_server }}/{{ github_owner | default(github_account) }}/{{ github_repo }} \
+  command: "{{ runner_dir }}/./config.sh --url {{ github_url }}/{{ github_owner | default(github_account) }}/{{ github_repo }} \
             --token {{ registration.json.token }} --name {{ runner_name }} --unattended"
   args:
     chdir: "{{ runner_dir }}"
@@ -93,7 +91,7 @@
     - install
 
 - name: Register runner (if new installation) for organization
-  command: "{{ runner_dir }}/./config.sh --url {{ github_server }}/{{ github_owner | default(github_account) }} \
+  command: "{{ runner_dir }}/./config.sh --url {{ github_url }}/{{ github_owner | default(github_account) }} \
             --token {{ registration.json.token }} --name {{ runner_name }} --unattended"
   args:
     chdir: "{{ runner_dir }}"
@@ -105,7 +103,7 @@
     - install
 
 - name: Replace registered runner for repo
-  command: "{{ runner_dir }}/config.sh --url {{ github_server }}/{{ github_owner | default(github_account) }}/{{ github_repo }} \
+  command: "{{ runner_dir }}/config.sh --url {{ github_url }}/{{ github_owner | default(github_account) }}/{{ github_repo }} \
             --token {{ registration.json.token }} --name {{ runner_name }} --unattended --replace"
   args:
     chdir: "{{ runner_dir }}"
@@ -117,7 +115,7 @@
     - install
 
 - name: Replace registered runner for organization
-  command: "{{ runner_dir }}/config.sh --url {{ github_server }}/{{ github_owner | default(github_account) }} \
+  command: "{{ runner_dir }}/config.sh --url {{ github_url }}/{{ github_owner | default(github_account) }} \
             --token {{ registration.json.token }} --name {{ runner_name }} --unattended --replace"
   args:
     chdir: "{{ runner_dir }}"
