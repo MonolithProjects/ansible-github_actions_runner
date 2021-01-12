@@ -45,6 +45,15 @@
 - name: Build service name
   set_fact:
     runner_service: "actions.runner.{{ svc_name[:45] }}.{{ runner_name }}.service"
+  when: service_name is not defined
+  tags:
+    - install
+    - uninstall
+
+- name: Build service name
+  set_fact:
+    runner_service: "{{ service_name }}"
+  when: service_name is defined
   tags:
     - install
     - uninstall
