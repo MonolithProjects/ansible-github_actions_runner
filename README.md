@@ -82,6 +82,9 @@ runner_org: no
 # Name to assign to this runner in GitHub (System hostname as default)
 runner_name: "{{ ansible_hostname }}"
 
+# Labels to apply to the runner
+runner_labels: "''"
+
 # Custom service name when usign Github Enterprise server
 # service_name: actions.runner._services.{{ runner_name }}.service
 
