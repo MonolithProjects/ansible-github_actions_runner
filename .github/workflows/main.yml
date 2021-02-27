@@ -12,7 +12,7 @@ jobs:
     name: Test Repo Runner
     runs-on: ubuntu-20.04
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         config:
           - os: "centos7"
@@ -37,7 +37,7 @@ jobs:
         with:
           path: "${{ github.repository }}"
       - name: Molecule for Ansible - GHR Repository
-        uses: MonolithProjects/action-molecule@v1.4.0
+        uses: MonolithProjects/action-molecule@v1.4.1
         env:
           PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         with:
@@ -50,18 +50,16 @@ jobs:
     name: Test Org Runner
     runs-on: ubuntu-20.04
     strategy:
-      fail-fast: true
+      fail-fast: false
     steps:
       - name: checkout
         uses: actions/checkout@v2
         with:
           path: "${{ github.repository }}"
       - name: Molecule for Ansible - GHR Organization
-        uses: MonolithProjects/action-molecule@v1.4.0
+        uses: MonolithProjects/action-molecule@v1.4.1
         env:
           PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         with:
-          os: ${{ matrix.config.os }}
-          tag: ${{ matrix.config.tag }}
           molecule_command: test
           scenario: org
