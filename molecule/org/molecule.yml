@@ -3,11 +3,12 @@ provisioner:
   name: ansible
   playbooks:
       converge: converge.yml
-      cleanup: cleanup.yml
+      cleanup: cleanup.yml 
       verify: verify.yml
 dependency:
   name: galaxy
 lint: |
+  yamllint .
   ansible-lint
 driver:
   name: docker
@@ -25,10 +26,10 @@ platforms:
 verifier:
   name: ansible
 scenario:
-  name: default
+  name: org
   test_sequence:
     - dependency
-    # - lint
+    - lint
     - destroy
     - syntax
     - create

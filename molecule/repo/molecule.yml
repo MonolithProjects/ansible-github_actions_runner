@@ -8,6 +8,7 @@ provisioner:
 dependency:
   name: galaxy
 lint: |
+  yamllint .
   ansible-lint
 driver:
   name: docker
@@ -25,10 +26,10 @@ platforms:
 verifier:
   name: ansible
 scenario:
-  name: default
+  name: repo
   test_sequence:
     - dependency
-    # - lint
+    - lint
     - destroy
     - syntax
     - create

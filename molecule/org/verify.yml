@@ -1,0 +1,38 @@
+---
+- name: validate Repo runners
+  user: ansible
+  hosts: all
+  gather_facts: yes
+  become: yes
+  vars:
+    - runner_user: ansible
+    - github_repo: ansible-github_actions_runner-testrepo
+    - github_account: monolithprojects
+    - github_api_url: "https://api.github.com"
+    - access_token: "{{ lookup('env', 'PERSONAL_ACCESS_TOKEN') }}"
+    - runner_name: "{{ ansible_hostname }}"
+
+  tasks:
+    - name: Check currently registered runners
+      uri:
+        url: "{{ github_api_url }}/repos/{{ github_owner | default(github_account) }}/{{ github_repo }}/actions/runners"
+        headers:
+          Authorization: "token {{ access_token }}"
+          Accept: "application/vnd.github.v3+json"
+        method: GET
+        status_code: 200
+        force_basic_auth: yes
+      register: registered_runners
+
+    - name: Check Runner
+      assert:
+        that:
+          - runner_name in registered_runners.json.runners|map(attribute='name')|list
+          - registered_runners.json.runners|map(attribute='status') == ["offline"]
+        quiet: true
+
+    - debug:
+        var: registered_runners.json.runners|map(attribute='name')
+
+    - debug:
+        var: registered_runners.json.runners|map(attribute='status')
