@@ -3,10 +3,9 @@
   file:
     path: "{{ runner_dir }}"
     state: directory
-    mode: "0755"
+    mode: 0755
     owner: "{{ runner_user }}"
-    group: "{{ runner_user }}"
-    recurse: yes
+    # group: "{{ runner_user }}"
   tags:
     - install
 
