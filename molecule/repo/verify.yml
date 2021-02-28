@@ -28,6 +28,9 @@
         force_basic_auth: yes
       register: registered_runners
 
+    - debug:
+        var: registered_runners.json.runners|map(attribute='status')
+
     - name: Check Runner
       assert:
         that:
