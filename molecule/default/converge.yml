@@ -1,5 +1,5 @@
 ---
-- name: Install Repo runner
+- name: Dev test playbook
   user: ansible
   hosts: all
   gather_facts: yes
