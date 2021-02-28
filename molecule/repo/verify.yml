@@ -13,7 +13,7 @@
     - runner_name: "{{ ansible_hostname }}"
 
   tasks:
-    - name: Pause for 5 minutes to build app cache
+    - name: Give the runners a minute
       pause:
         seconds: 60
 
@@ -34,7 +34,7 @@
       assert:
         that:
           - runner_name in registered_runners.json.runners|map(attribute='name')|list
-          - registered_runners.json.runners|map(attribute='status') == ["online"]
+          - registered_runners.json.runners|map(attribute='status') == ["idle"]
         quiet: true
 
     - debug:
