@@ -32,7 +32,7 @@ Personal Access Token for GitHub account can be created [here](https://github.co
 
 * ARM, ARM64 (dependencies installation is not covered by this role)
 * AMD64, x86_64
-## Weekly tested on:
+## Tested on:
 
 * CentOS/RHEL 7,8
 * Debian 9,10
