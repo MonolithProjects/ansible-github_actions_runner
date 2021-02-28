@@ -11,6 +11,7 @@
     - runner_version: "latest"
     - runner_labels:
         - label1
+        - repo-runner
   roles:
     - robertdebock.epel
     - ansible-github_actions_runner
