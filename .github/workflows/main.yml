@@ -37,7 +37,7 @@ jobs:
         with:
           path: "${{ github.repository }}"
       - name: Molecule for Ansible - GHR Repository
-        uses: MonolithProjects/action-molecule@v1.4.1
+        uses: MonolithProjects/action-molecule@latest
         env:
           PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         with:
@@ -57,7 +57,7 @@ jobs:
         with:
           path: "${{ github.repository }}"
       - name: Molecule for Ansible - GHR Organization
-        uses: MonolithProjects/action-molecule@v1.4.1
+        uses: MonolithProjects/action-molecule@latest
         env:
           PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         with:
