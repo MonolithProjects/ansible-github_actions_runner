@@ -25,8 +25,6 @@ jobs:
             tag: "latest"
           - os: "fedora33"
             tag: "latest"
-          - os: "ubuntu16"
-            tag: "latest"
           - os: "ubuntu18"
             tag: "latest"
           - os: "ubuntu20"

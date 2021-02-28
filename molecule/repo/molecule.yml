@@ -29,7 +29,7 @@ scenario:
   name: repo
   test_sequence:
     - dependency
-    # - lint
+    - lint
     - destroy
     - syntax
     - create

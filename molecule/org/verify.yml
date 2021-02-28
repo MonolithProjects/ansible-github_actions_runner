@@ -15,7 +15,7 @@
   tasks:
     - name: Give the runners a minute
       pause:
-        seconds: 60
+        seconds: 30
 
     - name: Check currently registered runners
       uri:

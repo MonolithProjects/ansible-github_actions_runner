@@ -13,9 +13,9 @@
     - runner_name: "{{ ansible_hostname }}"
 
   tasks:
-    - name: Give the runners a minute
+    - name: Give the runners some time
       pause:
-        seconds: 60
+        seconds: 30
 
     - name: Check currently registered runners
       uri:

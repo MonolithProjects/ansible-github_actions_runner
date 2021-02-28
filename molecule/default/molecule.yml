@@ -29,7 +29,7 @@ scenario:
   name: default
   test_sequence:
     - dependency
-    # - lint
+    - lint
     - destroy
     - syntax
     - create
