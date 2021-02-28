@@ -6,8 +6,8 @@
   become: yes
   vars:
     - runner_user: ansible
-    - github_repo: ansible-github_actions_runner-testrepo
-    - github_account: monolithprojects
+    - github_account: monolithprojects-testorg
+    - runner_org: yes
     - github_api_url: "https://api.github.com"
     - access_token: "{{ lookup('env', 'PERSONAL_ACCESS_TOKEN') }}"
     - runner_name: "{{ ansible_hostname }}"
@@ -15,7 +15,7 @@
   tasks:
     - name: Check currently registered runners
       uri:
-        url: "{{ github_api_url }}/repos/{{ github_owner | default(github_account) }}/{{ github_repo }}/actions/runners"
+        url: "{{ github_api_url }}/orgs/{{ github_owner | default(github_account) }}/actions/runners"
         headers:
           Authorization: "token {{ access_token }}"
           Accept: "application/vnd.github.v3+json"

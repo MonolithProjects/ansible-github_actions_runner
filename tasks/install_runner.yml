@@ -44,7 +44,7 @@
     path: "{{ runner_pkg_tempdir }}"
     state: directory
     recurse: yes
-    mode: '0777'
+    mode: 0777
   run_once: yes
   delegate_to: localhost
   become: false
@@ -72,8 +72,6 @@
     owner: "{{ runner_user }}"
     mode: 0755
   when: runner_version not in runner_installed.stdout or reinstall_runner
-  notify:
-    - Restart runner service
   tags:
     - install
 
@@ -133,7 +131,7 @@
   tags:
     - install
 
-- name: Enable and START Github Actions Runner service
+- name: START and enable Github Actions Runner service
   systemd:
     name: "{{ runner_service }}"
     state: started
@@ -142,11 +140,11 @@
   tags:
     - install
 
-- name: Enable and STOP Github Actions Runner service
+- name: STOP and disable Github Actions Runner service
   systemd:
     name: "{{ runner_service }}"
     state: stopped
-    enabled: yes
+    enabled: no
   when: runner_state|lower == "stopped"
   tags:
     - install
