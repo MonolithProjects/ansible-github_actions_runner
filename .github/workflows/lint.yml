@@ -11,7 +11,7 @@ on:
         types: [opened, synchronize, reopened]
 jobs:
   lint:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     strategy:
       fail-fast: true
     steps:
@@ -20,6 +20,6 @@ jobs:
         with:
           path: "${{ github.repository }}"
       - name: Molecule for Ansible - lint
-        uses: MonolithProjects/action-molecule@v1.4.0
+        uses: MonolithProjects/action-molecule@v1.4.1
         with:
           molecule_command: lint

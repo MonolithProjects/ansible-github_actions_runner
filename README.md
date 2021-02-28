@@ -32,7 +32,7 @@ Personal Access Token for GitHub account can be created [here](https://github.co
 
 * ARM, ARM64 (dependencies installation is not covered by this role)
 * AMD64, x86_64
-## Weekly tested on:
+## Tested on:
 
 * CentOS/RHEL 7,8
 * Debian 9,10
@@ -82,7 +82,7 @@ runner_org: no
 # Name to assign to this runner in GitHub (System hostname as default)
 runner_name: "{{ ansible_hostname }}"
 
-# Labels to apply to the runner
+# Labels to apply to the runner. For examle "'label1','label2'"
 runner_labels: "''"
 
 # Custom service name when usign Github Enterprise server

@@ -26,7 +26,7 @@ platforms:
 verifier:
   name: ansible
 scenario:
-  name: default
+  name: repo
   test_sequence:
     - dependency
     - lint

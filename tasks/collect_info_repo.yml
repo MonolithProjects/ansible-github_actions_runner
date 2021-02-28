@@ -35,16 +35,9 @@
     - install
     - uninstall
 
-- name: Combine Github account and repo names
-  set_fact:
-    svc_name: "{{ github_owner | default(github_account) }}-{{ github_repo }}"
-  tags:
-    - install
-    - uninstall
-
 - name: Build service name
   set_fact:
-    runner_service: "actions.runner.{{ svc_name[:45] }}.{{ runner_name }}.service"
+    runner_service: "actions.runner.{{ ([([(github_owner | default(github_account)), github_repo ] | join('-'))[:45], runner_name] | join('.'))[:57] }}.service"
   when: service_name is not defined
   tags:
     - install
