@@ -19,4 +19,4 @@ Please describe the tests that you ran to verify your changes.
 
 ## Destination branch
 
-Create PR to merge your changes into `develop` branch
+Create a PR into `develop` branch

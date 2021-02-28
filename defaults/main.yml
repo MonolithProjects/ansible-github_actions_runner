@@ -36,7 +36,7 @@ runner_org: no
 runner_name: "{{ ansible_hostname }}"
 
 # Labels to apply to the runner. For examle "'label1','label2'"
-runner_labels: "''"
+runner_labels: []
 
 # Custom service name when usign Github Enterprise server
 # service_name: actions.runner._services.{{ runner_name }}.service
