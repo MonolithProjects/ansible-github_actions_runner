@@ -82,8 +82,8 @@ runner_org: no
 # Name to assign to this runner in GitHub (System hostname as default)
 runner_name: "{{ ansible_hostname }}"
 
-# Labels to apply to the runner. For examle "'label1','label2'"
-runner_labels: "''"
+# Labels to apply to the runner
+runner_labels: []
 
 # Custom service name when usign Github Enterprise server
 # service_name: actions.runner._services.{{ runner_name }}.service
@@ -131,8 +131,8 @@ Same example as above, but runner will be added to an organization.
     - role: monolithprojects.github_actions_runner
 ```
 
-In this example the Ansible role will deploy (or update) the GitHub Actions runner service (version 2.165.2) and register the runner for the GitHub repo. Runner service will run under the user `runner-user`.
-The runner service will be *stopped*.
+In this example the Ansible role will deploy (or update) the GitHub Actions runner service (version 2.165.2) and register the runner for the GitHub repo. Runner service will run under the user `runner-user`. Runner will be registered with two labels.
+The runner service will be *stopped* and disabled.
 
 ```yaml
 ---
@@ -145,6 +145,9 @@ The runner service will be *stopped*.
     - github_account: github-access-user
     - github_repo: my_awesome_repo
     - runner_state: "stopped"
+    - runner_labels:
+        - production
+        - west
   roles:
     - role: monolithprojects.github_actions_runner
 ```
