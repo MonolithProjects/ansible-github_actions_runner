@@ -1,12 +1,14 @@
 ---
-- name: Cleanup
+- name: Install Org Runner
   user: ansible
   hosts: all
   become: yes
   vars:
     - runner_user: ansible
-    - github_repo: ansible-github_actions_runner-testrepo
     - github_account: monolithprojects-testorg
-    - runner_state: absent
+    - runner_org: yes
+    - runner_state: "stopped"
+    - runner_version: "2.274.2"
   roles:
+    - robertdebock.epel
     - ansible-github_actions_runner

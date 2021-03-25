@@ -1,5 +1,5 @@
 ---
-- name: Install
+- name: Dev test playbook
   user: ansible
   hosts: all
   gather_facts: yes
@@ -7,23 +7,11 @@
   vars:
     - runner_user: ansible
     - github_repo: ansible-github_actions_runner-testrepo
-    - github_account: monolithprojects
+    - github_account: monolithprojects-testorg
     - runner_version: "latest"
-    - reinstall_runner: yes
-  roles:
-    - robertdebock.epel
-    - ansible-github_actions_runner
-
-- name: Idempotence test
-  user: ansible
-  hosts: all
-  become: yes
-  gather_facts: yes
-  vars:
-    - runner_user: ansible
-    - github_repo: ansible-github_actions_runner-testrepo
-    - github_account: monolithprojects
-    - runner_version: "latest"
+    - runner_labels:
+        - label1
+        - repo-runner
   roles:
     - robertdebock.epel
     - ansible-github_actions_runner

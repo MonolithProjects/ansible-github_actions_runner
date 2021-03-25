@@ -31,9 +31,10 @@ cd ansible-github_actions_runner
 molecule test
 ```
 
+> You will need to edit the files in `molecule/default` directory (please do not commit those changes)
+
 ## 5. Create a pull request
 
 Please create a pull request into the `develop` branch. Here is [how to do it](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request-from-a-fork).
-
 
 Please consider to [sponsor](https://github.com/sponsors/monolithprojects) me :-)

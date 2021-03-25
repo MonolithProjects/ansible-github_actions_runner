@@ -4,7 +4,7 @@
     name: "{{ runner_service }}"
     state: stopped
     enabled: no
-  when: runner_service in services
+  when: runner_service in services and ( reinstall_runner or runner_state == "stopped" or runner_state == "absent" )
   tags:
     - uninstall
 
@@ -43,7 +43,7 @@
   become: yes
   become_user: "{{ runner_user }}"
   no_log: "{{ hide_sensitive_logs | bool }}"
-  when: ansible_hostname in registered_runners.json.runners|map(attribute='name')|list and runner_file.stat.exists
+  when: runner_name in registered_runners.json.runners|map(attribute='name')|list and runner_file.stat.exists
   tags:
     - uninstall
 
