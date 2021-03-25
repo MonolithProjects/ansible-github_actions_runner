@@ -89,7 +89,7 @@
 
 - name: Register runner (if new installation) for organization
   command: "{{ runner_dir }}/./config.sh --url {{ github_url }}/{{ github_owner | default(github_account) }} \
-            --token {{ registration.json.token }} --name {{ runner_name }} --labels {{ runner_labels }} --unattended"
+            --token {{ registration.json.token }} --name {{ runner_name }} --labels {{ runner_labels | join(',') }} --unattended"
   args:
     chdir: "{{ runner_dir }}"
   become: yes
@@ -101,7 +101,7 @@
 
 - name: Replace registered runner for repo
   command: "{{ runner_dir }}/config.sh --url {{ github_url }}/{{ github_owner | default(github_account) }}/{{ github_repo }} \
-            --token {{ registration.json.token }} --name {{ runner_name }} --labels {{ runner_labels }} --unattended --replace"
+            --token {{ registration.json.token }} --name {{ runner_name }} --labels {{ runner_labels | join(',') }} --unattended --replace"
   args:
     chdir: "{{ runner_dir }}"
   become: yes
@@ -113,7 +113,7 @@
 
 - name: Replace registered runner for organization
   command: "{{ runner_dir }}/config.sh --url {{ github_url }}/{{ github_owner | default(github_account) }} \
-            --token {{ registration.json.token }} --name {{ runner_name }} --labels {{ runner_labels }} --unattended --replace"
+            --token {{ registration.json.token }} --name {{ runner_name }} --labels {{ runner_labels | join(',') }} --unattended --replace"
   args:
     chdir: "{{ runner_dir }}"
   become: yes
