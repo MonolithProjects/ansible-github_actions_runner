@@ -34,7 +34,7 @@
           - registered_runners.json.runners|map(attribute='status') == ["online"]
         quiet: true
 
-    # - name: Check Labels  ### does not work ... will fix the other day :-P
-    #   fail: 
-    #     msg: Woops some labels differ "{{ (registered_runners.json.runners.0 | json_query('labels[*].name') | difference(['Linux', 'self-hosted', 'X64', 'label1', 'repo-runner'])) }}"
-    #   when: (registered_runners.json.runners.0 | json_query('labels[*].name') | list  | difference(['Linux', 'self-hosted', 'X64', 'label1', 'repo-runner'])) != ([])
+    - name: Check Labels (skipped if labels are OK)
+      fail: 
+        msg: Woops some labels differ "{{ (registered_runners.json.runners.0 | json_query('labels[*].name') | difference(['self-hosted', 'Linux', 'X64', 'label1', 'repo-runner'])) }}"
+      when: not (registered_runners.json.runners.0 | json_query('labels[*].name') | list ) == (['self-hosted', 'Linux', 'X64', 'label1', 'repo-runner'] | list)
