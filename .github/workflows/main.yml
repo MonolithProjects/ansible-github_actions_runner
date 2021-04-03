@@ -30,6 +30,11 @@ jobs:
           - os: "ubuntu20"
             tag: "latest"
     steps:
+      - name: Add jmespath
+        uses: BSFishy/pip-action@v1
+        with:
+          packages: |
+            jmespath
       - name: checkout
         uses: actions/checkout@v2
         with:
@@ -50,11 +55,6 @@ jobs:
     strategy:
       fail-fast: false
     steps:
-      - name: Add jmespath
-        uses: BSFishy/pip-action@v1
-        with:
-          packages: |
-            jmespath
       - name: checkout
         uses: actions/checkout@v2
         with:
