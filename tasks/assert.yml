@@ -5,7 +5,7 @@
       - github_account is defined
       - access_token is defined
       - access_token | length > 0
-    fail_msg: "access_token was not fount."
+    fail_msg: "access_token was not found."
   run_once: yes
   tags:
     - install
