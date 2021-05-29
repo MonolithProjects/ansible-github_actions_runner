@@ -38,6 +38,9 @@ runner_name: "{{ ansible_hostname }}"
 # Labels to apply to the runner
 runner_labels: []
 
+# GitHub repository where releases will be downloaded from
+runner_download_repository: "actions/runner"
+
 # Custom service name when usign Github Enterprise server
 # service_name: actions.runner._services.{{ runner_name }}.service
 

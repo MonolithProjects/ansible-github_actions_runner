@@ -11,7 +11,7 @@
 
 - name: Find the latest runner version (RUN ONCE)
   uri:
-    url: "https://api.github.com/repos/actions/runner/releases/latest"
+    url: "https://api.github.com/repos/{{ runner_download_repository }}/releases/latest"
     headers:
       Content-Type: "application/json"
     method: GET
@@ -54,7 +54,7 @@
 
 - name: Download runner package version - "{{ runner_version }}" (RUN ONCE)
   get_url:
-    url: "https://github.com/actions/runner/releases/download/v{{ runner_version }}/\
+    url: "https://github.com/{{ runner_download_repository }}/releases/download/v{{ runner_version }}/\
           actions-runner-linux-{{ github_actions_architecture }}-{{ runner_version }}.tar.gz"
     dest: "{{ runner_pkg_tempdir }}/actions-runner-linux-{{ runner_version }}.tar.gz"
     force: no
