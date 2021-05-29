@@ -41,6 +41,9 @@ runner_labels: []
 # GitHub repository where releases will be downloaded from
 runner_download_repository: "actions/runner"
 
+# extra arguments to pass to `config.sh`
+runner_extra_config_args: ""
+
 # Custom service name when usign Github Enterprise server
 # service_name: actions.runner._services.{{ runner_name }}.service
 
