@@ -85,6 +85,12 @@ runner_name: "{{ ansible_hostname }}"
 # Labels to apply to the runner
 runner_labels: []
 
+# GitHub Actions Runner repository (change it if you want to use custom Actions Runner fork)
+runner_download_repository: "actions/runner"
+
+# Extra arguments to pass to `config.sh`
+runner_extra_config_args: ""
+
 # Custom service name when usign Github Enterprise server
 # service_name: actions.runner._services.{{ runner_name }}.service
 
