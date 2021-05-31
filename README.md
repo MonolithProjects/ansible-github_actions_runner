@@ -36,7 +36,7 @@ Personal Access Token for GitHub account can be created [here](https://github.co
 
 * CentOS/RHEL 7,8
 * Debian 9,10
-* Fedora 32,33
+* Fedora 34
 * Ubuntu 16,18,20
 
   **Note:** Fedora 32+ and Ubuntu 20 must use Ansible 2.9.8+. Other distros/releases will work also with older 2.8.0+ Ansible.
