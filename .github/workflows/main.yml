@@ -1,13 +1,10 @@
 name: molecule test
 
 on:
-    # pull_request:
-    #     branches:
-    #         - master
-    #     types: [opened, synchronize, reopened]
-    push:
+    pull_request:
         branches:
-            - develop
+            - master
+        types: [opened, synchronize, reopened]
     schedule:
         - cron: '0 6 * * 0'
 jobs:
@@ -38,7 +35,7 @@ jobs:
         with:
           path: "${{ github.repository }}"
       - name: Molecule for Ansible - GHR Repository
-        uses: MonolithProjects/action-molecule@v1.4.2
+        uses: MonolithProjects/action-molecule@v1.4.3
         env:
           PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         with:
@@ -58,7 +55,7 @@ jobs:
         with:
           path: "${{ github.repository }}"
       - name: Molecule for Ansible - GHR Organization
-        uses: MonolithProjects/action-molecule@v1.4.2
+        uses: MonolithProjects/action-molecule@v1.4.3
         env:
           PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         with:
