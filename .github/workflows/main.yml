@@ -31,6 +31,8 @@ jobs:
             tag: "latest"
           - os: "ubuntu20"
             tag: "latest"
+          - os: "rockylinux8"
+            tag: "latest"
     steps:
       - name: checkout
         uses: actions/checkout@v2
