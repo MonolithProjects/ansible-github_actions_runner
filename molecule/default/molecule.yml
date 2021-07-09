@@ -1,6 +1,9 @@
 ---
 provisioner:
   name: ansible
+  config_options:
+    defaults:
+      verbosity: 0
   playbooks:
       converge: converge.yml
       cleanup: cleanup.yml
@@ -13,8 +16,8 @@ lint: |
 driver:
   name: docker
 platforms:
-  - name: "${os:-ubuntu16}-${tag:-latest}"
-    image: "${namespace:-monolithprojects}/systemd-${os:-ubuntu16}:${tag:-latest}"
+  - name: "${os:-ubuntu20}-${tag:-latest}"
+    image: "${namespace:-monolithprojects}/systemd-${os:-ubuntu20}:${tag:-latest}"
     command: /sbin/init
     tmpfs:
       - /run

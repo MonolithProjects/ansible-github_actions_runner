@@ -102,6 +102,7 @@
     update_cache: yes
   when: (ansible_distribution == "RedHat") or
         (ansible_distribution == "CentOS") or
-        (ansible_distribution == "Fedora")
+        (ansible_distribution == "Fedora") or
+        (ansible_distribution == "Rocky")
   tags:
     - install

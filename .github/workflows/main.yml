@@ -7,10 +7,12 @@ on:
         types: [opened, synchronize, reopened]
     schedule:
         - cron: '0 6 * * 0'
+    workflow_dispatch:
+    
 jobs:
   repo:
     name: Test Repo Runner
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-18.04
     strategy:
       fail-fast: false
       matrix:
@@ -29,13 +31,15 @@ jobs:
             tag: "latest"
           - os: "ubuntu20"
             tag: "latest"
+          - os: "rockylinux8"
+            tag: "latest"
     steps:
       - name: checkout
         uses: actions/checkout@v2
         with:
           path: "${{ github.repository }}"
       - name: Molecule for Ansible - GHR Repository
-        uses: MonolithProjects/action-molecule@v1.4.2
+        uses: MonolithProjects/action-molecule@v1.4.3
         env:
           PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         with:
@@ -46,7 +50,7 @@ jobs:
 
   org:
     name: Test Org Runner
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-18.04
     strategy:
       fail-fast: false
     steps:
@@ -55,7 +59,7 @@ jobs:
         with:
           path: "${{ github.repository }}"
       - name: Molecule for Ansible - GHR Organization
-        uses: MonolithProjects/action-molecule@v1.4.2
+        uses: MonolithProjects/action-molecule@v1.4.3
         env:
           PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         with:
