@@ -29,7 +29,7 @@ platforms:
 verifier:
   name: ansible
 scenario:
-  name: default
+  name: custom_env
   test_sequence:
     - dependency
     - lint
