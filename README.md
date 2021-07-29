@@ -103,6 +103,15 @@ runner_extra_config_args: ""
 
 # Github repository name
 # github_repo: "yourrepo"
+
+# Configuring a custom .env file
+# custom_env: |
+# http_proxy=YOUR_URL_HERE
+# ftp_proxy=YOUR_URL_HERE
+# HTTPS_PROXY=YOUR_URL_HERE
+# https_proxy=YOUR_URL_HERE
+# no_proxy=localhost,127.0.0.1,127.0.0.2
+# HTTP_PROXY=
 ```
 
 ## Example Playbook
