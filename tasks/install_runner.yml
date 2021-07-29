@@ -83,6 +83,7 @@
     path: "{{ runner_dir }}/.env"
     block: "{{ custom_env }}"
     owner: "{{ runner_user }}"
+    create: yes
     mode: 0755
     marker_begin: "# BEGIN ANSIBLE MANAGED BLOCK"
     marker_end: "# END ANSIBLE MANAGED BLOCK"
