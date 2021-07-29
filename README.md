@@ -8,7 +8,7 @@
 [![License](https://img.shields.io/github/license/MonolithProjects/ansible-github_actions_runner)](https://github.com/MonolithProjects/ansible-github_actions_runner/blob/main/LICENSE)
 
 
-This role will deploy/redeploy/uninstall and register/unregister local GitHub Actions Runner.  
+This role will deploy/redeploy/uninstall and register/unregister local GitHub Actions Runner.
 It supports both, Organization and Repository Runners.
 
 ## Requirements
@@ -148,7 +148,7 @@ Same example as above, but runner will be added to an organization.
 ```
 
 In this example the Ansible role will deploy (or update) the GitHub Actions runner service (version 2.165.2) and register the runner for the GitHub repo. Runner service will run under the user `runner-user`. Runner will be registered with two labels.
-The runner service will be *stopped* and disabled.
+The runner service will be *stopped* and disabled. Runner will use custom environment variables (from file named `.env` in the self-hosted runner application directory).
 
 ```yaml
 ---
@@ -164,6 +164,13 @@ The runner service will be *stopped* and disabled.
     - runner_labels:
         - production
         - west
+    - custom_env: |
+        HTTP_PROXY=http://proxy.local:8080
+        http_proxy=http://proxy.local:8080
+        HTTPS_PROXY=http://proxy.local:8080
+        https_proxy=http://proxy.local:8080
+        no_proxy=localhost,127.0.0.1,127.0.0.2
+
   roles:
     - role: monolithprojects.github_actions_runner
 ```
