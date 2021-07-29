@@ -41,7 +41,7 @@
   tags:
     - install
 
-- name:  Create temporary directory for archive
+- name: Create temporary directory for archive
   file:
     path: "{{ runner_pkg_tempdir }}"
     state: directory
@@ -56,8 +56,9 @@
 
 - name: Download runner package version - "{{ runner_version }}" (RUN ONCE)
   get_url:
-    url: "https://github.com/{{ runner_download_repository }}/releases/download/v{{ runner_version }}/\
-          actions-runner-linux-{{ github_actions_architecture }}-{{ runner_version }}.tar.gz"
+    url:
+      "https://github.com/{{ runner_download_repository }}/releases/download/v{{ runner_version }}/\
+      actions-runner-linux-{{ github_actions_architecture }}-{{ runner_version }}.tar.gz"
     dest: "{{ runner_pkg_tempdir }}/actions-runner-linux-{{ runner_version }}.tar.gz"
     force: no
   run_once: yes
@@ -77,10 +78,21 @@
   tags:
     - install
 
+- name: Configure custom env file if required
+  blockinfile:
+    path: "{{ runner_dir }}/.env"
+    block: "{{ custom_env }}"
+    owner: "{{ runner_user }}"
+    mode: 0755
+    marker_begin: "# BEGIN ANSIBLE MANAGED BLOCK"
+    marker_end: "# END ANSIBLE MANAGED BLOCK"
+  when: custom_env is defined
+
 - name: Register runner (if new installation) for repo
-  command: "{{ runner_dir }}/./config.sh --url {{ github_url }}/{{ github_owner | default(github_account) }}/{{ github_repo }} \
-            --token {{ registration.json.token }} --name {{ runner_name }} --labels {{ runner_labels | join(',') }} --unattended \
-            {{ runner_extra_config_args }}"
+  command:
+    "{{ runner_dir }}/./config.sh --url {{ github_url }}/{{ github_owner | default(github_account) }}/{{ github_repo }} \
+    --token {{ registration.json.token }} --name {{ runner_name }} --labels {{ runner_labels | join(',') }} --unattended \
+    {{ runner_extra_config_args }}"
   args:
     chdir: "{{ runner_dir }}"
   become: yes
@@ -91,8 +103,9 @@
     - install
 
 - name: Register runner (if new installation) for organization
-  command: "{{ runner_dir }}/./config.sh --url {{ github_url }}/{{ github_owner | default(github_account) }} \
-            --token {{ registration.json.token }} --name {{ runner_name }} --labels {{ runner_labels | join(',') }} --unattended"
+  command:
+    "{{ runner_dir }}/./config.sh --url {{ github_url }}/{{ github_owner | default(github_account) }} \
+    --token {{ registration.json.token }} --name {{ runner_name }} --labels {{ runner_labels | join(',') }} --unattended"
   args:
     chdir: "{{ runner_dir }}"
   become: yes
@@ -103,8 +116,9 @@
     - install
 
 - name: Replace registered runner for repo
-  command: "{{ runner_dir }}/config.sh --url {{ github_url }}/{{ github_owner | default(github_account) }}/{{ github_repo }} \
-            --token {{ registration.json.token }} --name {{ runner_name }} --labels {{ runner_labels | join(',') }} --unattended --replace"
+  command:
+    "{{ runner_dir }}/config.sh --url {{ github_url }}/{{ github_owner | default(github_account) }}/{{ github_repo }} \
+    --token {{ registration.json.token }} --name {{ runner_name }} --labels {{ runner_labels | join(',') }} --unattended --replace"
   args:
     chdir: "{{ runner_dir }}"
   become: yes
@@ -115,8 +129,9 @@
     - install
 
 - name: Replace registered runner for organization
-  command: "{{ runner_dir }}/config.sh --url {{ github_url }}/{{ github_owner | default(github_account) }} \
-            --token {{ registration.json.token }} --name {{ runner_name }} --labels {{ runner_labels | join(',') }} --unattended --replace"
+  command:
+    "{{ runner_dir }}/config.sh --url {{ github_url }}/{{ github_owner | default(github_account) }} \
+    --token {{ registration.json.token }} --name {{ runner_name }} --labels {{ runner_labels | join(',') }} --unattended --replace"
   args:
     chdir: "{{ runner_dir }}"
   become: yes

@@ -1,0 +1,43 @@
+---
+provisioner:
+  name: ansible
+  config_options:
+    defaults:
+      verbosity: 0
+  playbooks:
+      converge: converge.yml
+      cleanup: cleanup.yml
+      verify: verify.yml
+dependency:
+  name: galaxy
+lint: |
+  yamllint .
+  ansible-lint .
+driver:
+  name: docker
+platforms:
+  - name: "${os:-ubuntu20}-${tag:-latest}"
+    image: "${namespace:-monolithprojects}/systemd-${os:-ubuntu20}:${tag:-latest}"
+    command: /sbin/init
+    tmpfs:
+      - /run
+      - /tmp
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: yes
+    pre_build_image: yes
+verifier:
+  name: ansible
+scenario:
+  name: default
+  test_sequence:
+    - dependency
+    - lint
+    - destroy
+    - syntax
+    - create
+    - converge
+    - idempotence
+    - verify
+    - cleanup
+    - destroy
