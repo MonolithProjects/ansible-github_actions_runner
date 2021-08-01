@@ -5,7 +5,8 @@
       - github_account is defined
       - access_token is defined
       - access_token | length > 0
-    fail_msg: "access_token was not found."
+      - access_token | regex_search('^ghp_')
+    fail_msg: "access_token was not found or invalid"
   run_once: yes
   tags:
     - install
