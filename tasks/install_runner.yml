@@ -32,7 +32,7 @@
     runner_version: "{{ api_response.json.tag_name | regex_replace('^v', '') }}"
   when: runner_version == "latest"
 
-name: Show the runner_version
+- name: Show the runner_version
   debug:
     msg: "runner_version: {{ runner_version }}"
 
