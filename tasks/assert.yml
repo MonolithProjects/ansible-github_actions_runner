@@ -1,11 +1,31 @@
 ---
-- name: Check variables (RUN ONCE)
+- name: Check github_account variable (RUN ONCE)
   assert:
     that:
       - github_account is defined
+    fail_msg: "github_account is not defined"
+  run_once: yes
+  tags:
+    - install
+    - uninstall
+
+- name: Check access_token variable (RUN ONCE)
+  assert:
+    that:
       - access_token is defined
       - access_token | length > 0
-    fail_msg: "access_token was not found."
+      - access_token | regex_search('^ghp_')
+    fail_msg: "access_token was not found or is using an invalid format."
+  run_once: yes
+  tags:
+    - install
+    - uninstall
+
+- name: Check runner_org variable (RUN ONCE)
+  assert:
+    that:
+      - runner_org == True or runner_org == False
+    fail_msg: "runner_org should be a boolean value"
   run_once: yes
   tags:
     - install
