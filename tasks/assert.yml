@@ -14,7 +14,6 @@
     that:
       - access_token is defined
       - access_token | length > 0
-      - access_token | regex_search('^ghp_')
     fail_msg: "access_token was not found or is using an invalid format."
   run_once: yes
   tags:
