@@ -1,6 +1,6 @@
 ---
 - block:
-  - name: Get registration token (RUN ONCE)
+  - name: Get registration token for organization (RUN ONCE)
     uri:
       url: "{{ github_api_url }}/orgs/{{ github_owner | default(github_account) }}/actions/runners/registration-token"
       headers:
@@ -15,7 +15,7 @@
       - install
       - uninstall
 
-  - name: Check currently registered runners (RUN ONCE)
+  - name: Check currently registered runners for organization (RUN ONCE)
     uri:
       url: "{{ github_api_url }}/orgs/{{ github_owner | default(github_account) }}/actions/runners"
       headers:

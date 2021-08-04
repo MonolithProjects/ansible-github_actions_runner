@@ -32,6 +32,10 @@
     runner_version: "{{ api_response.json.tag_name | regex_replace('^v', '') }}"
   when: runner_version == "latest"
 
+- name: Show the runner_version
+  debug:
+    msg: "runner_version: {{ runner_version }}"
+
 - name: Check if desired version already installed
   command: "grep -i {{ runner_version }} {{ runner_dir }}/bin/Runner.Listener.deps.json"
   register: runner_installed
