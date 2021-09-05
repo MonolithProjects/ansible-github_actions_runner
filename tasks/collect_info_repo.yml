@@ -51,3 +51,13 @@
     tags:
       - install
       - uninstall
+
+  - name: Build service name for GitHub Enterprise Server (Left for backward compatibility. This task will be removed in v1.15)
+    set_fact:
+      runner_service: "{{ service_name }}"
+    when: service_name is defined
+    tags:
+      - install
+      - uninstall
+
+  check_mode: false
