@@ -1,2 +1,3 @@
-skip_list:  
+skip_list:
   - '106'
+  - ignore-errors

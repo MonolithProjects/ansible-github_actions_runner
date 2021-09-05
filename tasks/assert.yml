@@ -29,3 +29,14 @@
   tags:
     - install
     - uninstall
+
+- name: GHES service_name deprecation check (RUN ONCE)
+  assert:
+    that:
+      - service_name is not defined
+    fail_msg: '[DEPRECATION WARNING]: Variable "service_name" will is deprecated and will be removed in release 1.15. Start using "running_on_ghes" boolean variable.'
+  ignore_errors: yes
+  run_once: yes
+  tags:
+    - install
+    - uninstall
