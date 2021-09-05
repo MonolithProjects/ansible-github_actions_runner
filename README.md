@@ -47,6 +47,7 @@ Personal Access Token for GitHub account can be created [here](https://github.co
 This is a copy from `defaults/main.yml`
 
 ```yaml
+---
 # Runner user - user under which is the local runner service running
 runner_user: "{{ lookup('env','USER') }}"
 
@@ -80,9 +81,6 @@ access_token: "{{ lookup('env', 'PERSONAL_ACCESS_TOKEN') }}"
 # Is it the runner for organization or not?
 runner_org: no
 
-# Name to assign to this runner in GitHub (System hostname as default)
-runner_name: "{{ ansible_hostname }}"
-
 # Labels to apply to the runner
 runner_labels: []
 
@@ -92,7 +90,14 @@ runner_download_repository: "actions/runner"
 # Extra arguments to pass to `config.sh`
 runner_extra_config_args: ""
 
+# Name to assign to this runner in GitHub (System hostname as default)
+runner_name: "{{ ansible_hostname }}"
+
+# Will the runner be deployed on Github Enterprise server?
+runner_on_ghes: no
+
 # Custom service name when usign Github Enterprise server
+# DEPRECATED: this variable is deprecated in favor of "runner_on_ghes" and will be removed in release 1.15.
 # service_name: actions.runner._services.{{ runner_name }}.service
 
 # GitHub Repository user or Organization owner used for Runner registration
@@ -132,7 +137,7 @@ Runner service will be stated and will run under the same user as the Ansible is
     - role: monolithprojects.github_actions_runner
 ```
 
-Same example as above, but runner will be added to an organization.
+Same example as above, but runner will be added to an organization and deployed on GitHub Enterprise Server.
 
 ```yaml
 ---
@@ -142,7 +147,8 @@ Same example as above, but runner will be added to an organization.
   become: yes
   vars:
     - github_account: my_awesome_org
-    - runner_org: true
+    - runner_org: yes
+    - runner_on_ghes: yes
   roles:
     - role: monolithprojects.github_actions_runner
 ```

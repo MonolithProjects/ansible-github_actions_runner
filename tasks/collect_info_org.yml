@@ -40,16 +40,15 @@
   - name: Build service name
     set_fact:
       runner_service: "actions.runner.{{ ([( github_owner | default(github_account))[:45], runner_name] | join('.'))[:57]  }}.service"
-    when: service_name is not defined
+    when: not runner_on_ghes
     tags:
       - install
       - uninstall
 
-  - name: Build service name
+  - name: Build service name for GitHub Enterprise Server
     set_fact:
-      runner_service: "{{ service_name }}"
-    when: service_name is defined
+      runner_service: "actions.runner._services.{{ ([( github_owner | default(github_account))[:45], runner_name] | join('.'))[:57]  }}.service"
+    when: runner_on_ghes
     tags:
       - install
       - uninstall
-  check_mode: false
