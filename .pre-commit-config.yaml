@@ -14,7 +14,7 @@ repos:
           args: [-c=.yamllint]
 
     - repo: https://github.com/robertdebock/pre-commit
-      rev: v1.2.3
+      rev: v1.2.4
       hooks:
         - id: ansible_role_find_unused_variable
         - id: ansible_role_find_empty_files
