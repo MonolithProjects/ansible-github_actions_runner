@@ -15,11 +15,14 @@ When you see some issue or have an idea for improvement, [create an issue](https
 
 Click on `fork` on the top-right corner and fork the repository.
 
-## 3. Make the changes
+## 3. Install pre-commit
 
-Do dthe changes in your own GitHub namespace.
+Install [Pre-commit](https://pre-commit.com/#install) software
+## 4. Make the changes
 
-## 4. Test the changes
+Do the changes in your own GitHub namespace.
+
+## 5. Test the changes
 
 **Note:** I will test the role again, so you don't need to do that if you don't want to.
 
@@ -33,7 +36,7 @@ molecule test
 
 > You will need to edit the files in `molecule/default` directory (please do not commit those changes)
 
-## 5. Create a pull request
+## 6. Create a pull request
 
 Please create a pull request into the `develop` branch. Here is [how to do it](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request-from-a-fork).
 
