@@ -6,3 +6,17 @@ repos:
           args: [--allow-multiple-documents]
         - id: end-of-file-fixer
         - id: trailing-whitespace
+
+    - repo: https://github.com/adrienverge/yamllint
+      rev: v1.26.3
+      hooks:
+        - id: yamllint
+          args: [-c=.yamllint]
+
+    - repo: https://github.com/robertdebock/pre-commit
+      rev: v1.2.3
+      hooks:
+        - id: ansible_role_find_unused_variable
+        - id: ansible_role_find_empty_files
+        - id: ansible_role_find_empty_directories
+        - id: ansible_role_fix_readability
