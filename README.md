@@ -87,7 +87,8 @@ runner_labels: []
 # GitHub Actions Runner repository (change it if you want to use custom Actions Runner fork)
 runner_download_repository: "actions/runner"
 
-# Extra arguments to pass to `config.sh`
+# Extra arguments to pass to `config.sh`.
+# Several arguments muste be set as one string (i.e. "--ephemeral --my_special_fork")
 runner_extra_config_args: ""
 
 # Name to assign to this runner in GitHub (System hostname as default)
