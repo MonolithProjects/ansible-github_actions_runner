@@ -20,6 +20,6 @@ jobs:
         with:
           path: "${{ github.repository }}"
       - name: Molecule for Ansible - lint
-        uses: MonolithProjects/action-molecule@v1.4.4
+        uses: MonolithProjects/action-molecule@v1.4.5
         with:
           molecule_command: lint
