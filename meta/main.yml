@@ -22,6 +22,7 @@
           - 32
       - name: Debian
         versions:
+          - bullseye
           - buster
           - stretch
       - name: Ubuntu
