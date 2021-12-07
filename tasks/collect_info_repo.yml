@@ -38,7 +38,7 @@
 
   - name: Build service name for github.com
     set_fact:
-      runner_service: "actions.runner.{{ ([([(github_owner | default(github_account)), github_repo ] | join('-'))[:45], runner_name] | join('.'))[:57] }}.service"
+      runner_service: "actions.runner.{{ ([([(github_owner | default(github_account)), github_repo ] | join('-'))[:45], ( runner_name ) | replace(' ','_')] | join('.'))[:57] }}.service"
     when: not runner_on_ghes
     tags:
       - install
@@ -46,7 +46,7 @@
 
   - name: Build service name for GitHub Enterprise Server
     set_fact:
-      runner_service: "actions.runner._services.{{ runner_name }}.service"
+      runner_service: "actions.runner._services.{{ ( runner_name ) | replace(' ','_') }}.service"
     when: runner_on_ghes
     tags:
       - install
