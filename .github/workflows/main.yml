@@ -8,7 +8,7 @@ on:
     schedule:
         - cron: '0 6 * * 0'
     workflow_dispatch:
-    
+
 jobs:
   repo:
     name: Test Repo Runner
@@ -17,15 +17,11 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - os: "centos7"
-            tag: "latest"
-          - os: "centos8"
-            tag: "latest"
           - os: "debian9"
             tag: "latest"
           - os: "debian10"
             tag: "latest"
-          - os: "fedora34"
+          - os: "fedora35"
             tag: "latest"
           - os: "ubuntu18"
             tag: "latest"

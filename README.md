@@ -34,9 +34,8 @@ Personal Access Token for GitHub account can be created [here](https://github.co
 * AMD64, x86_64
 ## Tested on:
 
-* CentOS/RHEL 7,8
 * Debian 9,10
-* Fedora 34
+* Fedora 35
 * Rocky Linux 8
 * Ubuntu 18,20
 
