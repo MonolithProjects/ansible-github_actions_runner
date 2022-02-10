@@ -35,6 +35,9 @@ runner_org: no
 # Labels to apply to the runner
 runner_labels: []
 
+# Group to add organization runner to
+runner_group: ""
+
 # GitHub Actions Runner repository (change it if you want to use custom Actions Runner fork)
 runner_download_repository: "actions/runner"
 
