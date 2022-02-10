@@ -1,4 +1,5 @@
 ---
+# All dependencies derived from https://github.com/actions/runner/blob/main/docs/start/envlinux.md
 - name: Install dependencies on Debian Stretch
   package:
     pkg:
@@ -26,6 +27,21 @@
     state: present
     update_cache: yes
   when: (ansible_distribution == "Debian" and ansible_distribution_major_version == "10")
+  tags:
+    - install
+
+- name: Install dependencies on Debian Bullseye
+  package:
+    pkg:
+      - acl
+      - liblttng-ust0
+      - libkrb5-3
+      - zlib1g
+      - libssl1.1
+      - libicu67
+    state: present
+    update_cache: yes
+  when: (ansible_distribution == "Debian" and ansible_distribution_major_version == "11")
   tags:
     - install
 
