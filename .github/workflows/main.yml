@@ -21,6 +21,8 @@ jobs:
             tag: "latest"
           - os: "debian10"
             tag: "latest"
+          - os: "debian11"
+            tag: "latest"
           - os: "fedora35"
             tag: "latest"
           - os: "ubuntu18"
