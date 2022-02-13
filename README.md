@@ -34,7 +34,7 @@ Personal Access Token for GitHub account can be created [here](https://github.co
 * AMD64, x86_64
 ## Tested on:
 
-* Debian 9,10
+* Debian 9,10,11
 * Fedora 35
 * Rocky Linux 8
 * Ubuntu 18,20
@@ -82,6 +82,9 @@ runner_org: no
 
 # Labels to apply to the runner
 runner_labels: []
+
+# Group to add organization runner to
+runner_group: ""
 
 # GitHub Actions Runner repository (change it if you want to use custom Actions Runner fork)
 runner_download_repository: "actions/runner"
