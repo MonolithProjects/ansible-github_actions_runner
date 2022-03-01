@@ -33,7 +33,7 @@ jobs:
             tag: "latest"
     steps:
       - name: checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           path: "${{ github.repository }}"
       - name: Molecule for Ansible - GHR Repository
@@ -53,7 +53,7 @@ jobs:
       fail-fast: false
     steps:
       - name: checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           path: "${{ github.repository }}"
       - name: Molecule for Ansible - GHR Organization
