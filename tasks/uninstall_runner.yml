@@ -1,15 +1,21 @@
 ---
+- name: Check if runner service name file exist
+  stat:
+    path: "{{ runner_dir }}/.service"
+  register: runner_service_file_path
+
 - name: Read service name from file
   slurp:
     src: "{{ runner_dir }}/.service"
   register: runner_service
+  when: not runner_service_file_path.stat.exists
 
 - name: Uninstall runner
   command: "./svc.sh uninstall"
   args:
     chdir: "{{ runner_dir }}"
   become: yes
-  when: not runner_service.failed
+  when: not runner_service_file_path.stat.exists
 
 - name: Check GitHub Actions runner file
   stat:
