@@ -9,6 +9,7 @@
   args:
     chdir: "{{ runner_dir }}"
   become: yes
+  when: not runner_service.failed
 
 - name: Check GitHub Actions runner file
   stat:
@@ -20,7 +21,7 @@
   args:
     chdir: "{{ runner_dir }}"
   become_user: "{{ runner_user }}"
-  # no_log: "{{ hide_sensitive_logs | bool }}"
+  no_log: "{{ hide_sensitive_logs | bool }}"
   when: runner_name in registered_runners.json.runners|map(attribute='name')|list and runner_file.stat.exists
 
 - name: Delete runner directory
