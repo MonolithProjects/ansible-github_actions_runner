@@ -142,7 +142,7 @@
     state: started
     enabled: yes
   ignore_errors: "{{ ansible_check_mode }}"
-  when: runner_version in runner_installed.stdout and runner_state|lower == "started"
+  when: runner_state|lower == "started"
 
 - name: STOP and disable Github Actions Runner service
   systemd:
@@ -150,7 +150,7 @@
     state: stopped
     enabled: no
   ignore_errors: "{{ ansible_check_mode }}"
-  when: runner_version in runner_installed.stdout and runner_state|lower == "stopped"
+  when: runner_state|lower == "stopped"
 
 - name: Version changed - RESTART Github Actions Runner service
   systemd:
