@@ -96,9 +96,6 @@ runner_extra_config_args: ""
 # Name to assign to this runner in GitHub (System hostname as default)
 runner_name: "{{ ansible_hostname }}"
 
-# Will the runner be deployed on Github Enterprise server?
-runner_on_ghes: no
-
 # Custom service name when using Github Enterprise server
 # DEPRECATED: this variable is deprecated in favor of "runner_on_ghes" and will be removed in release 1.15.
 # service_name: actions.runner._services.{{ runner_name }}.service

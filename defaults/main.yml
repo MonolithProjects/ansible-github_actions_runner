@@ -48,9 +48,6 @@ runner_extra_config_args: ""
 # Name to assign to this runner in GitHub (System hostname as default)
 runner_name: "{{ ansible_hostname }}"
 
-# Will the runner be deployed on Github Enterprise server?
-runner_on_ghes: no
-
 # GitHub Repository user or Organization owner used for Runner registration
 # github_account: "youruser"
 
