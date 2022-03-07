@@ -7,7 +7,6 @@
     - runner_user: ansible
     - github_repo: ansible-github_actions_runner-testrepo
     - github_account: monolithprojects-testorg
-    - runner_name: test_runner
     - runner_state: absent
   roles:
     - ansible-github_actions_runner
