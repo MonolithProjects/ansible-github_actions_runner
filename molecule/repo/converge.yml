@@ -9,7 +9,7 @@
     - github_repo: ansible-github_actions_runner-testrepo
     - github_account: monolithprojects-testorg
     - runner_version: "latest"
-    - runner_labels: 
+    - runner_labels:
         - label1
         - repo-runner
   roles:

@@ -12,8 +12,6 @@
     state: present
     update_cache: yes
   when: (ansible_distribution == "Debian" and ansible_distribution_major_version == "9")
-  tags:
-    - install
 
 - name: Install dependencies on Debian Buster
   package:
@@ -27,8 +25,6 @@
     state: present
     update_cache: yes
   when: (ansible_distribution == "Debian" and ansible_distribution_major_version == "10")
-  tags:
-    - install
 
 - name: Install dependencies on Debian Bullseye
   package:
@@ -42,8 +38,6 @@
     state: present
     update_cache: yes
   when: (ansible_distribution == "Debian" and ansible_distribution_major_version == "11")
-  tags:
-    - install
 
 - name: Install dependencies on Ubuntu Xenial systems
   package:
@@ -57,8 +51,6 @@
     state: present
     update_cache: yes
   when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "16")
-  tags:
-    - install
 
 - name: Install dependencies on Ubuntu Bionic systems
   package:
@@ -72,8 +64,6 @@
     state: present
     update_cache: yes
   when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "18")
-  tags:
-    - install
 
 - name: Install dependencies on Ubuntu Focal systems
   package:
@@ -87,8 +77,6 @@
     state: present
     update_cache: yes
   when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "20")
-  tags:
-    - install
 
 - name: Install dependencies on RHEL/CentOS/Fedora systems
   package:
@@ -105,5 +93,3 @@
         (ansible_distribution == "CentOS") or
         (ansible_distribution == "Fedora") or
         (ansible_distribution == "Rocky")
-  tags:
-    - install
