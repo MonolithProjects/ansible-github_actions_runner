@@ -1,55 +1,29 @@
 ---
-- name: Stop and disable GitHub Actions Runner service
-  systemd:
-    name: "{{ runner_service }}"
-    state: stopped
-    enabled: no
-  when: runner_service in services and ( reinstall_runner or runner_state == "stopped" or runner_state == "absent" )
-  tags:
-    - uninstall
+- name: Read service name from file
+  slurp:
+    src: "{{ runner_dir }}/.service"
+  register: runner_service
 
-- name: Remove GitHub Actions Runner service
-  file:
-    path: "{{ item }}"
-    state: absent
-  with_items:
-    - "/etc/systemd/system/{{ runner_service }}"
-    - "{{ runner_dir }}/.service"
-  tags:
-    - uninstall
-
-- name: Reload systemd
-  systemd:
-    daemon_reload: yes
-  tags:
-    - uninstall
-
-- name: Refresh services facts
-  service_facts:
-  tags:
-    - uninstall
+- name: Uninstall runner
+  command: "./svc.sh uninstall"
+  args:
+    chdir: "{{ runner_dir }}"
+  become: yes
 
 - name: Check GitHub Actions runner file
   stat:
     path: "{{ runner_dir }}/.runner"
   register: runner_file
-  tags:
-    - uninstall
 
 - name: Unregister runner from the GitHub
   command: "./config.sh remove --token {{ registration.json.token }} --name {{ runner_name }} --unattended"
   args:
     chdir: "{{ runner_dir }}"
-  become: yes
   become_user: "{{ runner_user }}"
-  no_log: "{{ hide_sensitive_logs | bool }}"
+  # no_log: "{{ hide_sensitive_logs | bool }}"
   when: runner_name in registered_runners.json.runners|map(attribute='name')|list and runner_file.stat.exists
-  tags:
-    - uninstall
 
 - name: Delete runner directory
   file:
     path: "{{ runner_dir }}"
     state: absent
-  tags:
-    - uninstall

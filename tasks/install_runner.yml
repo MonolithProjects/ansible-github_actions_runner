@@ -5,9 +5,6 @@
     state: directory
     mode: 0755
     owner: "{{ runner_user }}"
-    # group: "{{ runner_user }}"
-  tags:
-    - install
 
 - name: Find the latest runner version (RUN ONCE)
   uri:
@@ -24,17 +21,11 @@
   become: false
   delegate_to: localhost
   when: runner_version == "latest"
-  tags:
-    - install
 
-- name: Set runner_version variable (if it is latest)
+- name: Set runner_version variable (If latest)
   set_fact:
     runner_version: "{{ api_response.json.tag_name | regex_replace('^v', '') }}"
   when: runner_version == "latest"
-
-- name: Show the runner_version
-  debug:
-    msg: "runner_version: {{ runner_version }}"
 
 - name: Check if desired version already installed
   command: "grep -i {{ runner_version }} {{ runner_dir }}/bin/Runner.Listener.deps.json"
@@ -42,8 +33,6 @@
   check_mode: false
   changed_when: False
   ignore_errors: yes
-  tags:
-    - install
 
 - name: Create temporary directory for archive
   file:
@@ -55,8 +44,6 @@
   delegate_to: localhost
   become: false
   when: runner_version not in runner_installed.stdout
-  tags:
-    - install
 
 - name: Download runner package version - "{{ runner_version }}" (RUN ONCE)
   get_url:
@@ -69,8 +56,6 @@
   become: false
   delegate_to: localhost
   when: runner_version not in runner_installed.stdout or reinstall_runner
-  tags:
-    - install
 
 - name: Unarchive package
   unarchive:
@@ -79,8 +64,6 @@
     owner: "{{ runner_user }}"
     mode: 0755
   when: runner_version not in runner_installed.stdout or reinstall_runner
-  tags:
-    - install
 
 - name: Configure custom env file if required
   blockinfile:
@@ -93,87 +76,85 @@
     marker_end: "# END ANSIBLE MANAGED BLOCK"
   when: custom_env is defined
 
-- name: Register runner (if new installation) for repo
+- name: Check if runner service name file exist
+  stat:
+    path: "{{ runner_dir }}/.service"
+  register: runner_service_file_path
+
+- name: Set complete GitHub url for repo runner
+  set_fact:
+    github_full_url: "{{ github_url }}/{{ github_owner | default(github_account) }}/{{ github_repo }}"
+  when: not runner_org
+
+- name: Set complete GitHub url for org runner
+  set_fact:
+    github_full_url: "{{ github_url }}/{{ github_owner | default(github_account) }}"
+  when: runner_org | bool
+
+- name: Register runner
   command:
-    "{{ runner_dir }}/./config.sh --url {{ github_url }}/{{ github_owner | default(github_account) }}/{{ github_repo }} \
-    --token {{ registration.json.token }} --name {{ runner_name }} --labels {{ runner_labels | join(',') }} --unattended \
+    "{{ runner_dir }}/./config.sh \
+    --url {{ github_full_url }} \
+    --token {{ registration.json.token }} \
+    --name {{ runner_name }} \
+    --labels {{ runner_labels | join(',') }} \
+    --runnergroup {{ runner_group }} \
+    --unattended \
     {{ runner_extra_config_args }}"
   args:
     chdir: "{{ runner_dir }}"
   become: yes
   become_user: "{{ runner_user }}"
   no_log: "{{ hide_sensitive_logs | bool }}"
-  when: runner_name not in registered_runners.json.runners|map(attribute='name')|list and not runner_org
-  tags:
-    - install
+  when: runner_name not in registered_runners.json.runners|map(attribute='name')|list
 
-- name: Register runner (if new installation) for organization
+- name: Replace registered runner
   command:
-    "{{ runner_dir }}/./config.sh --url {{ github_url }}/{{ github_owner | default(github_account) }} \
-    --token {{ registration.json.token }} --name {{ runner_name }} --labels {{ runner_labels | join(',') }} \
-    --runnergroup {{ runner_group }} --unattended \
-    {{ runner_extra_config_args }}"
-  args:
-    chdir: "{{ runner_dir }}"
-  become: yes
-  become_user: "{{ runner_user }}"
-  no_log: "{{ hide_sensitive_logs | bool }}"
-  when: runner_name not in registered_runners.json.runners|map(attribute='name')|list and runner_org
-  tags:
-    - install
-
-- name: Replace registered runner for repo
-  command:
-    "{{ runner_dir }}/config.sh --url {{ github_url }}/{{ github_owner | default(github_account) }}/{{ github_repo }} \
-    --token {{ registration.json.token }} --name {{ runner_name }} --labels {{ runner_labels | join(',') }} --unattended \
-    {{ runner_extra_config_args }} --replace"
+    "{{ runner_dir }}/config.sh \
+    --url {{ github_full_url }} \
+    --token {{ registration.json.token }} \
+    --name {{ runner_name }} \
+    --labels {{ runner_labels | join(',') }} \
+    --unattended \
+    {{ runner_extra_config_args }} \
+    --replace"
   args:
     chdir: "{{ runner_dir }}"
   become: yes
   become_user: "{{ runner_user }}"
   no_log: "{{ hide_sensitive_logs | bool }}"
   when: runner_name in registered_runners.json.runners|map(attribute='name')|list and reinstall_runner and not runner_org
-  tags:
-    - install
-
-- name: Replace registered runner for organization
-  command:
-    "{{ runner_dir }}/config.sh --url {{ github_url }}/{{ github_owner | default(github_account) }} \
-    --token {{ registration.json.token }} --name {{ runner_name }} --labels {{ runner_labels | join(',') }} \
-    --runnergroup {{ runner_group }} --unattended {{ runner_extra_config_args }} --replace"
-  args:
-    chdir: "{{ runner_dir }}"
-  become: yes
-  become_user: "{{ runner_user }}"
-  no_log: "{{ hide_sensitive_logs | bool }}"
-  when: runner_name in registered_runners.json.runners|map(attribute='name')|list and reinstall_runner and runner_org
-  tags:
-    - install
 
 - name: Install service
   command: "./svc.sh install {{ runner_user }}"
   args:
     chdir: "{{ runner_dir }}"
-  when: runner_service not in services
-  tags:
-    - install
+  when: not runner_service_file_path.stat.exists
+
+- name: Read service name from file
+  slurp:
+    src: "{{ runner_dir }}/.service"
+  register: runner_service
 
 - name: START and enable Github Actions Runner service
   systemd:
-    name: "{{ runner_service }}"
+    name: "{{ runner_service.content | b64decode | replace('\n', '') }}"
     state: started
     enabled: yes
   ignore_errors: "{{ ansible_check_mode }}"
-  when: runner_state|lower == "started"
-  tags:
-    - install
+  when: runner_version in runner_installed.stdout and runner_state|lower == "started"
 
 - name: STOP and disable Github Actions Runner service
   systemd:
-    name: "{{ runner_service }}"
+    name: "{{ runner_service.content | b64decode | replace('\n', '') }}"
     state: stopped
     enabled: no
   ignore_errors: "{{ ansible_check_mode }}"
-  when: runner_state|lower == "stopped"
-  tags:
-    - install
+  when: runner_version in runner_installed.stdout and runner_state|lower == "stopped"
+
+- name: Version changed - RESTART Github Actions Runner service
+  systemd:
+    name: "{{ runner_service.content | b64decode | replace('\n', '') }}"
+    state: restarted
+  ignore_errors: "{{ ansible_check_mode }}"
+  when: runner_version not in runner_installed.stdout and not runner_state|lower == "stopped"

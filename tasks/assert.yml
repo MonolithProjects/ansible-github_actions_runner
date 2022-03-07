@@ -5,9 +5,6 @@
       - github_account is defined
     fail_msg: "github_account is not defined"
   run_once: yes
-  tags:
-    - install
-    - uninstall
 
 - name: Check access_token variable (RUN ONCE)
   assert:
@@ -16,9 +13,6 @@
       - access_token | length > 0
     fail_msg: "access_token was not found or is using an invalid format."
   run_once: yes
-  tags:
-    - install
-    - uninstall
 
 - name: Check runner_org variable (RUN ONCE)
   assert:
@@ -26,17 +20,3 @@
       - runner_org == True or runner_org == False
     fail_msg: "runner_org should be a boolean value"
   run_once: yes
-  tags:
-    - install
-    - uninstall
-
-- name: GHES service_name deprecation check (RUN ONCE)
-  assert:
-    that:
-      - service_name is not defined
-    fail_msg: '[DEPRECATION WARNING]: Variable "service_name" will is deprecated and will be removed in release 1.15. Start using "running_on_ghes" boolean variable.'
-  ignore_errors: yes
-  run_once: yes
-  tags:
-    - install
-    - uninstall
