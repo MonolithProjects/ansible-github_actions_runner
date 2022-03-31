@@ -17,6 +17,6 @@
 - name: Check runner_org variable (RUN ONCE)
   assert:
     that:
-      - runner_org == True or runner_org == False
+      - runner_org | bool == True or runner_org == False
     fail_msg: "runner_org should be a boolean value"
   run_once: yes
