@@ -3,6 +3,7 @@ name: molecule test
 on:
     pull_request:
         branches:
+            - main
             - master
         types: [opened, synchronize, reopened]
     schedule:
