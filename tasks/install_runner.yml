@@ -96,7 +96,7 @@
     "{{ runner_dir }}/./config.sh \
     --url {{ github_full_url }} \
     --token {{ registration.json.token }} \
-    --name {{ runner_name }} \
+    --name '{{ runner_name }}' \
     --labels {{ runner_labels | join(',') }} \
     --runnergroup {{ runner_group }} \
     --unattended \
