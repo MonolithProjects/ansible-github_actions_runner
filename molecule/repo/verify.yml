@@ -38,6 +38,6 @@
         quiet: true
 
     - name: Check Labels (skipped if labels are OK)
-      fail: 
+      fail:
         msg: Woops some labels differ "{{ (registered_runners.json.runners.0 | json_query('labels[*].name') | difference(['self-hosted', 'Linux', 'X64', 'label1', 'repo-runner'])) }}"
       when: not (registered_runners.json.runners.0 | json_query('labels[*].name') | list ) == (['self-hosted', 'Linux', 'X64', 'label1', 'repo-runner'] | list)

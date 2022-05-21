@@ -3,7 +3,7 @@ provisioner:
   name: ansible
   playbooks:
       converge: converge.yml
-      cleanup: cleanup.yml 
+      cleanup: cleanup.yml
       verify: verify.yml
 dependency:
   name: galaxy
