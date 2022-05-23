@@ -21,6 +21,7 @@ Export the token to the local host environment.
 Personal Access Token for GitHub account can be created [here](https://github.com/settings/tokens).
 
 > **Warning**
+
 > Never store you personal access token in the GitHub repository. Use [GitHub Secrets](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets) or some different secrets service.
 
 * Runner user has to be pre-created.
