@@ -17,6 +17,8 @@ It supports both, Organization and Repository Runners.
 
 * The role require Personal Access Token to access the GitHub. The token has to be a value of `PERSONAL_ACCESS_TOKEN` variable.
 Export the token to the local host environment.
+
+> **Note**  
 > The token must have the `repo` scope (when creating a repo runner) or the `admin:org` scope (when creating a runner for an organization).
 Personal Access Token for GitHub account can be created [here](https://github.com/settings/tokens).
 
