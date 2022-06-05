@@ -14,7 +14,8 @@ on:
 jobs:
   repo:
     name: Test Repo Runner
-    environment: 'test'
+    environment:
+      name: test
     runs-on: ubuntu-18.04
     strategy:
       fail-fast: false
@@ -41,8 +42,8 @@ jobs:
           path: "${{ github.repository }}"
       - name: Molecule for Ansible - GHR Repository
         uses: MonolithProjects/action-molecule@v1.4.5
-        env:
-          PERSONAL_ACCESS_TOKEN: ${{ env.PERSONAL_ACCESS_TOKEN }}
+        # env:
+        #   PERSONAL_ACCESS_TOKEN: ${{ env.PERSONAL_ACCESS_TOKEN }}
         with:
           os: ${{ matrix.config.os }}
           tag: ${{ matrix.config.tag }}
@@ -51,7 +52,8 @@ jobs:
 
   org:
     name: Test Org Runner
-    environment: 'test'
+    environment:
+      name: test
     runs-on: ubuntu-18.04
     strategy:
       fail-fast: false
@@ -62,8 +64,8 @@ jobs:
           path: "${{ github.repository }}"
       - name: Molecule for Ansible - GHR Organization
         uses: MonolithProjects/action-molecule@v1.4.5
-        env:
-          PERSONAL_ACCESS_TOKEN: ${{ env.PERSONAL_ACCESS_TOKEN }}
+        # env:
+        #   PERSONAL_ACCESS_TOKEN: ${{ env.PERSONAL_ACCESS_TOKEN }}
         with:
           molecule_command: test
           scenario: org
