@@ -13,7 +13,8 @@ on:
 jobs:
   repo:
     name: Test Repo Runner
-    environment: 'test'
+    environment:
+      name: test
     runs-on: ubuntu-18.04
     strategy:
       fail-fast: false
@@ -50,7 +51,8 @@ jobs:
 
   org:
     name: Test Org Runner
-    environment: 'test'
+    environment:
+      name: test
     runs-on: ubuntu-18.04
     strategy:
       fail-fast: false
