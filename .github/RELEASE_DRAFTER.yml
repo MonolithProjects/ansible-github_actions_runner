@@ -12,6 +12,8 @@ categories:
       - 'bug'
   - title: 'Documentation'
     label: 'documentation'
+  - title: 'CI'
+    label: 'ci'
 change-template: '- $TITLE, by @$AUTHOR (#$NUMBER)'
 template: |
   # What's changed
