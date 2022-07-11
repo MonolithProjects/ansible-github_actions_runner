@@ -1,23 +1,23 @@
 ---
 - name: Check if runner service name file exist
-  stat:
+  ansible.builtin.stat:
     path: "{{ runner_dir }}/.service"
   register: runner_service_file_path
 
 - name: Uninstall runner
-  command: "./svc.sh uninstall"
+  ansible.builtin.command: "./svc.sh uninstall"
   args:
     chdir: "{{ runner_dir }}"
   become: yes
   when: runner_service_file_path.stat.exists
 
 - name: Check GitHub Actions runner file
-  stat:
+  ansible.builtin.stat:
     path: "{{ runner_dir }}/.runner"
   register: runner_file
 
 - name: Unregister runner from the GitHub
-  command: "./config.sh remove --token {{ registration.json.token }} --name '{{ runner_name }}' --unattended"
+  ansible.builtin.command: "./config.sh remove --token {{ registration.json.token }} --name '{{ runner_name }}' --unattended"
   args:
     chdir: "{{ runner_dir }}"
   become: yes
@@ -26,6 +26,6 @@
   when: runner_name in registered_runners.json.runners|map(attribute='name')|list and runner_file.stat.exists
 
 - name: Delete runner directory
-  file:
+  ansible.builtin.file:
     path: "{{ runner_dir }}"
     state: absent

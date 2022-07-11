@@ -1,7 +1,7 @@
 ---
 # All dependencies derived from https://github.com/actions/runner/blob/main/docs/start/envlinux.md
 - name: Install dependencies on Debian Stretch
-  package:
+  ansible.builtin.package:
     pkg:
       - acl
       - liblttng-ust0
@@ -14,7 +14,7 @@
   when: (ansible_distribution == "Debian" and ansible_distribution_major_version == "9")
 
 - name: Install dependencies on Debian Buster
-  package:
+  ansible.builtin.package:
     pkg:
       - acl
       - liblttng-ust0
@@ -27,7 +27,7 @@
   when: (ansible_distribution == "Debian" and ansible_distribution_major_version == "10")
 
 - name: Install dependencies on Debian Bullseye
-  package:
+  ansible.builtin.package:
     pkg:
       - acl
       - liblttng-ust0
@@ -40,7 +40,7 @@
   when: (ansible_distribution == "Debian" and ansible_distribution_major_version == "11")
 
 - name: Install dependencies on Ubuntu Xenial systems
-  package:
+  ansible.builtin.package:
     pkg:
       - acl
       - liblttng-ust0
@@ -53,7 +53,7 @@
   when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "16")
 
 - name: Install dependencies on Ubuntu Bionic systems
-  package:
+  ansible.builtin.package:
     pkg:
       - acl
       - liblttng-ust0
@@ -66,7 +66,7 @@
   when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "18")
 
 - name: Install dependencies on Ubuntu Focal systems
-  package:
+  ansible.builtin.package:
     pkg:
       - acl
       - liblttng-ust0
@@ -79,7 +79,7 @@
   when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "20")
 
 - name: Install dependencies on RHEL/CentOS/Fedora systems
-  package:
+  ansible.builtin.package:
     name:
       - acl
       - lttng-ust

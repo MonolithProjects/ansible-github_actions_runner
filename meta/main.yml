@@ -6,7 +6,7 @@
     description: Deploy Github Actions private runner
     company: MonolithProjects
     license: "license (MIT)"
-    min_ansible_version: 2.9.8
+    min_ansible_version: 2.10
     platforms:
       - name: EL
         versions:

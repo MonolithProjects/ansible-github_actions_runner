@@ -1,30 +1,30 @@
 ---
 - name: Include Assert tasks
-  include_tasks: assert.yml
+  ansible.builtin.include_tasks: assert.yml
   tags:
     - install
     - uninstall
 
 - name: Include Information collection taks
-  include_tasks: collect_info.yml
+  ansible.builtin.include_tasks: collect_info.yml
   tags:
     - install
     - uninstall
 
 - name: Include tasks to install dependencies
-  include_tasks: install_deps.yml
+  ansible.builtin.include_tasks: install_deps.yml
   when: runner_state|lower == "started" or runner_state|lower == "stopped"
   tags:
     - install
 
 - name: Include tasks to uninstall runner
-  include_tasks: uninstall_runner.yml
+  ansible.builtin.include_tasks: uninstall_runner.yml
   when: reinstall_runner or runner_state|lower == "absent"
   tags:
     - uninstall
 
 - name: Include tasks to install runner
-  include_tasks: install_runner.yml
+  ansible.builtin.include_tasks: install_runner.yml
   when: runner_state|lower == "started" or runner_state|lower == "stopped"
   tags:
     - install

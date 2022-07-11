@@ -56,9 +56,6 @@ runner_user: "{{ lookup('env','USER') }}"
 # Directory where the local runner will be installed
 runner_dir: /opt/actions-runner
 
-# Directory where the runner package will be dowloaded
-runner_pkg_tempdir: /tmp/gh_actions_runner
-
 # Version of the GitHub Actions Runner
 runner_version: "latest"
 
