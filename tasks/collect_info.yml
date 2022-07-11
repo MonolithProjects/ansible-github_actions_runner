@@ -1,17 +1,17 @@
 ---
 - block:
   - name: Set complete API url for repo runner
-    set_fact:
+    ansible.builtin.set_fact:
       github_full_api_url: "{{ github_api_url }}/repos/{{ github_owner | default(github_account) }}/{{ github_repo }}/actions/runners"
     when: not runner_org
 
   - name: Set complete API url for org runner
-    set_fact:
+    ansible.builtin.set_fact:
       github_full_api_url: "{{ github_api_url }}/orgs/{{ github_owner | default(github_account) }}/actions/runners"
     when: runner_org | bool
 
   - name: Get registration token (RUN ONCE)
-    uri:
+    ansible.builtin.uri:
       url: "{{ github_full_api_url }}/registration-token"
       headers:
         Authorization: "token {{ access_token }}"
@@ -23,7 +23,7 @@
     run_once: yes
 
   - name: Check currently registered runners for repo (RUN ONCE)
-    uri:
+    ansible.builtin.uri:
       url: "{{ github_full_api_url }}"
       headers:
         Authorization: "token {{ access_token }}"
@@ -35,6 +35,6 @@
     run_once: yes
 
   - name: Check service facts
-    service_facts:
+    ansible.builtin.service_facts:
 
   check_mode: false

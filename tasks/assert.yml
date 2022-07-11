@@ -1,13 +1,13 @@
 ---
 - name: Check github_account variable (RUN ONCE)
-  assert:
+  ansible.builtin.assert:
     that:
       - github_account is defined
     fail_msg: "github_account is not defined"
   run_once: yes
 
 - name: Check access_token variable (RUN ONCE)
-  assert:
+  ansible.builtin.assert:
     that:
       - access_token is defined
       - access_token | length > 0
@@ -15,7 +15,7 @@
   run_once: yes
 
 - name: Check runner_org variable (RUN ONCE)
-  assert:
+  ansible.builtin.assert:
     that:
       - runner_org | bool == True or runner_org == False
     fail_msg: "runner_org should be a boolean value"

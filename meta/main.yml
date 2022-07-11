@@ -1,40 +1,29 @@
 ---
-  galaxy_info:
-    author: Michal Muransky
-    role_name: github_actions_runner
-    namespace: monolithprojects
-    description: Deploy Github Actions private runner
-    company: MonolithProjects
-    license: "license (MIT)"
-    min_ansible_version: 2.9.8
-    platforms:
-      - name: EL
-        versions:
-          - 6
-          - 7
-          - 8
-      - name: Fedora
-        versions:
-          - 31
-          - 32
-          - 33
-          - 34
-          - 35
-          - 36
-      - name: Debian
-        versions:
-          - bullseye
-          - buster
-          - stretch
-      - name: Ubuntu
-        versions:
-          - xenial
-          - bionic
-          - focal
-    galaxy_tags:
-      - github
-      - actions
-      - private
-      - local
-      - runner
-      - cicd
+galaxy_info:
+  author: Michal Muransky
+  role_name: github_actions_runner
+  namespace: monolithprojects
+  description: Deploy Github Actions private runner
+  company: MonolithProjects
+  license: "license (MIT)"
+  min_ansible_version: "2.10"
+  platforms:
+    - name: EL
+      versions:
+        - all
+    - name: Fedora
+      versions:
+        - all
+    - name: Debian
+      versions:
+        - all
+    - name: Ubuntu
+      versions:
+        - all
+  galaxy_tags:
+    - github
+    - actions
+    - private
+    - local
+    - runner
+    - cicd

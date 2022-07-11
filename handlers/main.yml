@@ -1,6 +1,6 @@
 ---
 # handlers file for ansible-github_actions_runner (currently not used)
 - name: Restart runner service
-  service:
-   name: "{{ runner_service }}"
-   state: restarted
+  ansible.builtin.service:
+    name: "{{ runner_service }}"
+    state: restarted
