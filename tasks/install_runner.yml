@@ -17,7 +17,7 @@
     body_format: json
   check_mode: false
   register: api_response
-  run_once: yes
+  run_once: true
   become: false
   delegate_to: localhost
   when: runner_version == "latest"
@@ -31,34 +31,18 @@
   ansible.builtin.command: "grep -i {{ runner_version }} {{ runner_dir }}/bin/Runner.Listener.deps.json"
   register: runner_installed
   check_mode: false
-  changed_when: False
-  ignore_errors: yes
+  changed_when: false
+  ignore_errors: true
 
-- name: Create temporary directory for archive
-  ansible.builtin.tempfile:
-    state: directory
-    suffix: runner
-  become: false
-  register: temp_dir
-  when: runner_version not in runner_installed.stdout
-
-- name: Download runner package version - "{{ runner_version }}" (RUN ONCE)
-  ansible.builtin.get_url:
-    url:
-      "https://github.com/{{ runner_download_repository }}/releases/download/v{{ runner_version }}/\
-      actions-runner-linux-{{ github_actions_architecture }}-{{ runner_version }}.tar.gz"
-    dest: "{{ temp_dir.path }}/actions-runner-linux-{{ runner_version }}.tar.gz"
-    force: no
-  become: false
-  when: runner_version not in runner_installed.stdout or reinstall_runner
-
-- name: Unarchive package
+- name: Unarchive runner package
   ansible.builtin.unarchive:
-    src: "{{ temp_dir.path }}/actions-runner-linux-{{ runner_version }}.tar.gz"
+    src: "https://github.com/{{ runner_download_repository }}/releases/download/v{{ runner_version }}/\
+          actions-runner-linux-{{ github_actions_architecture }}-{{ runner_version }}.tar.gz"
     dest: "{{ runner_dir }}/"
     owner: "{{ runner_user }}"
     remote_src: yes
     mode: 0755
+  become: true
   when: runner_version not in runner_installed.stdout or reinstall_runner
 
 - name: Configure custom env file if required
@@ -88,6 +72,8 @@
   when: runner_org | bool
 
 - name: Register runner
+  environment:
+    RUNNER_ALLOW_RUNASROOT: "1"
   ansible.builtin.command:
     "{{ runner_dir }}/./config.sh \
     --url {{ github_full_url }} \
@@ -99,12 +85,14 @@
     {{ runner_extra_config_args }}"
   args:
     chdir: "{{ runner_dir }}"
-  become: yes
+  become: true
   become_user: "{{ runner_user }}"
   no_log: "{{ hide_sensitive_logs | bool }}"
   when: runner_name not in registered_runners.json.runners|map(attribute='name')|list
 
 - name: Replace registered runner
+  environment:
+    RUNNER_ALLOW_RUNASROOT: "1"
   ansible.builtin.command:
     "{{ runner_dir }}/config.sh \
     --url {{ github_full_url }} \
@@ -116,7 +104,7 @@
     --replace"
   args:
     chdir: "{{ runner_dir }}"
-  become: yes
+  become: true
   become_user: "{{ runner_user }}"
   no_log: "{{ hide_sensitive_logs | bool }}"
   when: runner_name in registered_runners.json.runners|map(attribute='name')|list and reinstall_runner and not runner_org

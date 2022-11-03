@@ -4,7 +4,7 @@
     that:
       - github_account is defined
     fail_msg: "github_account is not defined"
-  run_once: yes
+  run_once: true
 
 - name: Check access_token variable (RUN ONCE)
   ansible.builtin.assert:
@@ -12,11 +12,11 @@
       - access_token is defined
       - access_token | length > 0
     fail_msg: "access_token was not found or is using an invalid format."
-  run_once: yes
+  run_once: true
 
 - name: Check runner_org variable (RUN ONCE)
   ansible.builtin.assert:
     that:
       - runner_org | bool == True or runner_org == False
     fail_msg: "runner_org should be a boolean value"
-  run_once: yes
+  run_once: true
