@@ -20,7 +20,7 @@
       status_code: 201
       force_basic_auth: yes
     register: registration
-    run_once: yes
+    run_once: true
 
   - name: Check currently registered runners for repo (RUN ONCE)
     ansible.builtin.uri:
@@ -32,7 +32,7 @@
       status_code: 200
       force_basic_auth: yes
     register: registered_runners
-    run_once: yes
+    run_once: true
 
   - name: Check service facts
     ansible.builtin.service_facts:
