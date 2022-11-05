@@ -4,9 +4,6 @@ on:
   pull_request_review:
     types:
       - submitted
-    branches:
-        - main
-        - master
     paths:
       - 'defaults/**'
       - 'handlers/**'
@@ -16,9 +13,6 @@ on:
   pull_request:
     types:
       - assigned
-    branches:
-        - main
-        - master
     paths:
       - 'defaults/**'
       - 'handlers/**'
