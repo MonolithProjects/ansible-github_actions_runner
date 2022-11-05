@@ -1,20 +1,15 @@
 name: molecule test
 
 on:
-    pull_request:
-        branches:
-            - main
-            - master
-        types: [opened, synchronize, reopened]
-        paths:
-          - 'defaults/**'
-          - 'handlers/**'
-          - 'molecule/**'
-          - 'tasks/**'
-          - 'vars/**'
-    schedule:
-        - cron: '0 6 * * 0'
-    workflow_dispatch:
+  pull_request_review:
+    types:
+      - submitted
+  pull_request:
+    types:
+      - assigned
+  schedule:
+      - cron: '0 6 * * 0'
+  workflow_dispatch:
 
 jobs:
   repo:
