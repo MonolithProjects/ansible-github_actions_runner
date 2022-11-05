@@ -1,15 +1,15 @@
 name: molecule test
 
 on:
-  pull_request_review:
-    types:
-      - submitted
-    paths:
-      - 'defaults/**'
-      - 'handlers/**'
-      - 'molecule/**'
-      - 'tasks/**'
-      - 'vars/**'
+  # pull_request_review:
+  #   types:
+  #     - submitted
+  #   paths:
+  #     - 'defaults/**'
+  #     - 'handlers/**'
+  #     - 'molecule/**'
+  #     - 'tasks/**'
+  #     - 'vars/**'
   pull_request:
     types:
       - assigned
