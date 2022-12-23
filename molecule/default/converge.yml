@@ -8,7 +8,7 @@
     - runner_user: ansible
     - github_repo: ansible-github_actions_runner-testrepo
     - github_account: monolithprojects-testorg
-    - runner_version: latest
+    - runner_version: "latest"
     - runner_name: test_name
     - runner_on_ghes: yes
     - reinstall_runner: false
