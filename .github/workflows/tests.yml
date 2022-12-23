@@ -14,12 +14,16 @@ on:
       - cron: '0 6 * * 0'
   workflow_dispatch:
 
+env:
+  MOLECULE_DOCKER_VOLUMES: rw
+  MOLECULE_DOCKER_CGROUPS_MODE: host
+
 jobs:
   repo:
     name: Test Repo Runner
     environment:
       name: test
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     strategy:
       max-parallel: 3
       fail-fast: false
@@ -52,22 +56,22 @@ jobs:
           molecule_command: test
           scenario: repo
 
-  org:
-    name: Test Org Runner
-    environment:
-      name: test
-    runs-on: ubuntu-20.04
-    strategy:
-      fail-fast: false
-    steps:
-      - name: checkout
-        uses: actions/checkout@v3
-        with:
-          path: "${{ github.repository }}"
-      - name: Molecule for Ansible - GHR Organization
-        uses: MonolithProjects/action-molecule@v1.5.0
-        env:
-          PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-        with:
-          molecule_command: test
-          scenario: org
+  # org:
+  #   name: Test Org Runner
+  #   environment:
+  #     name: test
+  #   runs-on: ubuntu-20.04
+  #   strategy:
+  #     fail-fast: false
+  #   steps:
+  #     - name: checkout
+  #       uses: actions/checkout@v3
+  #       with:
+  #         path: "${{ github.repository }}"
+  #     - name: Molecule for Ansible - GHR Organization
+  #       uses: MonolithProjects/action-molecule@v1.5.0
+  #       env:
+  #         PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+  #       with:
+  #         molecule_command: test
+  #         scenario: org
