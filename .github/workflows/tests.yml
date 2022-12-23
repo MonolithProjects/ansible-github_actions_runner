@@ -1,12 +1,14 @@
 name: molecule test
 
 on:
-  pull_request_review:
-    types:
-      - submitted
   pull_request:
     types:
-      - assigned
+      - opened
+      - reopened
+    branches:
+      - 'master'
+      - 'develop'
+      - 'feature/**'
   schedule:
       - cron: '0 6 * * 0'
   workflow_dispatch:
@@ -16,7 +18,7 @@ jobs:
     name: Test Repo Runner
     environment:
       name: test
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
@@ -27,7 +29,7 @@ jobs:
             tag: "latest"
           - os: "debian11"
             tag: "latest"
-          - os: "fedora35"
+          - os: "fedora37"
             tag: "latest"
           - os: "ubuntu20"
             tag: "latest"
@@ -54,7 +56,7 @@ jobs:
     name: Test Org Runner
     environment:
       name: test
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
     steps:

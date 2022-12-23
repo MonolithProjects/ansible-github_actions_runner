@@ -38,9 +38,9 @@ Personal Access Token for GitHub account can be created [here](https://github.co
 ## Tested on:
 
 * Debian 9,10,11
-* Fedora 35
+* Fedora 37
 * Rocky Linux 8
-* Ubuntu 18,20
+* Ubuntu 20,22
 
   **Note:** Fedora 32+ and Ubuntu 20 must use Ansible 2.9.8+. Other distros/releases will work also with older 2.8.0+ Ansible.
 
@@ -95,10 +95,6 @@ runner_extra_config_args: ""
 
 # Name to assign to this runner in GitHub (System hostname as default)
 runner_name: "{{ ansible_hostname }}"
-
-# Custom service name when using Github Enterprise server
-# DEPRECATED: this variable is deprecated in favor of "runner_on_ghes" and will be removed in release 1.15.
-# service_name: actions.runner._services.{{ runner_name }}.service
 
 # GitHub Repository user or Organization owner used for Runner registration
 # github_account: "youruser"

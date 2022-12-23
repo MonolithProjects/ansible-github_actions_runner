@@ -18,6 +18,7 @@ Click on `fork` on the top-right corner and fork the repository.
 ## 3. Install pre-commit
 
 Install [Pre-commit](https://pre-commit.com/#install) software
+
 ## 4. Make the changes
 
 Do the changes in your own GitHub namespace.
@@ -38,6 +39,6 @@ molecule test
 
 ## 6. Create a pull request
 
-Please create a pull request into the `master` branch. Here is [how to do it](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request-from-a-fork).
+Please create a pull request into the `develop` branch. Here is [how to do it](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request-from-a-fork).
 
 Please consider to [sponsor](https://github.com/sponsors/monolithprojects) me :-)
