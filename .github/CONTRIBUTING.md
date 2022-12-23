@@ -18,6 +18,7 @@ Click on `fork` on the top-right corner and fork the repository.
 ## 3. Install pre-commit
 
 Install [Pre-commit](https://pre-commit.com/#install) software
+
 ## 4. Make the changes
 
 Do the changes in your own GitHub namespace.
