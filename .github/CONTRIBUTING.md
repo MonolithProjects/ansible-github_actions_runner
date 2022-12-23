@@ -39,6 +39,6 @@ molecule test
 
 ## 6. Create a pull request
 
-Please create a pull request into the `master` branch. Here is [how to do it](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request-from-a-fork).
+Please create a pull request into the `develop` branch. Here is [how to do it](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request-from-a-fork).
 
 Please consider to [sponsor](https://github.com/sponsors/monolithprojects) me :-)
