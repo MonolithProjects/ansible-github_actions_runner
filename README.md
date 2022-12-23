@@ -35,9 +35,9 @@ Personal Access Token for GitHub account can be created [here](https://github.co
 
 * ARM, ARM64 (dependencies installation is not covered by this role)
 * AMD64, x86_64
-## Tested on:
+## Weekly tested on:
 
-* Debian 9,10,11
+* Debian 11
 * Fedora 37
 * Rocky Linux 8
 * Ubuntu 20,22
