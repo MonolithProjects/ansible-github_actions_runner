@@ -25,12 +25,9 @@ jobs:
       name: test
     runs-on: ubuntu-20.04
     strategy:
-      max-parallel: 3
       fail-fast: false
       matrix:
         config:
-          - os: "debian10"
-            tag: "latest"
           - os: "debian11"
             tag: "latest"
           - os: "fedora37"
