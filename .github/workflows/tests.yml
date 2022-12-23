@@ -20,11 +20,10 @@ jobs:
       name: test
     runs-on: ubuntu-22.04
     strategy:
+      max-parallel: 3
       fail-fast: false
       matrix:
         config:
-          - os: "debian9"
-            tag: "latest"
           - os: "debian10"
             tag: "latest"
           - os: "debian11"
