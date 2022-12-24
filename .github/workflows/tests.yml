@@ -5,28 +5,27 @@ on:
     types:
       - opened
       - reopened
+      - synchronize
     branches:
       - 'master'
-      - 'develop'
-      - 'feature/**'
   schedule:
       - cron: '0 6 * * 0'
   workflow_dispatch:
+
+env:
+  MOLECULE_DOCKER_VOLUMES: ro
+  MOLECULE_DOCKER_CGROUPS_MODE: private
 
 jobs:
   repo:
     name: Test Repo Runner
     environment:
       name: test
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
       matrix:
         config:
-          - os: "debian9"
-            tag: "latest"
-          - os: "debian10"
-            tag: "latest"
           - os: "debian11"
             tag: "latest"
           - os: "fedora37"
@@ -56,7 +55,7 @@ jobs:
     name: Test Org Runner
     environment:
       name: test
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
     steps:
