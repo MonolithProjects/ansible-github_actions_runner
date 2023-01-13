@@ -4,7 +4,8 @@
     path: "{{ runner_dir }}"
     state: directory
     mode: 0755
-    owner: "{{ runner_user }}"
+    owner: "{{ ansible_facts.getent_passwd[runner_user].1 }}"
+    group: "{{ ansible_facts.getent_passwd[runner_user].2 }}"
 
 - name: Find the latest runner version (RUN ONCE)
   ansible.builtin.uri:
@@ -39,7 +40,8 @@
     src: "https://github.com/{{ runner_download_repository }}/releases/download/v{{ runner_version }}/\
           actions-runner-linux-{{ github_actions_architecture }}-{{ runner_version }}.tar.gz"
     dest: "{{ runner_dir }}/"
-    owner: "{{ runner_user }}"
+    owner: "{{ ansible_facts.getent_passwd[runner_user].1 }}"
+    group: "{{ ansible_facts.getent_passwd[runner_user].2 }}"
     remote_src: yes
     mode: 0755
   become: true

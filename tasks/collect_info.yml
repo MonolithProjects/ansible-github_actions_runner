@@ -37,4 +37,9 @@
   - name: Check service facts
     ansible.builtin.service_facts:
 
+  - name: Get Runner User IDs
+    ansible.builtin.getent:
+      database: passwd
+      key: "{{ runner_user }}"
+
   check_mode: false
