@@ -39,6 +39,19 @@
     update_cache: yes
   when: (ansible_distribution == "Debian" and ansible_distribution_major_version == "11")
 
+- name: Install dependencies on Debian Bookworm
+  ansible.builtin.package:
+    pkg:
+      - acl
+      - liblttng-ust1
+      - libkrb5-3
+      - zlib1g
+      - libssl3
+      - libicu72
+    state: present
+    update_cache: yes
+  when: (ansible_distribution == "Debian" and ansible_distribution_major_version == "12")
+
 - name: Install dependencies on Ubuntu Xenial systems
   ansible.builtin.package:
     pkg:
