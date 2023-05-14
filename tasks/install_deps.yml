@@ -98,7 +98,8 @@
       - liblttng-ust1
       - libkrb5-3
       - zlib1g
-      - libicu66
+      - libssl1.1
+      - libicu70
     state: present
     update_cache: yes
   when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "22")
