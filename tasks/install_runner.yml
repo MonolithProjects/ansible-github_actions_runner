@@ -4,24 +4,8 @@
     path: "{{ runner_dir }}"
     state: directory
     mode: 0755
-    owner: "{{ ansible_facts.getent_passwd[runner_user].1 }}"
-    group: "{{ ansible_facts.getent_passwd[runner_user].2 }}"
-
-- name: Find the latest runner version (RUN ONCE)
-  ansible.builtin.uri:
-    url: "https://api.github.com/repos/{{ runner_download_repository }}/releases/latest"
-    headers:
-      Content-Type: "application/json"
-    method: GET
-    return_content: yes
-    status_code: 200
-    body_format: json
-  check_mode: false
-  register: api_response
-  run_once: true
-  become: false
-  delegate_to: localhost
-  when: runner_version == "latest"
+    owner: "{{ runner_user_id.stdout }}"
+    group: "{{ runner_user_group_id.stdout }}"
 
 - name: Set runner_version variable (If latest)
   ansible.builtin.set_fact:
@@ -38,13 +22,14 @@
 - name: Unarchive runner package
   ansible.builtin.unarchive:
     src: "https://github.com/{{ runner_download_repository }}/releases/download/v{{ runner_version }}/\
-          actions-runner-linux-{{ github_actions_architecture }}-{{ runner_version }}.tar.gz"
+          actions-runner-{{ runner_system }}-{{ github_actions_architecture }}-{{ runner_version }}.tar.gz"
     dest: "{{ runner_dir }}/"
-    owner: "{{ ansible_facts.getent_passwd[runner_user].1 }}"
-    group: "{{ ansible_facts.getent_passwd[runner_user].2 }}"
+    owner: "{{ runner_user_id.stdout }}"
+    group: "{{ runner_user_group_id.stdout }}"
     remote_src: yes
     mode: 0755
-  become: true
+  environment:
+    PATH: /usr/local/bin:/opt/homebrew/bin/:{{ ansible_env.HOME }}/bin:{{ ansible_env.PATH }}
   when: runner_version not in runner_installed.stdout or reinstall_runner
 
 - name: Configure custom env file if required
@@ -87,7 +72,6 @@
     {{ runner_extra_config_args }}"
   args:
     chdir: "{{ runner_dir }}"
-  become: true
   become_user: "{{ runner_user }}"
   no_log: "{{ hide_sensitive_logs | bool }}"
   when: runner_name not in registered_runners.json.runners|map(attribute='name')|list
@@ -106,7 +90,6 @@
     --replace"
   args:
     chdir: "{{ runner_dir }}"
-  become: true
   become_user: "{{ runner_user }}"
   no_log: "{{ hide_sensitive_logs | bool }}"
   when: runner_name in registered_runners.json.runners|map(attribute='name')|list and reinstall_runner and not runner_org
@@ -115,6 +98,7 @@
   ansible.builtin.command: "./svc.sh install {{ runner_user }}"
   args:
     chdir: "{{ runner_dir }}"
+  become: "{{ 'false' if ansible_system == 'Darwin' else 'true' }}"
   when: not runner_service_file_path.stat.exists
 
 - name: Read service name from file
@@ -122,25 +106,33 @@
     src: "{{ runner_dir }}/.service"
   register: runner_service
 
-- name: START and enable Github Actions Runner service
-  ansible.builtin.systemd:
-    name: "{{ runner_service.content | b64decode | replace('\n', '') }}"
-    state: started
-    enabled: yes
+- name: START and enable Github Actions Runner service # DOTO: Idempotence works only for Systemd. Need to fix for launchd.
+  ansible.builtin.command: "./svc.sh start"
+  args:
+    chdir: "{{ runner_dir }}"
+  become: "{{ 'false' if ansible_system == 'Darwin' else 'true' }}"
+  no_log: "{{ hide_sensitive_logs | bool }}"
   ignore_errors: "{{ ansible_check_mode }}"
-  when: runner_state|lower == "started"
+  when: runner_state|lower == "started" and ansible_facts.services[(runner_service.content | b64decode) | trim ]['state'] != 'running'
 
 - name: STOP and disable Github Actions Runner service
-  ansible.builtin.systemd:
-    name: "{{ runner_service.content | b64decode | replace('\n', '') }}"
-    state: stopped
-    enabled: no
+  ansible.builtin.shell: "./svc.sh stop"
+  args:
+    chdir: "{{ runner_dir }}"
+  become: "{{ 'false' if ansible_distribution == 'MacOS' else 'true' }}"
+  no_log: "{{ hide_sensitive_logs | bool }}"
   ignore_errors: "{{ ansible_check_mode }}"
   when: runner_state|lower == "stopped"
 
 - name: Version changed - RESTART Github Actions Runner service
-  ansible.builtin.systemd:
-    name: "{{ runner_service.content | b64decode | replace('\n', '') }}"
-    state: restarted
+  ansible.builtin.shell:
+    cmd: |
+      ./svc.sh stop
+      sleep 5
+      ./svc.sh start
+  args:
+    chdir: "{{ runner_dir }}"
+  become: "{{ 'false' if ansible_system == 'Darwin' else 'true' }}"
+  no_log: "{{ hide_sensitive_logs | bool }}"
   ignore_errors: "{{ ansible_check_mode }}"
   when: runner_version not in runner_installed.stdout and not runner_state|lower == "stopped"
