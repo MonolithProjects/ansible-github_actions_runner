@@ -50,7 +50,7 @@
       - libicu72
     state: present
     update_cache: yes
-  when: (ansible_distribution == "Debian" and ansible_distribution_release == "bookworm")
+  when: (ansible_distribution == "Debian" and ansible_distribution_major_version == "12")
 
 - name: Install dependencies on Ubuntu Xenial systems
   ansible.builtin.package:
@@ -91,10 +91,21 @@
     update_cache: yes
   when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "20")
 
+- name: Install dependencies on Ubuntu Jammy systems
+  ansible.builtin.package:
+    pkg:
+      - acl
+      - liblttng-ust1
+      - libkrb5-3
+      - zlib1g
+      - libicu70
+    state: present
+    update_cache: yes
+  when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "22")
+
 - name: Install dependencies on RHEL/CentOS/Fedora systems
   ansible.builtin.package:
     name:
-      - acl
       - lttng-ust
       - openssl-libs
       - krb5-libs

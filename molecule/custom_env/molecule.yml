@@ -10,18 +10,15 @@ provisioner:
       verify: verify.yml
 dependency:
   name: galaxy
-lint: |
-  yamllint .
-  ansible-lint .
 driver:
   name: docker
 platforms:
-  - name: "${os:-ubuntu20}-${tag:-latest}"
-    image: "${namespace:-monolithprojects}/systemd-${os:-ubuntu20}:${tag:-latest}"
-    command: /sbin/init
+  - name: "${MOLECULE_IMAGE:-ubuntu22}-latest"
+    image: "${namespace:-monolithprojects}/systemd-${MOLECULE_IMAGE:-ubuntu22}:latest"
     volumes:
-      - "/sys/fs/cgroup:/sys/fs/cgroup:${MOLECULE_DOCKER_VOLUMES:-ro}" # Use "ro" for cgroup v1 and "rw" for cgroup v2
-    cgroupns_mode: ${MOLECULE_DOCKER_CGROUPS_MODE:-"private"} # Use "private" for cgroup v1 and "host" for cgroup v2
+      - "/sys/fs/cgroup:/sys/fs/cgroup:${MOLECULE_DOCKER_VOLUMES:-rw}" # Use "ro" for cgroup v1 and "rw" for cgroup v2
+    cgroupns_mode: ${MOLECULE_DOCKER_CGROUPS_MODE:-"host"} # Use "private" for cgroup v1 and "host" for cgroup v2
+    command: ${MOLECULE_DOCKER_COMMAND:-""}
     privileged: true
     pre_build_image: true
 verifier:
@@ -30,12 +27,13 @@ scenario:
   name: custom_env
   test_sequence:
     - dependency
-    - lint
     - destroy
     - syntax
     - create
+    - prepare
     - converge
     - idempotence
+    - side_effect
     - verify
     - cleanup
     - destroy
