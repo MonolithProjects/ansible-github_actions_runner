@@ -2,26 +2,30 @@ name: molecule test
 
 on:
   pull_request:
-    types:
-      - opened
-      - reopened
-      - synchronize
     branches:
-      - 'master'
+        - main
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'defaults/**'
+      - 'handlers/**'
+      - 'molecule/**'
+      - 'tasks/**'
+      - 'templates/**'
+      - 'vars/**'
   schedule:
-      - cron: '0 6 * * 0'
+    - cron: '0 6 * * 0'
   workflow_dispatch:
 
 env:
-  MOLECULE_DOCKER_VOLUMES: ro
-  MOLECULE_DOCKER_CGROUPS_MODE: private
+  MOLECULE_DOCKER_VOLUMES: rw
+  MOLECULE_DOCKER_CGROUPS_MODE: host
 
 jobs:
   repo:
-    name: Test Repo Runner
+    name: Test GHA Runner Role
     environment:
       name: test
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       max-parallel: 3
@@ -42,32 +46,67 @@ jobs:
         uses: actions/checkout@v3
         with:
           path: "${{ github.repository }}"
-      - name: Molecule for Ansible - GHR Repository
-        uses: MonolithProjects/action-molecule@v1.4.5
-        env:
-          PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+
+      - name: Set up Python 3
+        uses: actions/setup-python@v4
         with:
-          os: ${{ matrix.config.os }}
-          tag: ${{ matrix.config.tag }}
-          molecule_command: test
-          scenario: repo
+          python-version: '3.x'
+
+      - name: Install test dependencies
+        run: pip3 install ansible docker molecule molecule-plugins[docker] "requests<2.29.2"
+
+      - name: Run Molecule test - repo
+        run: molecule test --scenario-name repo
+        working-directory: "${{ github.repository }}"
+        env:
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'
+          MOLECULE_IMAGE: ${{ matrix.config.os }}
+          MOLECULE_DOCKER_CGROUPS_MODE: ${{ matrix.config.cgroup_mode }}
+          MOLECULE_DOCKER_VOLUMES: ${{ matrix.config.volumes }}
+          PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
   org:
     name: Test Org Runner
     environment:
       name: test
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
+      max-parallel: 3
+      matrix:
+        config:
+          - os: "debian11"
+            tag: "latest"
+          - os: "fedora37"
+            tag: "latest"
+          - os: "ubuntu20"
+            tag: "latest"
+          - os: "ubuntu22"
+            tag: "latest"
+          - os: "rockylinux8"
+            tag: "latest"
     steps:
       - name: checkout
         uses: actions/checkout@v3
         with:
           path: "${{ github.repository }}"
-      - name: Molecule for Ansible - GHR Organization
-        uses: MonolithProjects/action-molecule@v1.4.5
-        env:
-          PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+
+      - name: Set up Python 3
+        uses: actions/setup-python@v4
         with:
-          molecule_command: test
-          scenario: org
+          python-version: '3.x'
+
+      - name: Install test dependencies
+        run: pip3 install ansible docker molecule molecule-plugins[docker] "requests<2.29.2"
+
+      - name: Run Molecule tests -
+        run: molecule test --scenario-name org
+        working-directory: "${{ github.repository }}"
+        env:
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'
+          MOLECULE_IMAGE: ${{ matrix.config.os }}
+          MOLECULE_DOCKER_CGROUPS_MODE: ${{ matrix.config.cgroup_mode }}
+          MOLECULE_DOCKER_VOLUMES: ${{ matrix.config.volumes }}
+          PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
