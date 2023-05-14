@@ -8,15 +8,14 @@
 [![License](https://img.shields.io/github/license/MonolithProjects/ansible-github_actions_runner)](https://github.com/MonolithProjects/ansible-github_actions_runner/blob/main/LICENSE)
 
 
-This role will deploy/redeploy/uninstall and register/unregister local GitHub Actions Runner.
+This role will deploy/redeploy/uninstall and register/unregister local GitHub Actions Runner on Linux and macOS Systems (see [compatibility list](#supported-operating-systems) ).
 It supports both, Organization and Repository Runners.
 
 ## Requirements
 
-* System must have access to the GitHub.
+* System must have access to the GitHub API.
 
-* The role require Personal Access Token to access the GitHub. The token has to be a value of `PERSONAL_ACCESS_TOKEN` variable.
-Export the token to the local host environment.
+* The role require Personal Access Token to access the GitHub. The token can be set as `PERSONAL_ACCESS_TOKEN` environment variable.
 
 > **Note**  
 > The token must have the `repo` scope (when creating a repo runner) or the `admin:org` scope (when creating a runner for an organization).
@@ -31,18 +30,26 @@ Personal Access Token for GitHub account can be created [here](https://github.co
 * CentOS systems require EPEL repository.
   Recommended role: `robertdebock.epel`
 
-## Supported CPU architecture:
+## Supported CPU architecture
 
 * ARM, ARM64 (dependencies installation is not covered by this role)
 * AMD64, x86_64
+
+## Supported Operating Systems
+
+* Red Hat Enterprise Linux 7
+* CentOS 7
+* Rocky Linux 8+
+* Fedora 29+
+* Debian 9+
+* Ubuntu 16.04+
+* macOS High Sierra +
 ## Weekly tested on:
 
 * Debian 11
 * Fedora 37
 * Rocky Linux 8
 * Ubuntu 20,22
-
-  **Note:** Fedora 32+ and Ubuntu 20 must use Ansible 2.9.8+. Other distros/releases will work also with older 2.8.0+ Ansible.
 
 ## Role Variables
 
