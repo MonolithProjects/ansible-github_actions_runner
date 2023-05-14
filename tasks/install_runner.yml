@@ -106,14 +106,22 @@
     src: "{{ runner_dir }}/.service"
   register: runner_service
 
-- name: START and enable Github Actions Runner service # DOTO: Idempotence works only for Systemd. Need to fix for launchd.
+- name: START and enable Github Actions Runner service (Linux)
   ansible.builtin.command: "./svc.sh start"
   args:
     chdir: "{{ runner_dir }}"
-  become: "{{ 'false' if ansible_system == 'Darwin' else 'true' }}"
   no_log: "{{ hide_sensitive_logs | bool }}"
   ignore_errors: "{{ ansible_check_mode }}"
-  when: runner_state|lower == "started" and ansible_facts.services[(runner_service.content | b64decode) | trim ]['state'] != 'running'
+  when: ansible_system != 'Darwin' and runner_state|lower == "started" and ansible_facts.services[(runner_service.content | b64decode) | trim ]['state'] != 'running'
+
+- name: START and enable Github Actions Runner service (macOS) # TODO: Idempotence
+  ansible.builtin.command: "./svc.sh start"
+  args:
+    chdir: "{{ runner_dir }}"
+  become: false
+  no_log: "{{ hide_sensitive_logs | bool }}"
+  ignore_errors: "{{ ansible_check_mode }}"
+  when: ansible_system == 'Darwin' and runner_state|lower
 
 - name: STOP and disable Github Actions Runner service
   ansible.builtin.shell: "./svc.sh stop"
