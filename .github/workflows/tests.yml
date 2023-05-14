@@ -32,15 +32,10 @@ jobs:
       matrix:
         config:
           - os: "debian11"
-            tag: "latest"
           - os: "fedora37"
-            tag: "latest"
           - os: "ubuntu20"
-            tag: "latest"
           - os: "ubuntu22"
-            tag: "latest"
           - os: "rockylinux8"
-            tag: "latest"
     steps:
       - name: checkout
         uses: actions/checkout@v3
@@ -78,15 +73,10 @@ jobs:
       matrix:
         config:
           - os: "debian11"
-            tag: "latest"
           - os: "fedora37"
-            tag: "latest"
           - os: "ubuntu20"
-            tag: "latest"
           - os: "ubuntu22"
-            tag: "latest"
           - os: "rockylinux8"
-            tag: "latest"
     steps:
       - name: checkout
         uses: actions/checkout@v3
