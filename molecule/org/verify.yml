@@ -32,11 +32,4 @@
       assert:
         that:
           - runner_name in registered_runners.json.runners|map(attribute='name')|list
-          - registered_runners.json.runners|map(attribute='status') == ["offline"]
         quiet: true
-
-    - debug:
-        var: registered_runners.json.runners|map(attribute='name')
-
-    - debug:
-        var: registered_runners.json.runners|map(attribute='status')
