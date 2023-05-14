@@ -98,7 +98,6 @@
       - liblttng-ust1
       - libkrb5-3
       - zlib1g
-      - libssl1.1
       - libicu66
     state: present
     update_cache: yes
