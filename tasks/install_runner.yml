@@ -58,7 +58,7 @@
     github_full_url: "{{ github_url }}/{{ github_owner | default(github_account) }}"
   when: runner_org | bool
 
-- name: Register runner
+- name: Register runner  # noqa no-changed-when
   environment:
     RUNNER_ALLOW_RUNASROOT: "1"
   ansible.builtin.command:
@@ -76,7 +76,7 @@
   no_log: "{{ hide_sensitive_logs | bool }}"
   when: runner_name not in registered_runners.json.runners|map(attribute='name')|list
 
-- name: Replace registered runner
+- name: Replace registered runner  # noqa no-changed-when
   environment:
     RUNNER_ALLOW_RUNASROOT: "1"
   ansible.builtin.command:
@@ -94,7 +94,7 @@
   no_log: "{{ hide_sensitive_logs | bool }}"
   when: runner_name in registered_runners.json.runners|map(attribute='name')|list and reinstall_runner and not runner_org
 
-- name: Install service
+- name: Install service  # noqa no-changed-when
   ansible.builtin.command: "./svc.sh install {{ runner_user }}"
   args:
     chdir: "{{ runner_dir }}"
@@ -106,7 +106,7 @@
     src: "{{ runner_dir }}/.service"
   register: runner_service
 
-- name: START and enable Github Actions Runner service (Linux)
+- name: START and enable Github Actions Runner service (Linux)  # noqa no-changed-when
   ansible.builtin.command: "./svc.sh start"
   args:
     chdir: "{{ runner_dir }}"
@@ -115,7 +115,7 @@
   when: ansible_system != 'Darwin' and runner_state|lower == "started" and ansible_facts.services[(runner_service.content | b64decode) | trim ]['state'] != 'running'
 
 - name: START and enable Github Actions Runner service (macOS) # TODO: Idempotence
-  ansible.builtin.command: "./svc.sh start"
+  ansible.builtin.command: "./svc.sh start"  # noqa no-changed-when
   args:
     chdir: "{{ runner_dir }}"
   become: false
@@ -123,8 +123,8 @@
   ignore_errors: "{{ ansible_check_mode }}"
   when: ansible_system == 'Darwin' and runner_state|lower
 
-- name: STOP and disable Github Actions Runner service
-  ansible.builtin.shell: "./svc.sh stop"
+- name: STOP and disable Github Actions Runner service  # noqa no-changed-when
+  ansible.builtin.command: "./svc.sh stop"
   args:
     chdir: "{{ runner_dir }}"
   become: "{{ 'false' if ansible_distribution == 'MacOS' else 'true' }}"
@@ -133,7 +133,7 @@
   when: runner_state|lower == "stopped"
 
 - name: Version changed - RESTART Github Actions Runner service
-  ansible.builtin.shell:
+  ansible.builtin.shell:  # noqa no-changed-when
     cmd: |
       ./svc.sh stop
       sleep 5

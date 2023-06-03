@@ -4,7 +4,7 @@
     path: "{{ runner_dir }}/.service"
   register: runner_service_file_path
 
-- name: Uninstall runner
+- name: Uninstall runner  # noqa no-changed-when
   ansible.builtin.command: "./svc.sh uninstall"
   args:
     chdir: "{{ runner_dir }}"
@@ -16,7 +16,7 @@
     path: "{{ runner_dir }}/.runner"
   register: runner_file
 
-- name: Unregister runner from the GitHub
+- name: Unregister runner from the GitHub  # noqa no-changed-when
   environment:
     RUNNER_ALLOW_RUNASROOT: "1"
   ansible.builtin.command: "./config.sh remove --token {{ registration.json.token }} --name '{{ runner_name }}' --unattended"
