@@ -3,7 +3,8 @@ name: molecule test
 on:
   pull_request:
     branches:
-        - master
+      - master
+      - devel*
     types: [opened, synchronize, reopened]
     paths:
       - 'defaults/**'
