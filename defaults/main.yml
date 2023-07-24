@@ -44,7 +44,6 @@ runner_extra_config_args: ""
 
 # Name to assign to this runner in GitHub (System hostname as default)
 runner_name: "{{ ansible_hostname }}"
-
 # GitHub Repository user or Organization owner used for Runner registration
 # github_account: "youruser"
 
@@ -64,13 +63,13 @@ runner_name: "{{ ansible_hostname }}"
 # HTTP_PROXY=
 
 # Whether to install the runner as service or as docker container
-install_as_service: true
+# install_as_service: true
 
-# The name of the docker image to build
-runner_docker_settings:
-  image_name: actions-runner-{{ runner_system }}-{{ github_actions_architecture }}-{{ runner_version }}
-  memory: "16g"
-  cpus: "3"
-  restart_policy: "always"
-  ephemeral: "false"
-  workdir: /tmp/runner
+# Docker settings
+# runner_docker_settings:
+#   image_name: actions-runner-{{ runner_system }}-{{ github_actions_architecture }}-{{ runner_version }}
+#   memory: "16g"
+#   cpus: "3"
+#   restart_policy: "always"
+#   ephemeral: "false"
+#   workdir: /tmp/runner
