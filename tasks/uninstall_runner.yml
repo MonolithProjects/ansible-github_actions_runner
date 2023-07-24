@@ -1,33 +1,54 @@
 ---
-- name: Check if runner service name file exist
-  ansible.builtin.stat:
-    path: "{{ runner_dir }}/.service"
-  register: runner_service_file_path
+- name: Uninstall runner as service
+  block:
+    - name: Check if runner service name file exist
+      ansible.builtin.stat:
+        path: "{{ runner_dir }}/.service"
+      register: runner_service_file_path
 
-- name: Uninstall runner
-  ansible.builtin.command: "./svc.sh uninstall"
-  args:
-    chdir: "{{ runner_dir }}"
-  become: "{{ 'false' if ansible_system == 'Darwin' else 'true' }}"
-  when: runner_service_file_path.stat.exists
+    - name: Uninstall runner
+      ansible.builtin.command: "./svc.sh uninstall"
+      args:
+        chdir: "{{ runner_dir }}"
+      become: "{{ 'false' if ansible_system == 'Darwin' else 'true' }}"
+      when: runner_service_file_path.stat.exists
 
-- name: Check GitHub Actions runner file
-  ansible.builtin.stat:
-    path: "{{ runner_dir }}/.runner"
-  register: runner_file
+    - name: Check GitHub Actions runner file
+      ansible.builtin.stat:
+        path: "{{ runner_dir }}/.runner"
+      register: runner_file
 
-- name: Unregister runner from the GitHub
-  environment:
-    RUNNER_ALLOW_RUNASROOT: "1"
-  ansible.builtin.command: "./config.sh remove --token {{ registration.json.token }} --name '{{ runner_name }}' --unattended"
-  args:
-    chdir: "{{ runner_dir }}"
-  become: false
-  become_user: "{{ runner_user }}"
-  no_log: "{{ hide_sensitive_logs | bool }}"
-  when: runner_name in registered_runners.json.runners|map(attribute='name')|list and runner_file.stat.exists
+    - name: Unregister runner from the GitHub
+      environment:
+        RUNNER_ALLOW_RUNASROOT: "1"
+      ansible.builtin.command: "./config.sh remove --token {{ registration.json.token }} --name '{{ runner_name }}' --unattended"
+      args:
+        chdir: "{{ runner_dir }}"
+      become: false
+      become_user: "{{ runner_user }}"
+      no_log: "{{ hide_sensitive_logs | bool }}"
+      when: runner_name in registered_runners.json.runners|map(attribute='name')|list and runner_file.stat.exists
 
-- name: Delete runner directory
-  ansible.builtin.file:
-    path: "{{ runner_dir }}"
-    state: absent
+    - name: Delete runner directory
+      ansible.builtin.file:
+        path: "{{ runner_dir }}"
+        state: absent
+  when: install_as_service is true
+
+- name: Uninstall docker container
+  block:
+    - name: Check if container exist
+      community.docker.docker_container_info:
+        name: "{{ runner_name }}"
+      register: result
+
+    - name: Does container exist?
+      debug:
+        msg: "The container {{ 'exists' if result.exists else 'does not exist' }}"
+
+    - name: Delete runner directory
+      community.docker.docker_container:
+        name: "{{ runner_name }}"
+        state: absent
+      when: result.exists
+  when: install_as_service is false

@@ -13,7 +13,7 @@
 
 - name: Include tasks to install dependencies
   ansible.builtin.include_tasks: install_deps.yml
-  when: runner_state|lower == "started" or runner_state|lower == "stopped"
+  when: (runner_state|lower == "started" or runner_state|lower == "stopped") and install_as_service is true
   tags:
     - install
 

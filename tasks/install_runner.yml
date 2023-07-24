@@ -12,135 +12,187 @@
     runner_version: "{{ api_response.json.tag_name | regex_replace('^v', '') }}"
   when: runner_version == "latest"
 
-- name: Check if desired version already installed
-  ansible.builtin.command: "grep -i {{ runner_version }} {{ runner_dir }}/bin/Runner.Listener.deps.json"
-  register: runner_installed
-  check_mode: false
-  changed_when: false
-  ignore_errors: true
+- name: Install, update and configure runner via service
+  block:
+    - name: Check if desired version already installed
+      ansible.builtin.command: "grep -i {{ runner_version }} {{ runner_dir }}/bin/Runner.Listener.deps.json"
+      register: runner_installed
+      check_mode: false
+      changed_when: false
+      ignore_errors: true
 
-- name: Unarchive runner package
-  ansible.builtin.unarchive:
-    src: "https://github.com/{{ runner_download_repository }}/releases/download/v{{ runner_version }}/\
+    - name: Unarchive runner package
+      ansible.builtin.unarchive:
+        src:
+          "https://github.com/{{ runner_download_repository }}/releases/download/v{{ runner_version }}/\
           actions-runner-{{ runner_system }}-{{ github_actions_architecture }}-{{ runner_version }}.tar.gz"
-    dest: "{{ runner_dir }}/"
-    owner: "{{ runner_user_id.stdout }}"
-    group: "{{ runner_user_group_id.stdout }}"
-    remote_src: yes
-    mode: 0755
-  environment:
-    PATH: /usr/local/bin:/opt/homebrew/bin/:{{ ansible_env.HOME }}/bin:{{ ansible_env.PATH }}
-  when: runner_version not in runner_installed.stdout or reinstall_runner
+        dest: "{{ runner_dir }}/"
+        owner: "{{ runner_user_id.stdout }}"
+        group: "{{ runner_user_group_id.stdout }}"
+        remote_src: yes
+        mode: 0755
+      environment:
+        PATH: /usr/local/bin:/opt/homebrew/bin/:{{ ansible_env.HOME }}/bin:{{ ansible_env.PATH }}
+      when: runner_version not in runner_installed.stdout or reinstall_runner
 
-- name: Configure custom env file if required
-  ansible.builtin.blockinfile:
-    path: "{{ runner_dir }}/.env"
-    block: "{{ custom_env }}"
-    owner: "{{ runner_user }}"
-    create: yes
-    mode: 0755
-    marker_begin: "# BEGIN ANSIBLE MANAGED BLOCK"
-    marker_end: "# END ANSIBLE MANAGED BLOCK"
-  when: custom_env is defined
+    - name: Configure custom env file if required
+      ansible.builtin.blockinfile:
+        path: "{{ runner_dir }}/.env"
+        block: "{{ custom_env }}"
+        owner: "{{ runner_user }}"
+        create: yes
+        mode: 0755
+        marker_begin: "# BEGIN ANSIBLE MANAGED BLOCK"
+        marker_end: "# END ANSIBLE MANAGED BLOCK"
+      when: custom_env is defined
 
-- name: Check if runner service name file exist
-  ansible.builtin.stat:
-    path: "{{ runner_dir }}/.service"
-  register: runner_service_file_path
+    - name: Check if runner service name file exist
+      ansible.builtin.stat:
+        path: "{{ runner_dir }}/.service"
+      register: runner_service_file_path
 
-- name: Set complete GitHub url for repo runner
-  ansible.builtin.set_fact:
-    github_full_url: "{{ github_url }}/{{ github_owner | default(github_account) }}/{{ github_repo }}"
-  when: not runner_org
+    - name: Set complete GitHub url for repo runner
+      ansible.builtin.set_fact:
+        github_full_url: "{{ github_url }}/{{ github_owner | default(github_account) }}/{{ github_repo }}"
+      when: not runner_org
 
-- name: Set complete GitHub url for org runner
-  ansible.builtin.set_fact:
-    github_full_url: "{{ github_url }}/{{ github_owner | default(github_account) }}"
-  when: runner_org | bool
+    - name: Set complete GitHub url for org runner
+      ansible.builtin.set_fact:
+        github_full_url: "{{ github_url }}/{{ github_owner | default(github_account) }}"
+      when: runner_org | bool
 
-- name: Register runner
-  environment:
-    RUNNER_ALLOW_RUNASROOT: "1"
-  ansible.builtin.command:
-    "{{ runner_dir }}/./config.sh \
-    --url {{ github_full_url }} \
-    --token {{ registration.json.token }} \
-    --name '{{ runner_name }}' \
-    --labels {{ runner_labels | join(',') }} \
-    --runnergroup {{ runner_group }} \
-    --unattended \
-    {{ runner_extra_config_args }}"
-  args:
-    chdir: "{{ runner_dir }}"
-  become_user: "{{ runner_user }}"
-  no_log: "{{ hide_sensitive_logs | bool }}"
-  when: runner_name not in registered_runners.json.runners|map(attribute='name')|list
+    - name: Register runner
+      environment:
+        RUNNER_ALLOW_RUNASROOT: "1"
+      ansible.builtin.command: "{{ runner_dir }}/./config.sh \
+        --url {{ github_full_url }} \
+        --token {{ registration.json.token }} \
+        --name '{{ runner_name }}' \
+        --labels {{ runner_labels | join(',') }} \
+        --runnergroup {{ runner_group }} \
+        --unattended \
+        {{ runner_extra_config_args }}"
+      args:
+        chdir: "{{ runner_dir }}"
+      become_user: "{{ runner_user }}"
+      no_log: "{{ hide_sensitive_logs | bool }}"
+      when: runner_name not in registered_runners.json.runners|map(attribute='name')|list
 
-- name: Replace registered runner
-  environment:
-    RUNNER_ALLOW_RUNASROOT: "1"
-  ansible.builtin.command:
-    "{{ runner_dir }}/config.sh \
-    --url {{ github_full_url }} \
-    --token {{ registration.json.token }} \
-    --name '{{ runner_name }}' \
-    --labels {{ runner_labels | join(',') }} \
-    --unattended \
-    {{ runner_extra_config_args }} \
-    --replace"
-  args:
-    chdir: "{{ runner_dir }}"
-  become_user: "{{ runner_user }}"
-  no_log: "{{ hide_sensitive_logs | bool }}"
-  when: runner_name in registered_runners.json.runners|map(attribute='name')|list and reinstall_runner and not runner_org
+    - name: Replace registered runner
+      environment:
+        RUNNER_ALLOW_RUNASROOT: "1"
+      ansible.builtin.command: "{{ runner_dir }}/config.sh \
+        --url {{ github_full_url }} \
+        --token {{ registration.json.token }} \
+        --name '{{ runner_name }}' \
+        --labels {{ runner_labels | join(',') }} \
+        --unattended \
+        {{ runner_extra_config_args }} \
+        --replace"
+      args:
+        chdir: "{{ runner_dir }}"
+      become_user: "{{ runner_user }}"
+      no_log: "{{ hide_sensitive_logs | bool }}"
+      when: runner_name in registered_runners.json.runners|map(attribute='name')|list and reinstall_runner and not runner_org
 
-- name: Install service
-  ansible.builtin.command: "./svc.sh install {{ runner_user }}"
-  args:
-    chdir: "{{ runner_dir }}"
-  become: "{{ 'false' if ansible_system == 'Darwin' else 'true' }}"
-  when: not runner_service_file_path.stat.exists
+    - name: Install service
+      ansible.builtin.command: "./svc.sh install {{ runner_user }}"
+      args:
+        chdir: "{{ runner_dir }}"
+      become: "{{ 'false' if ansible_system == 'Darwin' else 'true' }}"
+      when: not runner_service_file_path.stat.exists
 
-- name: Read service name from file
-  ansible.builtin.slurp:
-    src: "{{ runner_dir }}/.service"
-  register: runner_service
+    - name: Read service name from file
+      ansible.builtin.slurp:
+        src: "{{ runner_dir }}/.service"
+      register: runner_service
 
-- name: START and enable Github Actions Runner service (Linux)
-  ansible.builtin.command: "./svc.sh start"
-  args:
-    chdir: "{{ runner_dir }}"
-  no_log: "{{ hide_sensitive_logs | bool }}"
-  ignore_errors: "{{ ansible_check_mode }}"
-  when: ansible_system != 'Darwin' and runner_state|lower == "started" and ansible_facts.services[(runner_service.content | b64decode) | trim ]['state'] != 'running'
+    - name: START and enable Github Actions Runner service (Linux)
+      ansible.builtin.command: "./svc.sh start"
+      args:
+        chdir: "{{ runner_dir }}"
+      no_log: "{{ hide_sensitive_logs | bool }}"
+      ignore_errors: "{{ ansible_check_mode }}"
+      when: ansible_system != 'Darwin' and runner_state|lower == "started" and ansible_facts.services[(runner_service.content | b64decode) | trim ]['state'] != 'running'
 
-- name: START and enable Github Actions Runner service (macOS) # TODO: Idempotence
-  ansible.builtin.command: "./svc.sh start"
-  args:
-    chdir: "{{ runner_dir }}"
-  become: false
-  no_log: "{{ hide_sensitive_logs | bool }}"
-  ignore_errors: "{{ ansible_check_mode }}"
-  when: ansible_system == 'Darwin' and runner_state|lower
+    - name: START and enable Github Actions Runner service (macOS) # TODO: Idempotence
+      ansible.builtin.command: "./svc.sh start"
+      args:
+        chdir: "{{ runner_dir }}"
+      become: false
+      no_log: "{{ hide_sensitive_logs | bool }}"
+      ignore_errors: "{{ ansible_check_mode }}"
+      when: ansible_system == 'Darwin' and runner_state|lower
 
-- name: STOP and disable Github Actions Runner service
-  ansible.builtin.shell: "./svc.sh stop"
-  args:
-    chdir: "{{ runner_dir }}"
-  become: "{{ 'false' if ansible_distribution == 'MacOS' else 'true' }}"
-  no_log: "{{ hide_sensitive_logs | bool }}"
-  ignore_errors: "{{ ansible_check_mode }}"
-  when: runner_state|lower == "stopped"
+    - name: STOP and disable Github Actions Runner service
+      ansible.builtin.shell: "./svc.sh stop"
+      args:
+        chdir: "{{ runner_dir }}"
+      become: "{{ 'false' if ansible_distribution == 'MacOS' else 'true' }}"
+      no_log: "{{ hide_sensitive_logs | bool }}"
+      ignore_errors: "{{ ansible_check_mode }}"
+      when: runner_state|lower == "stopped"
 
-- name: Version changed - RESTART Github Actions Runner service
-  ansible.builtin.shell:
-    cmd: |
-      ./svc.sh stop
-      sleep 5
-      ./svc.sh start
-  args:
-    chdir: "{{ runner_dir }}"
-  become: "{{ 'false' if ansible_system == 'Darwin' else 'true' }}"
-  no_log: "{{ hide_sensitive_logs | bool }}"
-  ignore_errors: "{{ ansible_check_mode }}"
-  when: runner_version not in runner_installed.stdout and not runner_state|lower == "stopped"
+    - name: Version changed - RESTART Github Actions Runner service
+      ansible.builtin.shell:
+        cmd: |
+          ./svc.sh stop
+          sleep 5
+          ./svc.sh start
+      args:
+        chdir: "{{ runner_dir }}"
+      become: "{{ 'false' if ansible_system == 'Darwin' else 'true' }}"
+      no_log: "{{ hide_sensitive_logs | bool }}"
+      ignore_errors: "{{ ansible_check_mode }}"
+      when: runner_version not in runner_installed.stdout and not runner_state|lower == "stopped"
+  when: install_as_service is true
+
+- name: Install as docker container
+  block:
+    - name: Copy files
+      ansible.builtin.copy:
+        src: "files/{{ item }}"
+        dest: "{{ runner_dir }}"
+        mode: 0755
+        owner: "{{ runner_user_id.stdout }}"
+        group: "{{ runner_user_group_id.stdout }}"
+      with_items:
+        - Dockerfile
+
+    - name: Build docker image
+      docker_image:
+        name: runner_docker_settings.image_name
+        build:
+          pull: no
+          args:
+            RUNNER_VERSION: "{{ runner_version }}"
+          path: "{{ runner_dir }}"
+        force_source: yes
+        source: build
+
+    - name: Create a container from the built image
+      community.docker.docker_container:
+        name: "{{ runner_name }}"
+        image: runner_docker_settings.image_name
+        state: started
+        init: yes
+        memory: "{{ runner_docker_settings.memory | string }}"
+        cpus: "{{ runner_docker_settings.cpus | string }}"
+        recreate: yes
+        restart_policy: "{{ runner_docker_settings.restart_policy | string }}"
+        env:
+          # see https://github.com/myoung34/docker-github-actions-runner for more details on env vars of the docker image
+          RUNNER_TOKEN: "{{ registration.json.token }}"
+          # CONFIGURED_ACTIONS_RUNNER_FILES_DIR: "{{ runner_docker_settings.workdir }}/.runner_config"
+          EPHEMERAL: "{{ runner_docker_settings.ephemeral }}"
+          LABELS: "{{ runner_labels | join(',') }}"
+          ORG_NAME: "{{github_owner}}"
+          RANDOM_RUNNER_SUFFIX: random
+          REPO_URL: "{{ github_url }}/{{ github_owner | default(github_account) }}/{{ github_repo | default() }}/repo"
+          RUNNER_GROUP: "{{runner_group}}"
+          RUNNER_NAME: "{{runner_name}}"
+          RUNNER_WORKDIR: "{{runner_docker_settings.workdir}}"
+          RUN_AS_ROOT: "false"
+          RUNNER_SCOPE: "{{ 'org' if runner_org == 'yes' else 'repo' }}"
+
+  when: install_as_service is false

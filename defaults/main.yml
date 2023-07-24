@@ -62,3 +62,15 @@ runner_name: "{{ ansible_hostname }}"
 # https_proxy=YOUR_URL_HERE
 # no_proxy=localhost,127.0.0.1,127.0.0.2
 # HTTP_PROXY=
+
+# Whether to install the runner as service or as docker container
+install_as_service: true
+
+# The name of the docker image to build
+runner_docker_settings:
+  image_name: actions-runner-{{ runner_system }}-{{ github_actions_architecture }}-{{ runner_version }}
+  memory: "16g"
+  cpus: "3"
+  restart_policy: "always"
+  ephemeral: "false"
+  workdir: /tmp/runner
