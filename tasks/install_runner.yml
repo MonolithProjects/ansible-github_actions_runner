@@ -182,16 +182,16 @@
         restart_policy: "{{ runner_docker_settings.restart_policy | string }}"
         env:
           # see https://github.com/myoung34/docker-github-actions-runner for more details on env vars of the docker image
-          RUNNER_TOKEN: "{{ registration.json.token }}"
           EPHEMERAL: "{{ runner_docker_settings.ephemeral }}"
           LABELS: "{{ runner_labels | join(',') }}"
           ORG_NAME: "{{github_owner}}"
           RANDOM_RUNNER_SUFFIX: random
           REPO_URL: "{{ github_url }}/{{ github_owner | default(github_account) }}/{{ github_repo | default() }}/repo"
+          RUN_AS_ROOT: "false"
           RUNNER_GROUP: "{{runner_group}}"
           RUNNER_NAME: "{{runner_name}}"
-          RUNNER_WORKDIR: "{{runner_docker_settings.workdir}}"
-          RUN_AS_ROOT: "false"
           RUNNER_SCOPE: "{{ 'org' if runner_org == 'yes' else 'repo' }}"
+          RUNNER_TOKEN: "{{ registration.json.token }}"
+          RUNNER_WORKDIR: "{{runner_docker_settings.workdir}}"
 
   when: install_as_service is false
