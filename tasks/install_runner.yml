@@ -149,15 +149,21 @@
 
 - name: Install as docker container
   block:
-    - name: Copy files
+    - name: Copy Dockerfile
       ansible.builtin.copy:
-        src: "files/{{ item }}"
+        src: "files/Dockerfile"
         dest: "{{ runner_dir }}"
         mode: 0755
         owner: "{{ runner_user_id.stdout }}"
         group: "{{ runner_user_group_id.stdout }}"
-      with_items:
-        - Dockerfile
+
+    - name: Deploy env file with templating
+      template:
+        src: "files/runner.env.j2"
+        dest: "{{ runner_dir }}/{{ runner_name }}.env"
+        mode: 0755
+        owner: "{{ runner_user_id.stdout }}"
+        group: "{{ runner_user_group_id.stdout }}"
 
     - name: Build docker image
       docker_image:
@@ -180,18 +186,6 @@
         cpus: "{{ runner_docker_settings.cpus | string }}"
         recreate: yes
         restart_policy: "{{ runner_docker_settings.restart_policy | string }}"
-        env:
-          # see https://github.com/myoung34/docker-github-actions-runner for more details on env vars of the docker image
-          EPHEMERAL: "{{ runner_docker_settings.ephemeral }}"
-          LABELS: "{{ runner_labels | join(',') }}"
-          ORG_NAME: "{{github_owner}}"
-          RANDOM_RUNNER_SUFFIX: random
-          REPO_URL: "{{ github_url }}/{{ github_owner | default(github_account) }}/{{ github_repo | default() }}/repo"
-          RUN_AS_ROOT: "false"
-          RUNNER_GROUP: "{{runner_group}}"
-          RUNNER_NAME: "{{runner_name}}"
-          RUNNER_SCOPE: "{{ 'org' if runner_org == 'yes' else 'repo' }}"
-          RUNNER_TOKEN: "{{ registration.json.token }}"
-          RUNNER_WORKDIR: "{{runner_docker_settings.workdir}}"
+        env_file: "{{ runner_dir }}/{{ runner_name }}.env"
 
   when: install_as_service is false
