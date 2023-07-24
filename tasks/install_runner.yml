@@ -183,7 +183,6 @@
         env:
           # see https://github.com/myoung34/docker-github-actions-runner for more details on env vars of the docker image
           RUNNER_TOKEN: "{{ registration.json.token }}"
-          # CONFIGURED_ACTIONS_RUNNER_FILES_DIR: "{{ runner_docker_settings.workdir }}/.runner_config"
           EPHEMERAL: "{{ runner_docker_settings.ephemeral }}"
           LABELS: "{{ runner_labels | join(',') }}"
           ORG_NAME: "{{github_owner}}"
