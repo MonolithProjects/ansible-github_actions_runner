@@ -44,7 +44,6 @@ runner_extra_config_args: ""
 
 # Name to assign to this runner in GitHub (System hostname as default)
 runner_name: "{{ ansible_hostname }}"
-
 # GitHub Repository user or Organization owner used for Runner registration
 # github_account: "youruser"
 
@@ -74,3 +73,5 @@ runner_name: "{{ ansible_hostname }}"
 #   restart_policy: "always"
 #   ephemeral: "false"
 #   workdir: /tmp/runner
+# runner_image_docker_host_gid: 1002
+# runner_image_docker_compose_version: 1.29.2

@@ -167,11 +167,13 @@
 
     - name: Build docker image
       docker_image:
-        name: runner_docker_settings.image_name
+        name: "{{ runner_docker_settings.image_name }}"
         build:
           pull: no
           args:
             RUNNER_VERSION: "{{ runner_version }}"
+            DOCKER_HOST_GID: "{{ runner_image_docker_host_gid }}"
+            DOCKER_COMPOSE_VERSION: "{{ runner_image_docker_compose_version }}"
           path: "{{ runner_dir }}"
         force_source: yes
         source: build
@@ -179,7 +181,7 @@
     - name: Create a container from the built image
       community.docker.docker_container:
         name: "{{ runner_name }}"
-        image: runner_docker_settings.image_name
+        image: "{{ runner_docker_settings.image_name }}"
         state: started
         init: yes
         memory: "{{ runner_docker_settings.memory | string }}"
@@ -187,5 +189,7 @@
         recreate: yes
         restart_policy: "{{ runner_docker_settings.restart_policy | string }}"
         env_file: "{{ runner_dir }}/{{ runner_name }}.env"
+        volumes:
+          - "/var/run/docker.sock:/var/run/docker.sock"
 
   when: install_as_service is false
