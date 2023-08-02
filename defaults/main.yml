@@ -54,6 +54,9 @@ runner_name: "{{ ansible_hostname }}"
 # Github repository name
 # github_repo: "yourrepo"
 
+# GitHub Enterprise name
+# github_enterprise: "yourenterprise"
+
 # Configuring a custom .env file
 # custom_env: |
 # http_proxy=YOUR_URL_HERE
