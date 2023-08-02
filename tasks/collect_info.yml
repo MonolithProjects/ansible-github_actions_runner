@@ -5,17 +5,17 @@
   - name: Set complete API url for repo runner
     ansible.builtin.set_fact:
       github_full_api_url: "{{ github_api_url }}/repos/{{ github_owner | default(github_account) }}/{{ github_repo }}/actions/runners"
-    when: not runner_org and not runner_enterprise
+    when: not runner_org and not github_enterprise
 
   - name: Set complete API url for org runner
     ansible.builtin.set_fact:
       github_full_api_url: "{{ github_api_url }}/orgs/{{ github_owner | default(github_account) }}/actions/runners"
-    when: runner_org | bool and not runner_enterprise
+    when: runner_org | bool and not github_enterprise
 
   - name: Set complete API url for enterprise runner
     ansible.builtin.set_fact:
       github_full_api_url: "{{ github_api_url }}/enterprises/{{ github_enterprise }}/actions/runners"
-    when: runner_enterprise
+    when: github_enterprise
 
   - name: Get registration token (RUN ONCE)
     ansible.builtin.uri:
