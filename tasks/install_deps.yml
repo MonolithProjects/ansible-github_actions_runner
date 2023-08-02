@@ -10,7 +10,7 @@
       - libssl1.1
       - libicu57
     state: present
-    update_cache: yes
+    update_cache: true
   when: (ansible_distribution == "Debian" and ansible_distribution_major_version == "9")
 
 - name: Install dependencies on Debian Buster
@@ -23,7 +23,7 @@
       - libssl1.1
       - libicu63
     state: present
-    update_cache: yes
+    update_cache: true
   when: (ansible_distribution == "Debian" and ansible_distribution_major_version == "10")
 
 - name: Install dependencies on Debian Bullseye
@@ -36,7 +36,7 @@
       - libssl1.1
       - libicu67
     state: present
-    update_cache: yes
+    update_cache: true
   when: (ansible_distribution == "Debian" and ansible_distribution_major_version == "11")
 
 - name: Install dependencies on Debian Bookworm
@@ -49,7 +49,7 @@
       - libssl3
       - libicu72
     state: present
-    update_cache: yes
+    update_cache: true
   when: (ansible_distribution == "Debian" and ansible_distribution_major_version == "12")
 
 - name: Install dependencies on Ubuntu Xenial systems
@@ -62,7 +62,7 @@
       - libssl1.0.0
       - libicu55
     state: present
-    update_cache: yes
+    update_cache: true
   when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "16")
 
 - name: Install dependencies on Ubuntu Bionic systems
@@ -75,7 +75,7 @@
       - libssl1.1
       - libicu60
     state: present
-    update_cache: yes
+    update_cache: true
   when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "18")
 
 - name: Install dependencies on Ubuntu Focal systems
@@ -88,7 +88,7 @@
       - libssl1.1
       - libicu66
     state: present
-    update_cache: yes
+    update_cache: true
   when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "20")
 
 - name: Install dependencies on Ubuntu Jammy systems
@@ -100,7 +100,7 @@
       - zlib1g
       - libicu70
     state: present
-    update_cache: yes
+    update_cache: true
   when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "22")
 
 - name: Install dependencies on RHEL/CentOS/Fedora systems
@@ -112,7 +112,7 @@
       - zlib
       - libicu
     state: present
-    update_cache: yes
+    update_cache: true
   when: (ansible_distribution == "RedHat") or
         (ansible_distribution == "CentOS") or
         (ansible_distribution == "Fedora") or

@@ -3,7 +3,7 @@
   ansible.builtin.file:
     path: "{{ runner_dir }}"
     state: directory
-    mode: 0755
+    mode: "0755"
     owner: "{{ runner_user_id.stdout }}"
     group: "{{ runner_user_group_id.stdout }}"
 
@@ -27,7 +27,7 @@
     owner: "{{ runner_user_id.stdout }}"
     group: "{{ runner_user_group_id.stdout }}"
     remote_src: yes
-    mode: 0755
+    mode: "0755"
   environment:
     PATH: /usr/local/bin:/opt/homebrew/bin/:{{ ansible_env.HOME }}/bin:{{ ansible_env.PATH }}
   when: runner_version not in runner_installed.stdout or reinstall_runner
@@ -38,7 +38,7 @@
     block: "{{ custom_env }}"
     owner: "{{ runner_user }}"
     create: yes
-    mode: 0755
+    mode: "0755"
     marker_begin: "# BEGIN ANSIBLE MANAGED BLOCK"
     marker_end: "# END ANSIBLE MANAGED BLOCK"
   when: custom_env is defined
