@@ -8,6 +8,7 @@
   ansible.builtin.command: "./svc.sh uninstall"
   args:
     chdir: "{{ runner_dir }}"
+  changed_when: true
   become: "{{ 'false' if ansible_system == 'Darwin' else 'true' }}"
   when: runner_service_file_path.stat.exists
 
@@ -25,6 +26,7 @@
   become: false
   become_user: "{{ runner_user }}"
   no_log: "{{ hide_sensitive_logs | bool }}"
+  changed_when: true
   when: runner_name in registered_runners.json.runners|map(attribute='name')|list and runner_file.stat.exists
 
 - name: Delete runner directory

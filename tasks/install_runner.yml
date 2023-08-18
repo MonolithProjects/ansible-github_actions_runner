@@ -3,7 +3,7 @@
   ansible.builtin.file:
     path: "{{ runner_dir }}"
     state: directory
-    mode: 0755
+    mode: "0755"
     owner: "{{ runner_user_id.stdout }}"
     group: "{{ runner_user_group_id.stdout }}"
 
@@ -26,8 +26,8 @@
     dest: "{{ runner_dir }}/"
     owner: "{{ runner_user_id.stdout }}"
     group: "{{ runner_user_group_id.stdout }}"
-    remote_src: yes
-    mode: 0755
+    remote_src: true
+    mode: "0755"
   environment:
     PATH: /usr/local/bin:/opt/homebrew/bin/:{{ ansible_env.HOME }}/bin:{{ ansible_env.PATH }}
   when: runner_version not in runner_installed.stdout or reinstall_runner
@@ -37,8 +37,8 @@
     path: "{{ runner_dir }}/.env"
     block: "{{ custom_env }}"
     owner: "{{ runner_user }}"
-    create: yes
-    mode: 0755
+    create: true
+    mode: "0755"
     marker_begin: "# BEGIN ANSIBLE MANAGED BLOCK"
     marker_end: "# END ANSIBLE MANAGED BLOCK"
   when: custom_env is defined
@@ -51,12 +51,17 @@
 - name: Set complete GitHub url for repo runner
   ansible.builtin.set_fact:
     github_full_url: "{{ github_url }}/{{ github_owner | default(github_account) }}/{{ github_repo }}"
-  when: not runner_org
+  when: not runner_org and not github_enterprise
 
 - name: Set complete GitHub url for org runner
   ansible.builtin.set_fact:
     github_full_url: "{{ github_url }}/{{ github_owner | default(github_account) }}"
-  when: runner_org | bool
+  when: runner_org | bool and not github_enterprise
+
+- name: Set complete GitHub url for enterprise runner
+  ansible.builtin.set_fact:
+    github_full_url: "{{ github_url }}/enterprises/{{ github_enterprise }}"
+  when: github_enterprise
 
 - name: Register runner
   environment:
@@ -72,6 +77,7 @@
     {{ runner_extra_config_args }}"
   args:
     chdir: "{{ runner_dir }}"
+  changed_when: true
   become_user: "{{ runner_user }}"
   no_log: "{{ hide_sensitive_logs | bool }}"
   when: runner_name not in registered_runners.json.runners|map(attribute='name')|list
@@ -90,14 +96,19 @@
     --replace"
   args:
     chdir: "{{ runner_dir }}"
+  changed_when: true
   become_user: "{{ runner_user }}"
   no_log: "{{ hide_sensitive_logs | bool }}"
-  when: runner_name in registered_runners.json.runners|map(attribute='name')|list and reinstall_runner and not runner_org
+  when: >
+    runner_name in registered_runners.json.runners|map(attribute='name')|list and
+    reinstall_runner and
+    not runner_org
 
 - name: Install service
   ansible.builtin.command: "./svc.sh install {{ runner_user }}"
   args:
     chdir: "{{ runner_dir }}"
+  changed_when: true
   become: "{{ 'false' if ansible_system == 'Darwin' else 'true' }}"
   when: not runner_service_file_path.stat.exists
 
@@ -112,7 +123,11 @@
     chdir: "{{ runner_dir }}"
   no_log: "{{ hide_sensitive_logs | bool }}"
   ignore_errors: "{{ ansible_check_mode }}"
-  when: ansible_system != 'Darwin' and runner_state|lower == "started" and ansible_facts.services[(runner_service.content | b64decode) | trim ]['state'] != 'running'
+  changed_when: true
+  when: >
+    ansible_system != 'Darwin' and
+    runner_state|lower == "started" and
+    ansible_facts.services[(runner_service.content | b64decode) | trim ]['state'] != 'running'
 
 - name: START and enable Github Actions Runner service (macOS) # TODO: Idempotence
   ansible.builtin.command: "./svc.sh start"
@@ -121,25 +136,24 @@
   become: false
   no_log: "{{ hide_sensitive_logs | bool }}"
   ignore_errors: "{{ ansible_check_mode }}"
+  changed_when: true
   when: ansible_system == 'Darwin' and runner_state|lower
 
 - name: STOP and disable Github Actions Runner service
-  ansible.builtin.shell: "./svc.sh stop"
+  ansible.builtin.command: "./svc.sh stop"
   args:
     chdir: "{{ runner_dir }}"
+  changed_when: true
   become: "{{ 'false' if ansible_distribution == 'MacOS' else 'true' }}"
   no_log: "{{ hide_sensitive_logs | bool }}"
   ignore_errors: "{{ ansible_check_mode }}"
   when: runner_state|lower == "stopped"
 
 - name: Version changed - RESTART Github Actions Runner service
-  ansible.builtin.shell:
-    cmd: |
-      ./svc.sh stop
-      sleep 5
-      ./svc.sh start
+  ansible.builtin.command: "./svc.sh stop && sleep 5 && ./svc.sh start"
   args:
     chdir: "{{ runner_dir }}"
+  changed_when: true
   become: "{{ 'false' if ansible_system == 'Darwin' else 'true' }}"
   no_log: "{{ hide_sensitive_logs | bool }}"
   ignore_errors: "{{ ansible_check_mode }}"
