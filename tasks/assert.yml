@@ -5,6 +5,7 @@
       - github_account is defined
     fail_msg: "github_account is not defined"
   run_once: true
+  when: not github_enterprise
 
 - name: Check access_token variable (RUN ONCE)
   ansible.builtin.assert:
@@ -20,3 +21,13 @@
       - runner_org | bool == True or runner_org == False
     fail_msg: "runner_org should be a boolean value"
   run_once: true
+  when: not github_enterprise
+
+- name: Check github_repo variable (RUN ONCE)
+  ansible.builtin.assert:
+    that:
+      - github_repo is defined
+      - github_repo | length > 0
+    fail_msg: "github_repo was not found or is using an invalid format."
+  run_once: true
+  when: not runner_org and not github_enterprise
