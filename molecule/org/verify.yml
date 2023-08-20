@@ -1,24 +1,24 @@
 ---
-- name: validate Repo runners
+- name: Validate Repo runners
   user: ansible
   hosts: all
   gather_facts: yes
   become: yes
   vars:
-    - runner_user: ansible
-    - github_account: monolithprojects-testorg
-    - runner_org: yes
-    - github_api_url: "https://api.github.com"
-    - access_token: "{{ lookup('env', 'PERSONAL_ACCESS_TOKEN') }}"
-    - runner_name: "{{ ansible_hostname }}"
+    runner_user: ansible
+    github_account: monolithprojects-testorg
+    runner_org: yes
+    github_api_url: "https://api.github.com"
+    access_token: "{{ lookup('env', 'PERSONAL_ACCESS_TOKEN') }}"
+    runner_name: "{{ ansible_hostname }}"
 
   tasks:
     - name: Give the runners a minute
-      pause:
+      ansible.builtin.pause:
         seconds: 30
 
     - name: Check currently registered runners
-      uri:
+      ansible.builtin.uri:
         url: "{{ github_api_url }}/orgs/{{ github_owner | default(github_account) }}/actions/runners"
         headers:
           Authorization: "token {{ access_token }}"
@@ -29,7 +29,7 @@
       register: registered_runners
 
     - name: Check Runner
-      assert:
+      ansible.builtin.assert:
         that:
           - runner_name in registered_runners.json.runners|map(attribute='name')|list
         quiet: true

@@ -2,71 +2,71 @@
 - name: Info collections
   check_mode: false
   block:
-  - name: Set complete API url for repo runner
-    ansible.builtin.set_fact:
-      github_full_api_url: "{{ github_api_url }}/repos/{{ github_owner | default(github_account) }}/{{ github_repo }}/actions/runners"
-    when: not runner_org
+    - name: Set complete API url for repo runner
+      ansible.builtin.set_fact:
+        github_full_api_url: "{{ github_api_url }}/repos/{{ github_owner | default(github_account) }}/{{ github_repo }}/actions/runners"
+      when: not runner_org
 
-  - name: Set complete API url for org runner
-    ansible.builtin.set_fact:
-      github_full_api_url: "{{ github_api_url }}/orgs/{{ github_owner | default(github_account) }}/actions/runners"
-    when: runner_org | bool
+    - name: Set complete API url for org runner
+      ansible.builtin.set_fact:
+        github_full_api_url: "{{ github_api_url }}/orgs/{{ github_owner | default(github_account) }}/actions/runners"
+      when: runner_org | bool
 
-  - name: Get registration token (RUN ONCE)
-    ansible.builtin.uri:
-      url: "{{ github_full_api_url }}/registration-token"
-      headers:
-        Authorization: "token {{ access_token }}"
-        Accept: "application/vnd.github.v3+json"
-      method: POST
-      status_code: 201
-      force_basic_auth: yes
-    register: registration
-    run_once: true
+    - name: Get registration token (RUN ONCE)
+      ansible.builtin.uri:
+        url: "{{ github_full_api_url }}/registration-token"
+        headers:
+          Authorization: "token {{ access_token }}"
+          Accept: "application/vnd.github.v3+json"
+        method: POST
+        status_code: 201
+        force_basic_auth: true
+      register: registration
+      run_once: true
 
-  - name: Check currently registered runners for repo (RUN ONCE)
-    ansible.builtin.uri:
-      url: "{{ github_full_api_url }}"
-      headers:
-        Authorization: "token {{ access_token }}"
-        Accept: "application/vnd.github.v3+json"
-      method: GET
-      status_code: 200
-      force_basic_auth: yes
-    register: registered_runners
-    run_once: true
+    - name: Check currently registered runners for repo (RUN ONCE)
+      ansible.builtin.uri:
+        url: "{{ github_full_api_url }}"
+        headers:
+          Authorization: "token {{ access_token }}"
+          Accept: "application/vnd.github.v3+json"
+        method: GET
+        status_code: 200
+        force_basic_auth: true
+      register: registered_runners
+      run_once: true
 
-  - name: Get Runner User IDs
-    ansible.builtin.command: id -u "{{ runner_user }}"
-    changed_when: false
-    register: runner_user_id
+    - name: Get Runner User IDs
+      ansible.builtin.command: id -u "{{ runner_user }}"
+      changed_when: false
+      register: runner_user_id
 
-  - name: Get Runner Group IDs
-    ansible.builtin.command: id -g "{{ runner_user }}"
-    changed_when: false
-    register: runner_user_group_id
+    - name: Get Runner Group IDs
+      ansible.builtin.command: id -g "{{ runner_user }}"
+      changed_when: false
+      register: runner_user_group_id
 
-  - name: Set runner_system variable
-    ansible.builtin.set_fact:
-      runner_system: "{{ 'osx' if ansible_system == 'Darwin' else 'linux' }}"
+    - name: Set runner_system variable
+      ansible.builtin.set_fact:
+        runner_system: "{{ 'osx' if ansible_system == 'Darwin' else 'linux' }}"
 
-  - name: Find the latest runner version (RUN ONCE)
-    ansible.builtin.uri:
-      url: "https://api.github.com/repos/{{ runner_download_repository }}/releases/latest"
-      headers:
-        Content-Type: "application/json"
-      method: GET
-      return_content: yes
-      status_code: 200
-      body_format: json
-    check_mode: false
-    register: api_response
-    run_once: true
-    become: false
-    delegate_to: localhost
-    when: runner_version == "latest"
+    - name: Find the latest runner version (RUN ONCE)
+      ansible.builtin.uri:
+        url: "https://api.github.com/repos/{{ runner_download_repository }}/releases/latest"
+        headers:
+          Content-Type: "application/json"
+        method: GET
+        return_content: true
+        status_code: 200
+        body_format: json
+      check_mode: false
+      register: api_response
+      run_once: true
+      become: false
+      delegate_to: localhost
+      when: runner_version == "latest"
 
-  - name: Get systemd service facts
-    ansible.builtin.service_facts:
-    register: service_facts
-    when: ansible_system == "Linux"
+    - name: Get systemd service facts
+      ansible.builtin.service_facts:
+      register: service_facts
+      when: ansible_system == "Linux"

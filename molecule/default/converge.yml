@@ -5,17 +5,17 @@
   gather_facts: yes
   become: yes
   vars:
-    - runner_user: ansible
-    - github_repo: ansible-github_actions_runner-testrepo
-    - github_account: monolithprojects-testorg
-    - runner_version: "latest"
-    - runner_name: test_name
-    - runner_on_ghes: yes
-    - reinstall_runner: false
-    - hide_sensitive_logs: no
-    - runner_labels:
+    runner_user: ansible
+    github_repo: ansible-github_actions_runner-testrepo
+    github_account: monolithprojects-testorg
+    runner_version: "latest"
+    runner_name: test_name
+    runner_on_ghes: yes
+    reinstall_runner: false
+    hide_sensitive_logs: no
+    runner_labels:
         - label1
         - repo-runner
   roles:
     - robertdebock.epel
-    - ansible-github_actions_runner
+    - monolithprojects.github_actions_runner

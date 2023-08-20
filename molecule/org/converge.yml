@@ -4,11 +4,11 @@
   hosts: all
   become: yes
   vars:
-    - runner_user: ansible
-    - github_account: monolithprojects-testorg
-    - runner_org: yes
-    - runner_state: "stopped"
-    - runner_version: "2.303.0"
+    runner_user: ansible
+    github_account: monolithprojects-testorg
+    runner_org: yes
+    runner_state: "stopped"
+    runner_version: "2.303.0"
   roles:
     - robertdebock.epel
-    - ansible-github_actions_runner
+    - monolithprojects.github_actions_runner

@@ -1,3 +1,6 @@
+---
 skip_list:
   - '106'
   - ignore-errors
+exclude_paths:
+  - .github/workflows/
