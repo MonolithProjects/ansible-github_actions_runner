@@ -150,7 +150,7 @@
   when: runner_state|lower == "stopped"
 
 - name: Version changed - RESTART Github Actions Runner service
-  ansible.builtin.command: "./svc.sh stop && sleep 5 && ./svc.sh start"
+  ansible.builtin.shell: "./svc.sh stop && sleep 5 && ./svc.sh start"
   args:
     chdir: "{{ runner_dir }}"
   changed_when: true
