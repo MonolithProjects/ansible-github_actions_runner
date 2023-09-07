@@ -9,7 +9,7 @@
   args:
     chdir: "{{ runner_dir }}"
   changed_when: true
-  become: "{{ 'false' if ansible_system == 'Darwin' else 'true' }}"
+  become: "{{ 'false' if ansible_facts.system == 'Darwin' else 'true' }}"
   when: runner_service_file_path.stat.exists
 
 - name: Check GitHub Actions runner file

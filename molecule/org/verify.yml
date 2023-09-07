@@ -10,7 +10,7 @@
     - runner_org: yes
     - github_api_url: "https://api.github.com"
     - access_token: "{{ lookup('env', 'PERSONAL_ACCESS_TOKEN') }}"
-    - runner_name: "{{ ansible_hostname }}"
+    - runner_name: "{{ ansible_facts.hostname }}"
 
   tasks:
     - name: Give the runners a minute
