@@ -29,7 +29,7 @@
       register: registration
       run_once: true
 
-    - name: Check currently registered runners (RUN ONCE)
+    - name: Check currently registered runners for repo (RUN ONCE)
       ansible.builtin.uri:
         url: "{{ github_full_api_url }}"
         headers:
