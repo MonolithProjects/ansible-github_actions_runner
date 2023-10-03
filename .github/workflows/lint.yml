@@ -6,16 +6,20 @@ on:
     branches:
       - master
       - main
+      - devel*
 
 jobs:
   lint:
     name: Lint
     runs-on: ubuntu-latest
+    env:
+      ANSIBLE_ROLE: monolithprojects.github_actions_runner
+      SUITE: default
     steps:
       - name: Check out the codebase.
         uses: actions/checkout@v3
         with:
-          path: "${{ github.repository }}"
+          path: ${{ env.ANSIBLE_ROLE }}
 
       - name: Set up Python 3.
         uses: actions/setup-python@v4
@@ -23,8 +27,11 @@ jobs:
           python-version: '3.x'
 
       - name: Install test dependencies.
-        run: pip3 install ansible-lint yamllint
+        run: |
+          pip3 install ansible-lint yamllint
+          [ -f molecule/${SUITE}/requirements.yml ] && ansible-galaxy install -r molecule/${SUITE}/requirements.yml
+          { echo '[defaults]'; echo 'callbacks_enabled = profile_tasks, timer'; echo 'roles_path = ../:/home/runner/.ansible/roles'; echo 'ansible_python_interpreter: /usr/bin/python3'; } >> ansible.cfg
 
       - name: Lint code.
         run: |
-          ansible-lint --exclude molecule/ --exclude .github/
+          cd $GITHUB_WORKSPACE/$ANSIBLE_ROLE && ansible-lint --exclude molecule/ --exclude .github/

@@ -1,20 +1,20 @@
 ---
-- name: validate Repo runners
+- name: Validate Repo runners
   user: ansible
   hosts: all
   gather_facts: yes
   become: yes
   vars:
-    - runner_user: ansible
-    - github_repo: ansible-github_actions_runner-testrepo
-    - github_account: monolithprojects-testorg
-    - github_api_url: "https://api.github.com"
-    - access_token: "{{ lookup('env', 'PERSONAL_ACCESS_TOKEN') }}"
-    - runner_name: ubuntu16-latest
+    runner_user: ansible
+    github_repo: ansible-github_actions_runner-testrepo
+    github_account: monolithprojects-testorg
+    github_api_url: "https://api.github.com"
+    access_token: "{{ lookup('env', 'PERSONAL_ACCESS_TOKEN') }}"
+    runner_name: ubuntu16-latest
 
   tasks:
     - name: Check currently registered runners
-      uri:
+      ansible.builtin.uri:
         url: "{{ github_api_url }}/repos/{{ github_owner | default(github_account) }}/{{ github_repo }}/actions/runners"
         headers:
           Authorization: "token {{ access_token }}"
@@ -24,23 +24,24 @@
         force_basic_auth: yes
       register: registered_runners
 
-    - debug:
+    - name: Debug | var registered_runners
+      ansible.builtin.debug:
         var: registered_runners.json.runners
 
     - name: Check Runner
-      assert:
+      ansible.builtin.assert:
         that:
           - runner_name in registered_runners.json.runners|map(attribute='name')|list
           - registered_runners.json.runners|map(attribute='status') == ["online"]
         quiet: true
 
     - name: Check Labels (skipped if labels are OK)
-      fail:
+      ansible.builtin.fail:
         msg: Woops some labels differ "{{ (registered_runners.json.runners.0 | json_query('labels[*].name') | difference(['self-hosted', 'Linux', 'X64', 'label1', 'repo-runner'])) }}"
       when: not (registered_runners.json.runners.0 | json_query('labels[*].name') | list ) == (['self-hosted', 'Linux', 'X64', 'label1', 'repo-runner'] | list)
 
     - name: Check custom env file is configured
-      lineinfile:
+      ansible.builtin.lineinfile:
         dest: /opt/actions-runner/.env
         line: "# HTTPS_PROXY=YOUR_URL_HERE"
       check_mode: yes

@@ -4,9 +4,9 @@
   hosts: all
   become: yes
   vars:
-    - runner_user: ansible
-    - github_repo: ansible-github_actions_runner-testrepo
-    - github_account: monolithprojects-testorg
-    - runner_state: absent
+    runner_user: ansible
+    github_repo: ansible-github_actions_runner-testrepo
+    github_account: monolithprojects-testorg
+    runner_state: absent
   roles:
-    - ansible-github_actions_runner
+    - monolithprojects.github_actions_runner

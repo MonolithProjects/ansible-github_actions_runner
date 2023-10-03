@@ -1,3 +1,7 @@
+---
 skip_list:
   - '106'
   - ignore-errors
+  - yaml[truthy]
+exclude_paths:
+  - .github/workflows/
