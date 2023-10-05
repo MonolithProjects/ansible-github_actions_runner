@@ -11,7 +11,7 @@
       - libicu57
     state: present
     update_cache: true
-  when: (ansible_distribution == "Debian" and ansible_distribution_major_version == "9")
+  when: (ansible_facts.distribution == "Debian" and ansible_facts.distribution_major_version == "9")
 
 - name: Install dependencies on Debian Buster
   ansible.builtin.package:
@@ -24,7 +24,7 @@
       - libicu63
     state: present
     update_cache: true
-  when: (ansible_distribution == "Debian" and ansible_distribution_major_version == "10")
+  when: (ansible_facts.distribution == "Debian" and ansible_facts.distribution_major_version == "10")
 
 - name: Install dependencies on Debian Bullseye
   ansible.builtin.package:
@@ -37,7 +37,7 @@
       - libicu67
     state: present
     update_cache: true
-  when: (ansible_distribution == "Debian" and ansible_distribution_major_version == "11")
+  when: (ansible_facts.distribution == "Debian" and ansible_facts.distribution_major_version == "11")
 
 - name: Install dependencies on Debian Bookworm
   ansible.builtin.package:
@@ -50,7 +50,7 @@
       - libicu72
     state: present
     update_cache: true
-  when: (ansible_distribution == "Debian" and ansible_distribution_major_version == "12")
+  when: (ansible_facts.distribution == "Debian" and ansible_facts.distribution_major_version == "12")
 
 - name: Install dependencies on Ubuntu Xenial systems
   ansible.builtin.package:
@@ -63,7 +63,7 @@
       - libicu55
     state: present
     update_cache: true
-  when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "16")
+  when: (ansible_facts.distribution == "Ubuntu" and ansible_facts.distribution_major_version == "16")
 
 - name: Install dependencies on Ubuntu Bionic systems
   ansible.builtin.package:
@@ -76,7 +76,7 @@
       - libicu60
     state: present
     update_cache: true
-  when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "18")
+  when: (ansible_facts.distribution == "Ubuntu" and ansible_facts.distribution_major_version == "18")
 
 - name: Install dependencies on Ubuntu Focal systems
   ansible.builtin.package:
@@ -89,7 +89,7 @@
       - libicu66
     state: present
     update_cache: true
-  when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "20")
+  when: (ansible_facts.distribution == "Ubuntu" and ansible_facts.distribution_major_version == "20")
 
 - name: Install dependencies on Ubuntu Jammy systems
   ansible.builtin.package:
@@ -101,7 +101,7 @@
       - libicu70
     state: present
     update_cache: true
-  when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "22")
+  when: (ansible_facts.distribution == "Ubuntu" and ansible_facts.distribution_major_version == "22")
 
 - name: Install dependencies on RHEL/CentOS/Fedora systems
   ansible.builtin.package:
@@ -113,7 +113,7 @@
       - libicu
     state: present
     update_cache: true
-  when: (ansible_distribution == "RedHat") or
-        (ansible_distribution == "CentOS") or
-        (ansible_distribution == "Fedora") or
-        (ansible_distribution == "Rocky")
+  when: (ansible_facts.distribution == "RedHat") or
+        (ansible_facts.distribution == "CentOS") or
+        (ansible_facts.distribution == "Fedora") or
+        (ansible_facts.distribution == "Rocky")

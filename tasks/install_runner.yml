@@ -29,7 +29,7 @@
     remote_src: true
     mode: "0755"
   environment:
-    PATH: /usr/local/bin:/opt/homebrew/bin/:{{ ansible_env.HOME }}/bin:{{ ansible_env.PATH }}
+    PATH: /usr/local/bin:/opt/homebrew/bin/:{{ ansible_facts.user_dir }}/bin:{{ ansible_facts.env.PATH }}
   when: runner_version not in runner_installed.stdout or reinstall_runner
 
 - name: Configure custom env file if required
@@ -111,7 +111,7 @@
   args:
     chdir: "{{ runner_dir }}"
   changed_when: true
-  become: "{{ 'false' if ansible_system == 'Darwin' else 'true' }}"
+  become: "{{ 'false' if ansible_facts.system == 'Darwin' else 'true' }}"
   when: not runner_service_file_path.stat.exists
 
 - name: Read service name from file
@@ -127,7 +127,7 @@
   ignore_errors: "{{ ansible_check_mode }}"
   changed_when: true
   when: >
-    ansible_system != 'Darwin' and
+    ansible_facts.system != 'Darwin' and
     runner_state|lower == "started" and
     ansible_facts.services[(runner_service.content | b64decode) | trim ]['state'] != 'running'
 
@@ -139,7 +139,7 @@
   no_log: "{{ hide_sensitive_logs | bool }}"
   ignore_errors: "{{ ansible_check_mode }}"
   changed_when: true
-  when: ansible_system == 'Darwin' and runner_state|lower
+  when: ansible_facts.system == 'Darwin' and runner_state|lower
 
 - name: STOP and disable Github Actions Runner service  # noqa no-changed-when
   ansible.builtin.command: "./svc.sh stop"
@@ -156,7 +156,7 @@
   args:
     chdir: "{{ runner_dir }}"
   changed_when: true
-  become: "{{ 'false' if ansible_system == 'Darwin' else 'true' }}"
+  become: "{{ 'false' if ansible_facts.system == 'Darwin' else 'true' }}"
   no_log: "{{ hide_sensitive_logs | bool }}"
   ignore_errors: "{{ ansible_check_mode }}"
   when: runner_version not in runner_installed.stdout and not runner_state|lower == "stopped"
