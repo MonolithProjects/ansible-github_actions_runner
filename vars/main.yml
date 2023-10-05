@@ -5,4 +5,4 @@ github_actions_architecture_map:
   x86_64: x64
   armv7l: arm
   aarch64: arm64
-github_actions_architecture: "{{ github_actions_architecture_map[ansible_architecture] }}"
+github_actions_architecture: "{{ github_actions_architecture_map[ansible_facts.architecture] }}"

@@ -43,7 +43,7 @@ runner_download_repository: "actions/runner"
 runner_extra_config_args: ""
 
 # Name to assign to this runner in GitHub (System hostname as default)
-runner_name: "{{ ansible_hostname }}"
+runner_name: "{{ ansible_facts.hostname }}"
 
 # GitHub Repository user or Organization owner used for Runner registration
 # github_account: "youruser"

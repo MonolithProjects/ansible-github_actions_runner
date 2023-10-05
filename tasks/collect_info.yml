@@ -53,7 +53,7 @@
 
     - name: Set runner_system variable
       ansible.builtin.set_fact:
-        runner_system: "{{ 'osx' if ansible_system == 'Darwin' else 'linux' }}"
+        runner_system: "{{ 'osx' if ansible_facts.system == 'Darwin' else 'linux' }}"
 
     - name: Find the latest runner version (RUN ONCE)
       ansible.builtin.uri:
@@ -74,4 +74,4 @@
     - name: Get systemd service facts
       ansible.builtin.service_facts:
       register: service_facts
-      when: ansible_system == "Linux"
+      when: ansible_facts.system  == "Linux"
