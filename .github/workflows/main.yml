@@ -5,6 +5,8 @@ on:
         branches:
             - main
         types: [opened, synchronize, reopened]
+        paths-ignore:
+            - .github/**
     schedule:
         - cron: '0 6 * * 0'
 jobs:
