@@ -6,6 +6,7 @@ on:
       - master
       - main
       - devel*
+      - fix/*
     types: [opened, synchronize, reopened]
     paths:
       - 'defaults/**'
@@ -47,13 +48,11 @@ jobs:
       - name: Set up Python 3
         uses: actions/setup-python@v4
         with:
-          python-version: '3.x'
+          python-version: '3.11'
 
       - name: Install test dependencies
         run: |
           pip3 install ansible docker molecule molecule-plugins[docker] "requests<2.29.2" jmespath
-          # https://github.com/ansible/molecule/issues/4017
-          pip3 install ansible ansible-core==2.15.2 ansible-compat==4.1.5 'molecule<6' molecule-plugins[docker] docker
 
       - name: Run Molecule test - repo
         run: molecule test --scenario-name repo
@@ -91,7 +90,7 @@ jobs:
       - name: Set up Python 3
         uses: actions/setup-python@v4
         with:
-          python-version: '3.x'
+          python-version: '3.11'
 
       - name: Install test dependencies
         run: pip3 install ansible docker molecule molecule-plugins[docker] "requests<2.29.2" jmespath
