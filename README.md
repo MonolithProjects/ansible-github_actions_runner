@@ -2,7 +2,8 @@
 
 [![awesome-runners](https://img.shields.io/badge/listed%20on-awesome--runners-blue.svg)](https://github.com/jonico/awesome-runners)
 [![Role version](https://img.shields.io/github/v/release/MonolithProjects/ansible-github_actions_runner)](https://galaxy.ansible.com/ui/standalone/roles/monolithprojects/github_actions_runner/)
-[![Role downloads](https://img.shields.io/ansible/role/d/19739)](https://galaxy.ansible.com/ui/standalone/roles/monolithprojects/github_actions_runner/)
+[![Role downloads](https://img.shields.io/ansible/role/d/MonolithProjects/github_actions_runner
+)](https://galaxy.ansible.com/ui/standalone/roles/monolithprojects/github_actions_runner/)
 [![Molecule test](https://github.com/MonolithProjects/ansible-github_actions_runner/actions/workflows/tests.yml/badge.svg)](https://github.com/MonolithProjects/ansible-github_actions_runner/actions/workflows/tests.yml)
 [![License](https://img.shields.io/github/license/MonolithProjects/ansible-github_actions_runner)](https://github.com/MonolithProjects/ansible-github_actions_runner/blob/main/LICENSE)
 
@@ -43,7 +44,8 @@ Personal Access Token for GitHub account can be created [here](https://github.co
 * Fedora 29+
 * Debian 9+
 * Ubuntu 16.04+
-* macOS High Sierra +
+* MacOS High Sierra +
+
 ## Weekly tested on:
 
 * Debian 11
