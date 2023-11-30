@@ -23,7 +23,7 @@
   ansible.builtin.command: "./config.sh remove --token {{ registration.json.token }} --name '{{ runner_name }}' --unattended"
   args:
     chdir: "{{ runner_dir }}"
-  become: false
+  become: true
   become_user: "{{ runner_user }}"
   no_log: "{{ hide_sensitive_logs | bool }}"
   changed_when: true
