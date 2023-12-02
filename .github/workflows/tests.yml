@@ -34,7 +34,7 @@ jobs:
       matrix:
         config:
           - os: "debian11"
-          - os: "fedora37"
+          - os: "fedora39"
           - os: "ubuntu20"
           - os: "ubuntu22"
           - os: "rockylinux8"
