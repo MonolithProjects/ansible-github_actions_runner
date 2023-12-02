@@ -49,7 +49,7 @@ Personal Access Token for GitHub account can be created [here](https://github.co
 ## Weekly tested on:
 
 * Debian 11
-* Fedora 37
+* Fedora 39
 * Rocky Linux 8
 * Ubuntu 20,22
 
