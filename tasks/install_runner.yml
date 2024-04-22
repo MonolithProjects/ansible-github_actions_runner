@@ -129,7 +129,7 @@
   when: >
     ansible_facts.system != 'Darwin' and
     runner_state|lower == "started" and
-    ansible_facts.services[(runner_service.content | b64decode) | trim ]['state'] != 'running'
+    ansible_facts.services[(runner_service.content | b64decode) | trim ]['state'] | default('stopped') != 'running'
 
 - name: START and enable Github Actions Runner service (macOS) # TODO: Idempotence
   ansible.builtin.command: "./svc.sh start"  # noqa no-changed-when
