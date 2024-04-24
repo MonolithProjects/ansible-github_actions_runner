@@ -11,6 +11,7 @@
       - libicu57
     state: present
     update_cache: true
+  become: true
   when: (ansible_facts.distribution == "Debian" and ansible_facts.distribution_major_version == "9")
 
 - name: Install dependencies on Debian Buster
@@ -24,6 +25,7 @@
       - libicu63
     state: present
     update_cache: true
+  become: true
   when: (ansible_facts.distribution == "Debian" and ansible_facts.distribution_major_version == "10")
 
 - name: Install dependencies on Debian Bullseye
@@ -37,6 +39,7 @@
       - libicu67
     state: present
     update_cache: true
+  become: true
   when: (ansible_facts.distribution == "Debian" and ansible_facts.distribution_major_version == "11")
 
 - name: Install dependencies on Debian Bookworm
@@ -50,6 +53,7 @@
       - libicu72
     state: present
     update_cache: true
+  become: true
   when: (ansible_facts.distribution == "Debian" and ansible_facts.distribution_major_version == "12")
 
 - name: Install dependencies on Ubuntu Xenial systems
@@ -63,6 +67,7 @@
       - libicu55
     state: present
     update_cache: true
+  become: true
   when: (ansible_facts.distribution == "Ubuntu" and ansible_facts.distribution_major_version == "16")
 
 - name: Install dependencies on Ubuntu Bionic systems
@@ -76,6 +81,7 @@
       - libicu60
     state: present
     update_cache: true
+  become: true
   when: (ansible_facts.distribution == "Ubuntu" and ansible_facts.distribution_major_version == "18")
 
 - name: Install dependencies on Ubuntu Focal systems
@@ -89,6 +95,7 @@
       - libicu66
     state: present
     update_cache: true
+  become: true
   when: (ansible_facts.distribution == "Ubuntu" and ansible_facts.distribution_major_version == "20")
 
 - name: Install dependencies on Ubuntu Jammy systems
@@ -101,6 +108,7 @@
       - libicu70
     state: present
     update_cache: true
+  become: true
   when: (ansible_facts.distribution == "Ubuntu" and ansible_facts.distribution_major_version == "22")
 
 - name: Install dependencies on RHEL/CentOS/Fedora systems
@@ -113,6 +121,7 @@
       - libicu
     state: present
     update_cache: true
+  become: true
   when: (ansible_facts.distribution == "RedHat") or
         (ansible_facts.distribution == "CentOS") or
         (ansible_facts.distribution == "Fedora") or

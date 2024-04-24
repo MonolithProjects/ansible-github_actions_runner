@@ -123,6 +123,7 @@
   ansible.builtin.command: "./svc.sh start"
   args:
     chdir: "{{ runner_dir }}"
+  become: true
   no_log: "{{ hide_sensitive_logs | bool }}"
   ignore_errors: "{{ ansible_check_mode }}"
   changed_when: true
