@@ -2,7 +2,7 @@
 galaxy_info:
   author: Michal Muransky
   role_name: github_actions_runner
-  namespace: monolithprojects
+  namespace: MonolithProjects
   description: Deploy Github Actions private runner
   company: MonolithProjects
   license: "license (MIT)"
