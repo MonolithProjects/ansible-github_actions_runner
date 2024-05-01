@@ -60,7 +60,7 @@ This is a copy from `defaults/main.yml`
 ```yaml
 ---
 # Runner user - user under which is the local runner service running
-runner_user: "{{ lookup('env','USER') }}"
+runner_user: "{{ lookup('env', 'USER') }}"
 
 # Directory where the local runner will be installed
 runner_dir: /opt/actions-runner
@@ -72,10 +72,10 @@ runner_version: "latest"
 runner_state: "started"
 
 # If found on the server, delete already existing runner service and install it again
-reinstall_runner: no
+reinstall_runner: false
 
 # Do not show Ansible logs which may contain sensitive data (registration token)
-hide_sensitive_logs: yes
+hide_sensitive_logs: true
 
 # GitHub address
 github_url: "https://github.com"
@@ -83,11 +83,14 @@ github_url: "https://github.com"
 # GitHub API
 github_api_url: "https://api.github.com"
 
+# Number of runners to list per page
+github_api_runners_per_page: 100
+
 # Personal Access Token for your GitHub account
 access_token: "{{ lookup('env', 'PERSONAL_ACCESS_TOKEN') }}"
 
 # Is it the runner for organization or not?
-runner_org: no
+runner_org: false
 
 # Labels to apply to the runner
 runner_labels: []
