@@ -23,6 +23,9 @@ github_url: "https://github.com"
 # GitHub API
 github_api_url: "https://api.github.com"
 
+# Number of runners to list per page
+github_api_runners_per_page: 100
+
 # Personal Access Token for your GitHub account
 access_token: "{{ lookup('env', 'PERSONAL_ACCESS_TOKEN') }}"
 
