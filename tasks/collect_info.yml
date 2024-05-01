@@ -36,6 +36,9 @@
           Authorization: "token {{ access_token }}"
           Accept: "application/vnd.github.v3+json"
         method: GET
+        body_format: form-urlencoded
+        body:
+          per_page: "{{ github_api_runners_per_page }}"
         status_code: 200
         force_basic_auth: true
       register: registered_runners
