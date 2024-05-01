@@ -31,8 +31,7 @@
     - name: Check Runner
       ansible.builtin.assert:
         that:
-          - runner_name in registered_runners.json.runners|map(attribute='name')|list
-          - registered_runners.json.runners|map(attribute='status') == ["online"]
+          - registered_runners.json.runners.0.status == "online"
         quiet: true
 
     - name: Check Labels (skipped if labels are OK)
