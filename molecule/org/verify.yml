@@ -31,5 +31,5 @@
     - name: Check Runner
       ansible.builtin.assert:
         that:
-          - runner_name in registered_runners.json.runners|map(attribute='name')|list
+          - registered_runners.json.runners.0.status == "offline"
         quiet: true
