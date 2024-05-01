@@ -31,5 +31,5 @@
     - name: Check Runner
       ansible.builtin.assert:
         that:
-          - registered_runners.json.runners.0.status == "stopped"
+          - registered_runners.json.runners.0.status == "offline"
         quiet: true
