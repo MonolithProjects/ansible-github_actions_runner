@@ -103,8 +103,7 @@
   no_log: "{{ hide_sensitive_logs | bool }}"
   when: >
     runner_name in registered_runners.json.runners|map(attribute='name')|list and
-    reinstall_runner and
-    not runner_org
+    reinstall_runner
 
 - name: Install service  # noqa no-changed-when
   ansible.builtin.command: "./svc.sh install {{ runner_user }}"
