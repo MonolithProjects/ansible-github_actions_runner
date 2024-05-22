@@ -63,6 +63,8 @@ jobs:
           MOLECULE_DOCKER_CGROUPS_MODE: ${{ matrix.config.cgroup_mode }}
           MOLECULE_DOCKER_VOLUMES: ${{ matrix.config.volumes }}
           PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          GITHUB_ACCOUNT: monolithprojects-testorg
+          GITHUB_REPO: ansible-github_actions_runner-testrepo
 
   org:
     name: Test Org Runner
@@ -104,3 +106,5 @@ jobs:
           MOLECULE_DOCKER_CGROUPS_MODE: ${{ matrix.config.cgroup_mode }}
           MOLECULE_DOCKER_VOLUMES: ${{ matrix.config.volumes }}
           PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          GITHUB_ACCOUNT: monolithprojects-testorg
+          GITHUB_REPO: ansible-github_actions_runner-testrepo
