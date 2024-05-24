@@ -9,6 +9,7 @@
     github_repo: "{{ lookup('env', 'GITHUB_REPO') }}"
     github_account: "{{ lookup('env', 'GITHUB_ACCOUNT') }}"
     runner_version: "latest"
+    runner_name: test_name
     runner_labels:
         - label1
         - repo-runner

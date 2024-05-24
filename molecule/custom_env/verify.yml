@@ -10,7 +10,7 @@
     github_account: "{{ lookup('env', 'GITHUB_ACCOUNT') }}"
     github_api_url: "https://api.github.com"
     access_token: "{{ lookup('env', 'PERSONAL_ACCESS_TOKEN') }}"
-    runner_name: ubuntu16-latest
+    runner_name: test_name
 
   tasks:
     - name: Check currently registered runners
@@ -32,7 +32,7 @@
       ansible.builtin.assert:
         that:
           - runner_name in registered_runners.json.runners|map(attribute='name')|list
-          - registered_runners.json.runners|map(attribute='status') == ["online"]
+          - registered_runners.json.runners.0.status == "online"
         quiet: true
 
     - name: Check Labels (skipped if labels are OK)

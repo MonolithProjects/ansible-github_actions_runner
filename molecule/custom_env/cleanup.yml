@@ -8,5 +8,6 @@
     github_repo: "{{ lookup('env', 'GITHUB_REPO') }}"
     github_account: "{{ lookup('env', 'GITHUB_ACCOUNT') }}"
     runner_state: absent
+    runner_name: test_name
   roles:
     - monolithprojects.github_actions_runner
