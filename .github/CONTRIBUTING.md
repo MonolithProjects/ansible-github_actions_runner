@@ -23,19 +23,51 @@ Install [Pre-commit](https://pre-commit.com/#install) software
 
 Do the changes in your own GitHub namespace.
 
-## 5. Test the changes
+## 5. Test the changes with Molecule
 
-**Note:** I will test the role again, so you don't need to do that if you don't want to.
+[Molecule](https://molecule.readthedocs.io/) is a testing framework for Ansible that we use to test the `monolithprojects.github_actions_runner` role.
 
-Install [molecule](https://molecule.readthedocs.io/en/stable/) and run the test:
+### Prerequisites
+
+- Python
+- Docker
+- Ansible
+- Molecule
+
+### Installation
+
+1. Install Python, Docker, and Ansible if you haven't already.
+2. Install Molecule and its Docker driver with pip:
 
 ```bash
-pip install molecule molecule-docker ansible-lint docker
-cd ansible-github_actions_runner
+pip install molecule[docker]
+```
+
+### Running Tests
+
+1. Navigate to the role's directory:
+
+```bash
+cd path/to/monolithprojects.github_actions_runner
+```
+
+2. Set Environment variables
+
+```bash
+export PERSONAL_ACCESS_TOKEN=your_github_pat # Your Personal Access Token to Github
+export GITHUB_ACCOUNT=your_account # Your Github Account
+export GITHUB_ACCOUNT=your_repository # Github Repository where you want to setup the Runner
+```
+
+3. Run Molecule:
+
+```bash
 molecule test
 ```
 
-> You will need to edit the files in `molecule/default` directory (please do not commit those changes)
+This will run the molecule test, create a Docker container, run the role against it, run any associated `default` tests (see [molecule/default](../molecule/default) directory), and then destroy the container.
+
+For more information on using Molecule, see the [Molecule documentation](https://molecule.readthedocs.io/).
 
 ## 6. Create a pull request
 
