@@ -165,6 +165,7 @@ Same example as above, but runner will be added to an organization and deployed 
 ```
 
 If you have a Github Enterprise Cloud license and you want to manage all the self-hosted runners from the enterprise:
+
 ```yaml
 ---
 - name: Install GitHub Actions Runner
@@ -220,6 +221,78 @@ In this example the Ansible role will uninstall the runner service and unregiste
   roles:
     - role: monolithprojects.github_actions_runner
 ```
+
+## Testing with Molecule
+
+[Molecule](https://molecule.readthedocs.io/) is a testing framework for Ansible. This section is for code contributors.
+
+### Prerequisites
+
+* Python
+* Docker
+* Ansible
+* Molecule
+
+### Installation
+
+1. Install Python, Docker, and Ansible if you haven't already.
+2. Install Molecule and its Docker driver with pip:
+
+```bash
+pip install molecule[docker]
+```
+Sure, here's a basic example of how you might structure a README to explain how to test the `monolithprojects.github_actions_runner` Ansible role with Molecule:
+
+```markdown
+# monolithprojects.github_actions_runner
+
+This is an Ansible role for setting up GitHub Actions runners.
+
+## Testing with Molecule
+
+[Molecule](https://molecule.readthedocs.io/) is a testing framework for Ansible that we use to test the `monolithprojects.github_actions_runner` role.
+
+### Prerequisites
+
+- Python
+- Docker
+- Ansible
+- Molecule
+
+### Installation
+
+1. Install Python, Docker, and Ansible if you haven't already.
+2. Install Molecule and its Docker driver with pip:
+
+```bash
+pip install molecule[docker]
+```
+
+### Running Tests
+
+1. Navigate to the role's directory:
+
+```bash
+cd path/to/monolithprojects.github_actions_runner
+```
+
+2. Set Environment variables
+
+```bash
+export PERSONAL_ACCESS_TOKEN=your_github_pat # Your Personal Access Token to Github
+export GITHUB_ACCOUNT=your_account # Your Github Account
+export GITHUB_ACCOUNT=your_repository # Github Repository where you want to setup the Runner
+```
+
+3. Run Molecule:
+
+```bash
+molecule test
+```
+
+This will run the molecule test, create a Docker container, run the role against it, run any associated `default` tests (see [molecule/default](./molecule/default) directory), and then destroy the container.
+
+For more information on using Molecule, see the [Molecule documentation](https://molecule.readthedocs.io/).
 
 ## License
 
