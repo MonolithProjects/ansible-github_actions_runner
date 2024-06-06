@@ -7,9 +7,20 @@
 [![Molecule test](https://github.com/MonolithProjects/ansible-github_actions_runner/actions/workflows/tests.yml/badge.svg)](https://github.com/MonolithProjects/ansible-github_actions_runner/actions/workflows/tests.yml)
 [![License](https://img.shields.io/github/license/MonolithProjects/ansible-github_actions_runner)](https://github.com/MonolithProjects/ansible-github_actions_runner/blob/main/LICENSE)
 
-
 This role will deploy/redeploy/uninstall and register/unregister local GitHub Actions Runner on Linux and macOS Systems (see [compatibility list](#supported-operating-systems) ).
 It supports Enterprise, Organization and Repository Runners.
+
+## Role Installation
+
+Since Ansible Galaxy migrated to Galaxy-ng my galaxy account seems to be broken and RedHat/Galaxy support team just [deos not care](https://forum.ansible.com/t/please-fix-my-galaxy-namespace/5176). Please install this role directly fom GitHub.
+
+**requirements.yml**  
+```yml
+roles:
+  - name: monolithprojects.github_actions_runner
+    version: 1.21.1
+    src: https://github.com/MonolithProjects/ansible-github_actions_runner
+```
 
 ## Requirements
 
