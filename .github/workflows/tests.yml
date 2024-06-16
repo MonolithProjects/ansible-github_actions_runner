@@ -39,7 +39,7 @@ jobs:
           - os: "fedora39"
           - os: "ubuntu20"
           - os: "ubuntu22"
-          - os: "rockylinux8"
+          - os: "rockylinux9"
     steps:
       - name: checkout
         uses: actions/checkout@v4
