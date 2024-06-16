@@ -61,7 +61,7 @@ Personal Access Token for GitHub account can be created [here](https://github.co
 
 * Debian 11
 * Fedora 39
-* Rocky Linux 8
+* Rocky Linux 9
 * Ubuntu 20,22
 
 ## Role Variables
