@@ -48,6 +48,9 @@ runner_extra_config_args: ""
 # Name to assign to this runner in GitHub (System hostname as default)
 runner_name: "{{ ansible_facts.hostname }}"
 
+# Set to false when provisioning runners for more than one repository within single play
+all_runners_in_same_repo: true
+
 # GitHub Repository user or Organization owner used for Runner registration
 # github_account: "youruser"
 

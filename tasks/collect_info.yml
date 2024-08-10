@@ -29,7 +29,7 @@
       register: registration
       run_once: true
 
-    - name: Check currently registered runners for repo (RUN ONCE)
+    - name: "Check currently registered runners for repo {{ '(RUN ONCE)' if all_runners_in_same_repo else '' }}"
       ansible.builtin.uri:
         url: "{{ github_full_api_url }}"
         headers:
@@ -42,7 +42,7 @@
         status_code: 200
         force_basic_auth: true
       register: registered_runners
-      run_once: true
+      run_once: "{{ all_runners_in_same_repo }}"
 
     - name: Get Runner User IDs
       ansible.builtin.command: id -u "{{ runner_user }}"

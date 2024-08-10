@@ -12,8 +12,6 @@ It supports Enterprise, Organization and Repository Runners.
 
 ## Role Installation
 
-Since Ansible Galaxy migrated to Galaxy-ng my galaxy account seems to be broken and RedHat/Galaxy support team just [deos not care](https://forum.ansible.com/t/please-fix-my-galaxy-namespace/5176). Please install this role directly fom GitHub.
-
 **requirements.yml**  
 ```yml
 roles:
@@ -118,6 +116,9 @@ runner_extra_config_args: ""
 
 # Name to assign to this runner in GitHub (System hostname as default)
 runner_name: "{{ ansible_facts.hostname }}"
+
+# Set to false when provisioning runners for more than one repository within single play
+all_runners_in_same_repo: true
 
 # GitHub Repository user or Organization owner used for Runner registration
 # github_account: "youruser"
@@ -292,7 +293,7 @@ cd path/to/monolithprojects.github_actions_runner
 ```bash
 export PERSONAL_ACCESS_TOKEN=your_github_pat # Your Personal Access Token to Github
 export GITHUB_ACCOUNT=your_account # Your Github Account
-export GITHUB_ACCOUNT=your_repository # Github Repository where you want to setup the Runner
+export GITHUB_REPO=your_repository # Github Repository where you want to setup the Runner
 ```
 
 3. Run Molecule:
