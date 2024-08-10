@@ -12,8 +12,6 @@ It supports Enterprise, Organization and Repository Runners.
 
 ## Role Installation
 
-Since Ansible Galaxy migrated to Galaxy-ng my galaxy account seems to be broken and RedHat/Galaxy support team just [deos not care](https://forum.ansible.com/t/please-fix-my-galaxy-namespace/5176). Please install this role directly fom GitHub.
-
 **requirements.yml**  
 ```yml
 roles:
