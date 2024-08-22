@@ -83,6 +83,25 @@
   no_log: "{{ hide_sensitive_logs | bool }}"
   when: runner_name not in registered_runners.json.runners|map(attribute='name')|list
 
+- name: Update runner labels if changed
+  ansible.builtin.uri:
+    url: "{{ github_full_api_url }}/{{ (registered_runners.json.runners | selectattr('name', 'equalto', runner_name) | first).id }}/labels"
+    headers:
+      Authorization: "Bearer {{ access_token }}"
+      Accept: "application/vnd.github+json"
+    method: PUT
+    body_format: json
+    body:
+      labels: "{{ runner_labels }}"
+    status_code: 200
+    force_basic_auth: true
+  when:
+    - runner_name in registered_runners.json.runners|map(attribute='name')|list
+    - (runner_labels | sort) != (registered_runners.json.runners | selectattr('name', 'equalto', runner_name) | first).labels |
+                                                                   selectattr('type', 'equalto', 'custom') |
+                                                                   map(attribute='name') |
+                                                                   list
+
 - name: Replace registered runner  # noqa no-changed-when
   environment:
     RUNNER_ALLOW_RUNASROOT: "1"
