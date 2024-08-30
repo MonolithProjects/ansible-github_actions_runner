@@ -3,7 +3,13 @@
 github_actions_architecture_map:
   amd64: x64
   x86_64: x64
+  64-bit: x64
   armv7l: arm
   aarch64: arm64
   arm64: arm64
 github_actions_architecture: "{{ github_actions_architecture_map[ansible_facts.architecture] }}"
+github_actions_system_map:
+  Darwin: osx
+  Linux: linux
+  Win32NT: win
+github_actions_system: "{{ github_actions_system_map[ansible_facts.system] }}"

@@ -31,3 +31,11 @@
     fail_msg: "github_repo was not found or is using an invalid format."
   run_once: true
   when: not runner_org and github_enterprise is not defined
+
+- name: Check runner_user_win_password (RUN ONCE)
+  ansible.builtin.assert:
+    that:
+      - runner_user_win_password is defined
+    fail_msg: "runner_user_win_password was not defined, but it is required on a windows system"
+  run_once: true
+  when: github_actions_system == "win"

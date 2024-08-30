@@ -132,6 +132,9 @@ all_runners_in_same_repo: true
 # GitHub Enterprise name
 # github_enterprise: "yourenterprise"
 
+# Runner user Windows password - the logon password for the service user when running on windows.
+# runner_user_win_password: "{{ lookup('env', 'PASS') }}"
+
 # Configuring a custom .env file
 # custom_env: |
 # http_proxy=YOUR_URL_HERE

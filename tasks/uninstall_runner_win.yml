@@ -1,0 +1,47 @@
+---
+- name: Check if runner service name file exist
+  ansible.windows.win_stat:
+    path: "{{ runner_dir }}/.service"
+  register: runner_service_file_path
+
+- name: Read service name from file
+  ansible.windows.win_command: "cat {{ runner_dir }}\\.service"
+  register: runner_service
+  changed_when: false
+  when: runner_service_file_path.stat.exists
+
+- name: Uninstall service runner
+  ansible.windows.win_shell: |
+    if(Get-Service {{ runner_service.stdout }} -ErrorAction SilentlyContinue) {
+      Write-Host "Stopping and removing service: {{ runner_service.stdout }}"
+      sc.exe stop "{{ runner_service.stdout }}"
+      sc.exe delete "{{ runner_service.stdout }}"
+    }
+  args:
+    chdir: "{{ runner_dir }}"
+  register: uninstall_service_runner
+  changed_when: "'Stopping and removing service:' in uninstall_service_runner.stdout"
+  when: runner_service_file_path.stat.exists
+
+- name: Check GitHub Actions runner file
+  ansible.windows.win_stat:
+    path: "{{ runner_dir }}/.runner"
+  register: runner_file
+
+- name: Unregister runner from the GitHub
+  environment:
+    RUNNER_ALLOW_RUNASROOT: "1"
+  ansible.windows.win_command: "config.cmd remove --token {{ registration.json.token }} --name {{ runner_name }} --unattended"
+  args:
+    chdir: "{{ runner_dir }}"
+  become: true
+  become_method: runas
+  become_user: "{{ runner_user }}"
+  no_log: "{{ hide_sensitive_logs | bool }}"
+  changed_when: true
+  when: runner_name in registered_runners.json.runners|map(attribute='name')|list and runner_file.stat.exists
+
+- name: Delete runner directory
+  ansible.windows.win_file:
+    path: "{{ runner_dir }}"
+    state: absent
