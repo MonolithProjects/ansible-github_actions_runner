@@ -28,6 +28,7 @@
         force_basic_auth: true
       register: registration
       delegate_to: localhost
+      become: false
       run_once: true
 
     - name: "Check currently registered runners for repo {{ '(RUN ONCE)' if all_runners_in_same_repo else '' }}"
@@ -44,6 +45,7 @@
         force_basic_auth: true
       register: registered_runners
       delegate_to: localhost
+      become: false
       run_once: "{{ all_runners_in_same_repo }}"
 
     - name: Get Runner User IDs
