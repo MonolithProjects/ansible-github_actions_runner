@@ -8,7 +8,6 @@
   ansible.windows.win_owner:
     path: "{{ runner_dir }}"
     user: "{{ runner_user }}"
-    recurse: true
 
 - name: Set runner_version variable (If latest)
   ansible.builtin.set_fact:
