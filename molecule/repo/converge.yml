@@ -15,3 +15,22 @@
   roles:
     - robertdebock.epel
     - monolithprojects.github_actions_runner
+
+# Run the playbook again with different labels to test
+- name: Update Repo runner
+  user: ansible
+  hosts: all
+  gather_facts: yes
+  become: yes
+  vars:
+    runner_user: ansible
+    github_repo: "{{ lookup('env', 'GITHUB_REPO') }}"
+    github_account: "{{ lookup('env', 'GITHUB_ACCOUNT') }}"
+    runner_version: "latest"
+    runner_labels:
+        - label1
+        - repo-runner
+        - label2
+  roles:
+    - robertdebock.epel
+    - monolithprojects.github_actions_runner
