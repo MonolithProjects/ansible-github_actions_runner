@@ -29,7 +29,7 @@ jobs:
     name: Test GHA Runner Role
     environment:
       name: test
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       max-parallel: 5
@@ -73,7 +73,7 @@ jobs:
     needs: repo
     environment:
       name: test
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       max-parallel: 5
