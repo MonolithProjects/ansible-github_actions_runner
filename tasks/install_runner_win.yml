@@ -1,0 +1,142 @@
+---
+- name: Create directory
+  ansible.windows.win_file:
+    path: "{{ runner_dir }}"
+    state: directory
+
+- name: Set owner of directory
+  ansible.windows.win_owner:
+    path: "{{ runner_dir }}"
+    user: "{{ runner_user }}"
+
+- name: Set runner_version variable (If latest)
+  ansible.builtin.set_fact:
+    runner_version: "{{ api_response.json.tag_name | regex_replace('^v', '') }}"
+  when: runner_version == "latest"
+
+- name: Check if desired version already installed
+  ansible.windows.win_command: "grep -i {{ runner_version }} {{ runner_dir }}\\bin\\Runner.Listener.deps.json"
+  register: runner_installed
+  check_mode: false
+  changed_when: false
+  ignore_errors: true
+
+- name: Download runner package
+  ansible.windows.win_get_url:
+    url: "https://github.com/{{ runner_download_repository }}/releases/download/v{{ runner_version }}/\
+          actions-runner-{{ github_actions_system }}-{{ github_actions_architecture }}-{{ runner_version }}.zip"
+    dest: "%TEMP%\\actions-runner-{{ github_actions_system }}-{{ github_actions_architecture }}-{{ runner_version }}.zip"
+  when: runner_version not in runner_installed.stdout or reinstall_runner
+
+- name: Unarchive runner package
+  community.windows.win_unzip:
+    src: "%TEMP%\\actions-runner-{{ github_actions_system }}-{{ github_actions_architecture }}-{{ runner_version }}.zip"
+    dest: "{{ runner_dir }}\\"
+    delete_archive: yes
+  when: runner_version not in runner_installed.stdout or reinstall_runner
+
+- name: Configure custom env file if required
+  randrej.windows.win_blockinfile:
+    path: "{{ runner_dir }}\\.env"
+    block: "{{ custom_env }}"
+    create: true
+    marker: "# {mark} ANSIBLE MANAGED BLOCK"
+    marker_begin: BEGIN
+    marker_end: END
+  when: custom_env is defined
+
+- name: Check if runner service name file exist
+  ansible.windows.win_stat:
+    path: "{{ runner_dir }}/.service"
+  register: runner_service_file_path
+
+- name: Set complete GitHub url for repo runner
+  ansible.builtin.set_fact:
+    github_full_url: "{{ github_url }}/{{ github_owner | default(github_account) }}/{{ github_repo }}"
+  when: not runner_org and github_enterprise is not defined
+
+- name: Set complete GitHub url for org runner
+  ansible.builtin.set_fact:
+    github_full_url: "{{ github_url }}/{{ github_owner | default(github_account) }}"
+  when: runner_org | bool and github_enterprise is not defined
+
+- name: Set complete GitHub url for enterprise runner
+  ansible.builtin.set_fact:
+    github_full_url: "{{ github_url }}/enterprises/{{ github_enterprise }}"
+  when: github_enterprise is defined
+
+- name: Register runner  # noqa no-changed-when
+  environment:
+    RUNNER_ALLOW_RUNASROOT: "1"
+  ansible.windows.win_command:
+    "{{ runner_dir }}\\config.cmd \
+    --url {{ github_full_url }} \
+    --token {{ registration.json.token }} \
+    --name {{ runner_name }} \
+    --labels {{ runner_labels | join(',') }} \
+    --runnergroup {{ runner_group }} \
+    --runasservice \
+    --windowslogonaccount {{ runner_user }} \
+    --windowslogonpassword {{ runner_user_win_password }} \
+    --unattended \
+    {{ runner_extra_config_args }}"
+  args:
+    chdir: "{{ runner_dir }}"
+  changed_when: true
+  become_method: ansible.builtin.runas
+  become_user: "{{ runner_user }}"
+  become: true
+  no_log: "{{ hide_sensitive_logs | bool }}"
+  when: runner_name not in registered_runners.json.runners|map(attribute='name')|list
+
+- name: Replace registered runner  # noqa no-changed-when
+  environment:
+    RUNNER_ALLOW_RUNASROOT: "1"
+  ansible.windows.win_command:
+    "{{ runner_dir }}\\config.cmd \
+    --url {{ github_full_url }} \
+    --token {{ registration.json.token }} \
+    --name {{ runner_name }} \
+    --labels {{ runner_labels | join(',') }} \
+    --runasservice \
+    --windowslogonaccount {{ runner_user }} \
+    --windowslogonpassword {{ runner_user_win_password }} \
+    --unattended \
+    {{ runner_extra_config_args }} \
+    --replace"
+  args:
+    chdir: "{{ runner_dir }}"
+  changed_when: true
+  become_method: ansible.builtin.runas
+  become_user: "{{ runner_user }}"
+  become: true
+  no_log: "{{ hide_sensitive_logs | bool }}"
+  when: >
+    runner_name in registered_runners.json.runners|map(attribute='name')|list and
+    reinstall_runner
+
+- name: Read service name from file
+  ansible.windows.win_command: "cat {{ runner_dir }}\\.service"
+  register: runner_service
+  changed_when: false
+
+- name: START and enable Github Actions Runner service
+  ansible.windows.win_service:
+    name: "{{ runner_service.stdout }}"
+    start_mode: auto
+    state: started
+  when: runner_state|lower == "started"
+
+- name: STOP and disable Github Actions Runner service
+  ansible.windows.win_service:
+    name: "{{ runner_service.stdout }}"
+    start_mode: manual
+    state: stopped
+  when: runner_state|lower == "stopped"
+
+- name: Version changed - RESTART Github Actions Runner service
+  ansible.windows.win_service:
+    name: "{{ runner_service.stdout }}"
+    start_mode: auto
+    state: restarted
+  when: runner_version not in runner_installed.stdout and not runner_state|lower == "stopped"

@@ -10,15 +10,23 @@
 This role will deploy/redeploy/uninstall and register/unregister local GitHub Actions Runner on Linux and macOS Systems (see [compatibility list](#supported-operating-systems) ).
 It supports Enterprise, Organization and Repository Runners.
 
-## Role Installation
-
-**requirements.yml**  
-```yml
-roles:
-  - name: monolithprojects.github_actions_runner
-    version: 1.21.1
-    src: https://github.com/MonolithProjects/ansible-github_actions_runner
-```
+> [!IMPORTANT]  
+> My Galaxy account is currently broken. Please use Github for installation source.  
+>
+> **CLI:**
+>
+>```yml
+>ansible-galaxy role install git+https://github.com/MonolithProjects/ansible-github_actions_runner.git,1.21.1
+>```
+>
+>**requirements.yml:**  
+>
+>```yml
+>roles:
+>  - name: monolithprojects.github_actions_runner
+>    version: 1.21.1
+>    src: https://github.com/MonolithProjects/ansible-github_actions_runner
+>```
 
 ## Requirements
 
@@ -47,13 +55,14 @@ Personal Access Token for GitHub account can be created [here](https://github.co
 
 ## Supported Operating Systems
 
-* Red Hat Enterprise Linux 7
-* CentOS 7
+* Red Hat Enterprise Linux 7+
+* CentOS 7+
 * Rocky Linux 8+
 * Fedora 29+
 * Debian 9+
-* Ubuntu 16.04+
+* Ubuntu 18.04+
 * MacOS High Sierra +
+* Windows
 
 ## Weekly tested on:
 
@@ -72,7 +81,7 @@ This is a copy from `defaults/main.yml`
 runner_user: "{{ lookup('env', 'USER') }}"
 
 # Directory where the local runner will be installed
-runner_dir: /opt/actions-runner
+runner_dir: "{{ 'C:\\actions-runner' if ansible_facts.system == 'Win32NT' else '/opt/actions-runner' }}"
 
 # Version of the GitHub Actions Runner
 runner_version: "latest"
@@ -111,7 +120,7 @@ runner_group: ""
 runner_download_repository: "actions/runner"
 
 # Extra arguments to pass to `config.sh`.
-# Several arguments muste be set as one string (i.e. "--ephemeral --my_special_fork")
+# Several arguments must be set as one string (i.e. "--ephemeral --my_special_fork")
 runner_extra_config_args: ""
 
 # Name to assign to this runner in GitHub (System hostname as default)
@@ -131,6 +140,9 @@ all_runners_in_same_repo: true
 
 # GitHub Enterprise name
 # github_enterprise: "yourenterprise"
+
+# Runner user Windows password - the logon password for the service user when running on windows.
+# runner_user_win_password: "{{ lookup('env', 'PASS') }}"
 
 # Configuring a custom .env file
 # custom_env: |

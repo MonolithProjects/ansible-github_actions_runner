@@ -5,7 +5,7 @@
     - install
     - uninstall
 
-- name: Include Information collection taks
+- name: Include Information collection tasks
   ansible.builtin.include_tasks: collect_info.yml
   tags:
     - install
@@ -13,18 +13,40 @@
 
 - name: Include tasks to install dependencies
   ansible.builtin.include_tasks: install_deps.yml
-  when: runner_state|lower == "started" or runner_state|lower == "stopped"
+  when:
+    - runner_state|lower == "started" or runner_state|lower == "stopped"
+    - github_actions_system == "linux"
   tags:
     - install
 
-- name: Include tasks to uninstall runner
-  ansible.builtin.include_tasks: uninstall_runner.yml
-  when: reinstall_runner or runner_state|lower == "absent"
+- name: Include tasks to uninstall runner (UNIX-like)
+  ansible.builtin.include_tasks: uninstall_runner_unix.yml
+  when:
+   - reinstall_runner or runner_state|lower == "absent"
+   - github_actions_system == "linux" or github_actions_system == "osx"
   tags:
     - uninstall
 
-- name: Include tasks to install runner
-  ansible.builtin.include_tasks: install_runner.yml
-  when: runner_state|lower == "started" or runner_state|lower == "stopped"
+- name: Include tasks to uninstall runner (Windows)
+  ansible.builtin.include_tasks: uninstall_runner_win.yml
+  when:
+   - reinstall_runner or runner_state|lower == "absent"
+   - github_actions_system == "win"
+  tags:
+    - uninstall
+
+- name: Include tasks to install runner (UNIX-like)
+  ansible.builtin.include_tasks: install_runner_unix.yml
+  when:
+   - runner_state|lower == "started" or runner_state|lower == "stopped"
+   - github_actions_system == "linux" or github_actions_system == "osx"
+  tags:
+    - install
+
+- name: Include tasks to install runner (Windows)
+  ansible.builtin.include_tasks: install_runner_win.yml
+  when:
+   - runner_state|lower == "started" or runner_state|lower == "stopped"
+   - github_actions_system == "win"
   tags:
     - install

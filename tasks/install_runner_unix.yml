@@ -22,7 +22,7 @@
 - name: Unarchive runner package
   ansible.builtin.unarchive:
     src: "https://github.com/{{ runner_download_repository }}/releases/download/v{{ runner_version }}/\
-          actions-runner-{{ runner_system }}-{{ github_actions_architecture }}-{{ runner_version }}.tar.gz"
+          actions-runner-{{ github_actions_system }}-{{ github_actions_architecture }}-{{ runner_version }}.tar.gz"
     dest: "{{ runner_dir }}/"
     owner: "{{ runner_user_id.stdout }}"
     group: "{{ runner_user_group_id.stdout }}"
