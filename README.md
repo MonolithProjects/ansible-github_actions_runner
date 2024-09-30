@@ -10,22 +10,23 @@
 This role will deploy/redeploy/uninstall and register/unregister local GitHub Actions Runner on Linux and macOS Systems (see [compatibility list](#supported-operating-systems) ).
 It supports Enterprise, Organization and Repository Runners.
 
-## Role Installation (My Galaxy account is currently broken. Please use Github.)
-
-**cli**
-
-```yml
-ansible-galaxy role install git+https://github.com/MonolithProjects/ansible-github_actions_runner.git,1.21.1
-```
-
-**requirements.yml**  
-
-```yml
-roles:
-  - name: monolithprojects.github_actions_runner
-    version: 1.21.1
-    src: https://github.com/MonolithProjects/ansible-github_actions_runner
-```
+> [!IMPORTANT]  
+> My Galaxy account is currently broken. Please use Github for installation source.  
+>
+> **CLI:**
+>
+>```yml
+>ansible-galaxy role install git+https://github.com/MonolithProjects/ansible-github_actions_runner.git,1.21.1
+>```
+>
+>**requirements.yml:**  
+>
+>```yml
+>roles:
+>  - name: monolithprojects.github_actions_runner
+>    version: 1.21.1
+>    src: https://github.com/MonolithProjects/ansible-github_actions_runner
+>```
 
 ## Requirements
 
