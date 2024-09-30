@@ -83,7 +83,7 @@
   args:
     chdir: "{{ runner_dir }}"
   changed_when: true
-  become_method: runas
+  become_method: ansible.builtin.runas
   become_user: "{{ runner_user }}"
   become: true
   no_log: "{{ hide_sensitive_logs | bool }}"
@@ -107,7 +107,7 @@
   args:
     chdir: "{{ runner_dir }}"
   changed_when: true
-  become_method: runas
+  become_method: ansible.builtin.runas
   become_user: "{{ runner_user }}"
   become: true
   no_log: "{{ hide_sensitive_logs | bool }}"
