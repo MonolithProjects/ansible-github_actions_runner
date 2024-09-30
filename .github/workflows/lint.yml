@@ -16,7 +16,7 @@ jobs:
       SUITE: default
     steps:
       - name: Check out the codebase.
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: ${{ env.ANSIBLE_ROLE }}
 
