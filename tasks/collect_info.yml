@@ -64,6 +64,7 @@
       ansible.builtin.uri:
         url: "https://api.github.com/repos/{{ runner_download_repository }}/releases/latest"
         headers:
+          Authorization: "token {{ access_token }}"
           Content-Type: "application/json"
         method: GET
         return_content: true
