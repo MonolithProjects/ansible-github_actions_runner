@@ -111,6 +111,18 @@
   become: true
   when: (ansible_facts.distribution == "Ubuntu" and ansible_facts.distribution_major_version == "22")
 
+- name: Install dependencies on Ubuntu Noble systems
+  ansible.builtin.package:
+    pkg:
+      - acl
+      - liblttng-ust1
+      - libkrb5-3
+      - zlib1g
+    state: present
+    update_cache: true
+  become: true
+  when: (ansible_facts.distribution == "Ubuntu" and ansible_facts.distribution_major_version == "24")
+
 - name: Install dependencies on RHEL/CentOS/Fedora systems
   ansible.builtin.package:
     name:
