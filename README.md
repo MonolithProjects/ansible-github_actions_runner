@@ -263,7 +263,7 @@ In this example the Ansible role will uninstall the runner service and unregiste
 2. Install Molecule and its Docker driver with pip:
 
 ```bash
-pip install molecule[docker]
+pip install "molecule-plugins[docker]"
 ```
 Sure, here's a basic example of how you might structure a README to explain how to test the `monolithprojects.github_actions_runner` Ansible role with Molecule:
 

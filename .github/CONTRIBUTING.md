@@ -40,7 +40,7 @@ Do the changes in your own GitHub namespace.
 2. Install Molecule and its Docker driver with pip:
 
 ```bash
-pip install molecule[docker]
+pip install "molecule-plugins[docker]"
 ```
 
 ### Running Tests
