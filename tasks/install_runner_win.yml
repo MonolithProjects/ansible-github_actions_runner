@@ -26,14 +26,14 @@
     url: "https://github.com/{{ runner_download_repository }}/releases/download/v{{ runner_version }}/\
           actions-runner-{{ github_actions_system }}-{{ github_actions_architecture }}-{{ runner_version }}.zip"
     dest: "%TEMP%\\actions-runner-{{ github_actions_system }}-{{ github_actions_architecture }}-{{ runner_version }}.zip"
-  when: runner_version not in runner_installed.stdout or reinstall_runner
+  when: runner_installed.stdout is not defined or runner_version not in runner_installed.stdout or reinstall_runner
 
 - name: Unarchive runner package
   community.windows.win_unzip:
     src: "%TEMP%\\actions-runner-{{ github_actions_system }}-{{ github_actions_architecture }}-{{ runner_version }}.zip"
     dest: "{{ runner_dir }}\\"
     delete_archive: yes
-  when: runner_version not in runner_installed.stdout or reinstall_runner
+  when: runner_installed.stdout is not defined or runner_version not in runner_installed.stdout or reinstall_runner
 
 - name: Configure custom env file if required
   randrej.windows.win_blockinfile:
