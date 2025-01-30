@@ -15,7 +15,7 @@
   when: runner_version == "latest"
 
 - name: Check if desired version already installed
-  ansible.windows.win_command: "grep -i {{ runner_version }} {{ runner_dir }}\\bin\\Runner.Listener.deps.json"
+  ansible.windows.win_command: "findstr -i {{ runner_version }} {{ runner_dir }}\\bin\\Runner.Listener.deps.json"
   register: runner_installed
   check_mode: false
   changed_when: false
@@ -26,14 +26,14 @@
     url: "https://github.com/{{ runner_download_repository }}/releases/download/v{{ runner_version }}/\
           actions-runner-{{ github_actions_system }}-{{ github_actions_architecture }}-{{ runner_version }}.zip"
     dest: "%TEMP%\\actions-runner-{{ github_actions_system }}-{{ github_actions_architecture }}-{{ runner_version }}.zip"
-  when: runner_version not in runner_installed.stdout or reinstall_runner
+  when: runner_installed.stdout is not defined or runner_version not in runner_installed.stdout or reinstall_runner
 
 - name: Unarchive runner package
   community.windows.win_unzip:
     src: "%TEMP%\\actions-runner-{{ github_actions_system }}-{{ github_actions_architecture }}-{{ runner_version }}.zip"
     dest: "{{ runner_dir }}\\"
     delete_archive: yes
-  when: runner_version not in runner_installed.stdout or reinstall_runner
+  when: runner_installed.stdout is not defined or runner_version not in runner_installed.stdout or reinstall_runner
 
 - name: Configure custom env file if required
   randrej.windows.win_blockinfile:
@@ -116,27 +116,27 @@
     reinstall_runner
 
 - name: Read service name from file
-  ansible.windows.win_command: "cat {{ runner_dir }}\\.service"
+  ansible.windows.win_shell: "type {{ runner_dir }}\\.service"
   register: runner_service
   changed_when: false
 
 - name: START and enable Github Actions Runner service
   ansible.windows.win_service:
-    name: "{{ runner_service.stdout }}"
+    name: "{{ runner_service.stdout | trim }}"
     start_mode: auto
     state: started
   when: runner_state|lower == "started"
 
 - name: STOP and disable Github Actions Runner service
   ansible.windows.win_service:
-    name: "{{ runner_service.stdout }}"
+    name: "{{ runner_service.stdout | trim }}"
     start_mode: manual
     state: stopped
   when: runner_state|lower == "stopped"
 
 - name: Version changed - RESTART Github Actions Runner service
   ansible.windows.win_service:
-    name: "{{ runner_service.stdout }}"
+    name: "{{ runner_service.stdout | trim }}"
     start_mode: auto
     state: restarted
   when: runner_version not in runner_installed.stdout and not runner_state|lower == "stopped"
