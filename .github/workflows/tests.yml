@@ -45,7 +45,7 @@ jobs:
       - name: Set up Python 3
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.13'
 
       - name: Install test dependencies
         run: |
@@ -89,7 +89,7 @@ jobs:
       - name: Set up Python 3
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.13'
 
       - name: Install test dependencies
         run: pip3 install ansible docker molecule molecule-plugins[docker] "requests<2.29.2" jmespath
