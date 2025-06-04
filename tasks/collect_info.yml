@@ -48,6 +48,11 @@
       become: false
       run_once: "{{ all_runners_in_same_repo }}"
 
+    - name: Print registered runners (formatted JSON)
+      ansible.builtin.debug:
+        msg: "{{ registered_runners | to_nice_json }}"
+      when: registered_runners is defined
+
     - name: Get Runner User IDs
       ansible.builtin.command: id -u "{{ runner_user }}"
       changed_when: false

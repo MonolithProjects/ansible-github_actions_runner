@@ -19,12 +19,12 @@
   changed_when: false
   ignore_errors: true
 
-- name: Force reinstall if runner in registered_runners is offline (meaning the self-hosted runner is not tied to the Github runner)
+- name: Force reinstall if runner {{ runner_name }} in registered_runners is offline (meaning the self-hosted runner is not tied to the Github runner)
   ansible.builtin.set_fact:
     reinstall_runner: true
   when:
     - not reinstall_runner
-    - runner_name in registered_runners.json.runners|map(attribute='name')|list
+    - runner_name in (registered_runners.json.runners | map(attribute='name') | list)
     - (registered_runners.json.runners | selectattr('name', 'equalto', runner_name) | first).status == 'offline'
 
 - name: Unarchive runner package
