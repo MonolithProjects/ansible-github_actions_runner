@@ -33,14 +33,11 @@
 
     - name: "Check currently registered runners for repo {{ '(RUN ONCE)' if all_runners_in_same_repo else '' }}"
       ansible.builtin.uri:
-        url: "{{ github_full_api_url }}"
+        url: "{{ github_full_api_url }}{{ '?' if '?' not in github_full_api_url else '&' }}per_page={{ github_api_runners_per_page }}"
         headers:
           Authorization: "token {{ access_token }}"
           Accept: "application/vnd.github.v3+json"
         method: GET
-        body_format: form-urlencoded
-        body:
-          per_page: "{{ github_api_runners_per_page }}"
         status_code: 200
         force_basic_auth: true
       register: registered_runners
