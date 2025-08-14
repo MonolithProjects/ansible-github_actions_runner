@@ -6,6 +6,7 @@
     mode: "0755"
     owner: "{{ runner_user_id.stdout }}"
     group: "{{ runner_user_group_id.stdout }}"
+  become: true
 
 - name: Set runner_version variable (If latest)
   ansible.builtin.set_fact:
@@ -36,6 +37,7 @@
     group: "{{ runner_user_group_id.stdout }}"
     remote_src: true
     mode: "0755"
+  become: true
   environment:
     PATH: /usr/local/bin:/opt/homebrew/bin/:{{ ansible_facts.user_dir }}/bin:{{ ansible_facts.env.PATH }}
   when: runner_version not in runner_installed.stdout or reinstall_runner
@@ -49,6 +51,7 @@
     mode: "0755"
     marker_begin: "# BEGIN ANSIBLE MANAGED BLOCK"
     marker_end: "# END ANSIBLE MANAGED BLOCK"
+  become: true
   when: custom_env is defined
 
 - name: Check if runner service name file exist
