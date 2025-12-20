@@ -3,7 +3,7 @@
   hosts: all
   gather_facts: false
 
-- tasks:
+  tasks:
     - name: Workaround for RockyLinux
       when: ansible_distribution == 'Rocky'
       # Bug in some upstream distros, /etc/shadow has no file perms in container image
