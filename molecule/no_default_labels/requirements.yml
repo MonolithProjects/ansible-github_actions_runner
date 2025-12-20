@@ -1,5 +1,4 @@
 ---
-
 roles:
-- name: robertdebock.epel
-  version: 3.0.1
+  - name: robertdebock.epel
+    version: 4.1.7
