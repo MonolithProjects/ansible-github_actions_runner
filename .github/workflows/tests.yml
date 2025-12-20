@@ -1,20 +1,18 @@
 name: molecule test
-
 on:
   push:
     branches:
       - master
       - develop
     paths:
-      - 'defaults/**'
-      - 'handlers/**'
-      - 'molecule/**'
-      - 'tasks/**'
-      - 'templates/**'
-      - 'vars/**'
-  schedule:
-    - cron: '0 6 * * 0'
+      - "defaults/**"
+      - "handlers/**"
+      - "molecule/**"
+      - "tasks/**"
+      - "templates/**"
+      - "vars/**"
   workflow_dispatch:
+    - master
 
 env:
   MOLECULE_DOCKER_VOLUMES: rw
@@ -31,21 +29,25 @@ jobs:
       max-parallel: 5
       matrix:
         config:
-          - os: "debian11"
-          - os: "fedora39"
-          - os: "ubuntu20"
-          - os: "ubuntu22"
-          - os: "rockylinux9"
+          - os: "debian13"
+          - os: "fedora43"
+          - os: "ubuntu24"
+          - os: "rockylinux10"
     steps:
       - name: checkout
         uses: actions/checkout@v6
         with:
           path: "${{ github.repository }}"
 
+      - name: Remove unnecessary files
+        run: |
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+
       - name: Set up Python 3
         uses: actions/setup-python@v6
         with:
-          python-version: '3.14'
+          python-version: "3.14"
 
       - name: Install test dependencies
         run: |
@@ -55,8 +57,8 @@ jobs:
         run: molecule test --scenario-name repo
         working-directory: "${{ github.repository }}"
         env:
-          PY_COLORS: '1'
-          ANSIBLE_FORCE_COLOR: '1'
+          PY_COLORS: "1"
+          ANSIBLE_FORCE_COLOR: "1"
           MOLECULE_IMAGE: ${{ matrix.config.os }}
           MOLECULE_DOCKER_CGROUPS_MODE: ${{ matrix.config.cgroup_mode }}
           MOLECULE_DOCKER_VOLUMES: ${{ matrix.config.volumes }}
@@ -75,21 +77,25 @@ jobs:
       max-parallel: 5
       matrix:
         config:
-          - os: "debian11"
-          - os: "fedora37"
-          - os: "ubuntu20"
-          - os: "ubuntu22"
-          - os: "rockylinux9"
+          - os: "debian13"
+          - os: "fedora43"
+          - os: "ubuntu24"
+          - os: "rockylinux10"
     steps:
       - name: checkout
         uses: actions/checkout@v6
         with:
           path: "${{ github.repository }}"
 
+      - name: Remove unnecessary files
+        run: |
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+
       - name: Set up Python 3
         uses: actions/setup-python@v6
         with:
-          python-version: '3.14'
+          python-version: "3.14"
 
       - name: Install test dependencies
         run: pip3 install ansible docker molecule molecule-plugins[docker] "requests<2.29.2" jmespath
@@ -98,8 +104,8 @@ jobs:
         run: molecule test --scenario-name org
         working-directory: "${{ github.repository }}"
         env:
-          PY_COLORS: '1'
-          ANSIBLE_FORCE_COLOR: '1'
+          PY_COLORS: "1"
+          ANSIBLE_FORCE_COLOR: "1"
           MOLECULE_IMAGE: ${{ matrix.config.os }}
           MOLECULE_DOCKER_CGROUPS_MODE: ${{ matrix.config.cgroup_mode }}
           MOLECULE_DOCKER_VOLUMES: ${{ matrix.config.volumes }}
