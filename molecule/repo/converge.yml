@@ -1,17 +1,16 @@
 ---
 - name: Install Repo runner
-  user: ansible
   hosts: all
   gather_facts: yes
   become: yes
   vars:
-    runner_user: ansible
+    runner_user: root
     github_repo: "{{ lookup('env', 'GITHUB_REPO') }}"
     github_account: "{{ lookup('env', 'GITHUB_ACCOUNT') }}"
     runner_version: "latest"
     runner_labels:
-        - label1
-        - repo-runner
+      - label1
+      - repo-runner
   roles:
     - robertdebock.epel
     - monolithprojects.github_actions_runner
@@ -28,9 +27,9 @@
     github_account: "{{ lookup('env', 'GITHUB_ACCOUNT') }}"
     runner_version: "latest"
     runner_labels:
-        - label1
-        - repo-runner
-        - label2
+      - label1
+      - repo-runner
+      - label2
   roles:
     - robertdebock.epel
     - monolithprojects.github_actions_runner

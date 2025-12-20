@@ -1,20 +1,13 @@
 ---
-- name: Dev test playbook
+- name: Cleanup
+  user: ansible
   hosts: all
-  gather_facts: yes
   become: yes
   vars:
-    runner_user: root
+    runner_user: ansible
     github_repo: "{{ lookup('env', 'GITHUB_REPO') }}"
     github_account: "{{ lookup('env', 'GITHUB_ACCOUNT') }}"
-    runner_version: "latest"
+    runner_state: absent
     runner_name: test_name
-    runner_labels:
-      - label1
-      - repo-runner
-    custom_env: |
-      # HTTPS_PROXY=YOUR_URL_HERE
-
   roles:
-    - robertdebock.epel
     - monolithprojects.github_actions_runner
