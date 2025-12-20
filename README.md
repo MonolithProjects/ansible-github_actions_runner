@@ -55,21 +55,20 @@ Personal Access Token for GitHub account can be created [here](https://github.co
 
 ## Supported Operating Systems
 
-* Red Hat Enterprise Linux 7+
-* CentOS 7+
+* Red Hat Enterprise Linux 8+
 * Rocky Linux 8+
-* Fedora 29+
-* Debian 9+
-* Ubuntu 18.04+
+* Fedora 40+
+* Debian 10+
+* Ubuntu 22.04+
 * MacOS High Sierra +
 * Windows
 
 ## Weekly tested on:
 
-* Debian 11
-* Fedora 39
-* Rocky Linux 9
-* Ubuntu 20,22
+* Debian 13
+* Fedora 43
+* Rocky Linux 10
+* Ubuntu 24
 
 ## Role Variables
 
@@ -113,9 +112,6 @@ runner_org: false
 # Labels to apply to the runner
 runner_labels: []
 
-# Disable default labels (self-hosted, Linux, X64) and require custom labels. Set `runner_no_default_labels: true` and provide at least one label in `runner_labels` to use this feature.
-runner_no_default_labels: false
-
 # Group to add organization runner to
 runner_group: ""
 
@@ -125,6 +121,9 @@ runner_download_repository: "actions/runner"
 # Extra arguments to pass to `config.sh`.
 # Several arguments must be set as one string (i.e. "--ephemeral --my_special_fork")
 runner_extra_config_args: ""
+
+# Disable default labels (self-hosted, Linux, X64) and require custom labels. Set `runner_no_default_labels: true` and provide at least one label in `runner_labels` to use this feature.
+runner_no_default_labels: false
 
 # Name to assign to this runner in GitHub (System hostname as default)
 runner_name: "{{ ansible_facts.hostname }}"
