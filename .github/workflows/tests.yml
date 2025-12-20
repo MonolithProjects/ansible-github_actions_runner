@@ -31,7 +31,7 @@ jobs:
         config:
           - os: "debian13"
           - os: "fedora43"
-          - os: "ubuntu24"
+          - os: "ubuntu2404"
           - os: "rockylinux10"
     steps:
       - name: checkout
@@ -79,7 +79,7 @@ jobs:
         config:
           - os: "debian13"
           - os: "fedora43"
-          - os: "ubuntu24"
+          - os: "ubuntu2404"
           - os: "rockylinux10"
     steps:
       - name: checkout
