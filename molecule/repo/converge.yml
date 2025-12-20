@@ -2,7 +2,7 @@
 - name: Install Repo runner
   hosts: all
   gather_facts: yes
-  # become: yes # Do not use sudo due to https://github.com/geerlingguy/docker-rockylinux10-ansible/issues/2
+  become: yes
   vars:
     runner_user: root
     github_repo: "{{ lookup('env', 'GITHUB_REPO') }}"
@@ -19,7 +19,7 @@
 - name: Update Repo runner
   hosts: all
   gather_facts: yes
-  # become: yes
+  become: yes
   vars:
     runner_user: root
     github_repo: "{{ lookup('env', 'GITHUB_REPO') }}"

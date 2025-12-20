@@ -1,0 +1,10 @@
+---
+- name: Prepare
+  hosts: all
+  gather_facts: false
+
+- tasks:
+    - name: Workaround for RockyLinux
+      ansible.builtin.shell:
+        cmd: chmod 0400 /etc/shadow
+      when: ansible_distribution == 'RockyLinux'

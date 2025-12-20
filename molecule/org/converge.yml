@@ -1,7 +1,7 @@
 ---
 - name: Install Org Runner
   hosts: all
-  # become: yes # Do not use sudo due to https://github.com/geerlingguy/docker-rockylinux10-ansible/issues/2
+  become: yes
   vars:
     runner_user: root
     github_account: "{{ lookup('env', 'GITHUB_ACCOUNT') }}"
