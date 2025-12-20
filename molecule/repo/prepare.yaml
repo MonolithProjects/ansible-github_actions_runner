@@ -5,6 +5,8 @@
 
 - tasks:
     - name: Workaround for RockyLinux
-      ansible.builtin.shell:
-        cmd: chmod 0400 /etc/shadow
-      when: ansible_distribution == 'RockyLinux'
+      when: ansible_distribution == 'Rocky'
+      # Bug in some upstream distros, /etc/shadow has no file perms in container image
+      ansible.builtin.file:
+        path: /etc/shadow
+        mode: "400"
