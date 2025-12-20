@@ -9,6 +9,7 @@
     runner_org: yes
     runner_state: "stopped"
     runner_version: "2.303.0"
+    no_log: false
   roles:
     - robertdebock.epel
     - monolithprojects.github_actions_runner
