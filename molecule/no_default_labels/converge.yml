@@ -10,8 +10,7 @@
     runner_name: test_name
     runner_no_default_labels: true
     runner_labels:
-      - testlabel1    
+      - testlabel1
       - testlabel2
   roles:
     - role: monolithprojects.github_actions_runner
-

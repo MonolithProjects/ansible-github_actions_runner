@@ -32,7 +32,7 @@
 
     - debug:
         var: registered_runners.json.runners.0
-        
+
     - name: Set fact - current labels
       ansible.builtin.set_fact:
         current_labels: "{{ registered_runners.json.runners.0 | json_query('labels[*].name') | list }}"
