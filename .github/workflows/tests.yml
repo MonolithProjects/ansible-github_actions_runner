@@ -14,10 +14,6 @@ on:
       - "vars/**"
   workflow_dispatch:
 
-env:
-  MOLECULE_DOCKER_VOLUMES: rw
-  MOLECULE_DOCKER_CGROUPS_MODE: host
-
 jobs:
   repo:
     name: Test GHA Runner Role
@@ -60,8 +56,6 @@ jobs:
           PY_COLORS: "1"
           ANSIBLE_FORCE_COLOR: "1"
           MOLECULE_DISTRO: ${{ matrix.config.os }}
-          MOLECULE_DOCKER_CGROUPS_MODE: ${{ matrix.config.cgroup_mode }}
-          MOLECULE_DOCKER_VOLUMES: ${{ matrix.config.volumes }}
           PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           GITHUB_ACCOUNT: monolithprojects-testorg
           GITHUB_REPO: ansible-github_actions_runner-testrepo
@@ -107,8 +101,6 @@ jobs:
           PY_COLORS: "1"
           ANSIBLE_FORCE_COLOR: "1"
           MOLECULE_DISTRO: ${{ matrix.config.os }}
-          MOLECULE_DOCKER_CGROUPS_MODE: ${{ matrix.config.cgroup_mode }}
-          MOLECULE_DOCKER_VOLUMES: ${{ matrix.config.volumes }}
           PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           GITHUB_ACCOUNT: monolithprojects-testorg
           GITHUB_REPO: ansible-github_actions_runner-testrepo
