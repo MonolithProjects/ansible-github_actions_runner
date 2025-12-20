@@ -45,7 +45,7 @@ Personal Access Token for GitHub account can be created [here](https://github.co
 * Runner user has to be pre-created.
   Recommended role: `monolithprojects.user_management`
 
-* CentOS systems require EPEL repository.
+* CentOS and RockyLinuxsystems require EPEL repository.
   Recommended role: `robertdebock.epel`
 
 ## Supported CPU architecture
@@ -67,12 +67,12 @@ Personal Access Token for GitHub account can be created [here](https://github.co
 
 * Debian 13
 * Fedora 43
-* Rocky Linux 10
+* Rocky Linux 9
 * Ubuntu 24
 
 ## Role Variables
 
-This is a copy from `defaults/main.yml`
+This is a copy of `defaults/main.yml`
 
 ```yaml
 ---
