@@ -20,7 +20,7 @@
   changed_when: false
   ignore_errors: true
 
-- name: Force reinstall if runner {{ runner_name }} in registered_runners is offline (meaning the self-hosted runner is not tied to the Github runner)
+- name: Force reinstall if runner in registered_runners is offline (not tied to Github runner) - {{ runner_name }}
   ansible.builtin.set_fact:
     reinstall_runner: true
   when:
@@ -30,8 +30,9 @@
 
 - name: Unarchive runner package
   ansible.builtin.unarchive:
-    src: "https://github.com/{{ runner_download_repository }}/releases/download/v{{ runner_version }}/\
-          actions-runner-{{ github_actions_system }}-{{ github_actions_architecture }}-{{ runner_version }}.tar.gz"
+    src:
+      "https://github.com/{{ runner_download_repository }}/releases/download/v{{ runner_version }}/\
+      actions-runner-{{ github_actions_system }}-{{ github_actions_architecture }}-{{ runner_version }}.tar.gz"
     dest: "{{ runner_dir }}/"
     owner: "{{ runner_user_id.stdout }}"
     group: "{{ runner_user_group_id.stdout }}"
@@ -74,12 +75,11 @@
     github_full_url: "{{ github_url }}/enterprises/{{ github_enterprise }}"
   when: github_enterprise is defined
 
-- name: Register runner  # noqa no-changed-when
+- name: Register runner # noqa no-changed-when
   environment:
     RUNNER_ALLOW_RUNASROOT: "1"
     ACTIONS_RUNNER_INPUT_TOKEN: "{{ registration.json.token }}"
-  ansible.builtin.command:
-    "{{ runner_dir }}/./config.sh \
+  ansible.builtin.command: "{{ runner_dir }}/./config.sh \
     --url {{ github_full_url }} \
     --name '{{ runner_name }}' \
     --labels {{ runner_labels | join(',') }} \
@@ -110,16 +110,15 @@
   when:
     - runner_name in registered_runners.json.runners|map(attribute='name')|list
     - (runner_labels | sort) != (registered_runners.json.runners | selectattr('name', 'equalto', runner_name) | first).labels |
-                                                                   selectattr('type', 'equalto', 'custom') |
-                                                                   map(attribute='name') |
-                                                                   list
+      selectattr('type', 'equalto', 'custom') |
+      map(attribute='name') |
+      list
 
-- name: Replace registered runner  # noqa no-changed-when
+- name: Replace registered runner # noqa no-changed-when
   environment:
     RUNNER_ALLOW_RUNASROOT: "1"
     ACTIONS_RUNNER_INPUT_TOKEN: "{{ registration.json.token }}"
-  ansible.builtin.command:
-    "{{ runner_dir }}/config.sh \
+  ansible.builtin.command: "{{ runner_dir }}/config.sh \
     --url {{ github_full_url }} \
     --name '{{ runner_name }}' \
     --labels {{ runner_labels | join(',') }} \
@@ -137,7 +136,7 @@
     runner_name in registered_runners.json.runners|map(attribute='name')|list and
     reinstall_runner
 
-- name: Install service  # noqa no-changed-when
+- name: Install service # noqa no-changed-when
   ansible.builtin.command: "./svc.sh install {{ runner_user }}"
   args:
     chdir: "{{ runner_dir }}"
@@ -150,7 +149,7 @@
     src: "{{ runner_dir }}/.service"
   register: runner_service
 
-- name: START and enable Github Actions Runner service (Linux)  # noqa no-changed-when
+- name: START and enable Github Actions Runner service (Linux) # noqa no-changed-when
   ansible.builtin.command: "./svc.sh start"
   args:
     chdir: "{{ runner_dir }}"
@@ -164,7 +163,7 @@
     ansible_facts.services[(runner_service.content | b64decode) | trim ]['state'] | default('stopped') != 'running'
 
 - name: START and enable Github Actions Runner service (macOS) # TODO: Idempotence
-  ansible.builtin.command: "./svc.sh start"  # noqa no-changed-when
+  ansible.builtin.command: "./svc.sh start" # noqa no-changed-when
   args:
     chdir: "{{ runner_dir }}"
   become: false
@@ -173,7 +172,7 @@
   changed_when: true
   when: ansible_facts.system == 'Darwin' and runner_state|lower
 
-- name: STOP and disable Github Actions Runner service  # noqa no-changed-when
+- name: STOP and disable Github Actions Runner service # noqa no-changed-when
   ansible.builtin.command: "./svc.sh stop"
   args:
     chdir: "{{ runner_dir }}"
