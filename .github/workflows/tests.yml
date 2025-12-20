@@ -12,7 +12,6 @@ on:
       - "templates/**"
       - "vars/**"
   workflow_dispatch:
-    - master
 
 env:
   MOLECULE_DOCKER_VOLUMES: rw
