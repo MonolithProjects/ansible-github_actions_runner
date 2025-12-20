@@ -1,11 +1,10 @@
 ---
 - name: Validate Repo runners
-  user: ansible
   hosts: all
   gather_facts: yes
   become: yes
   vars:
-    runner_user: ansible
+    runner_user: root
     github_repo: "{{ lookup('env', 'GITHUB_REPO') }}"
     github_account: "{{ lookup('env', 'GITHUB_ACCOUNT') }}"
     github_api_url: "https://api.github.com"
