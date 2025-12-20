@@ -1,6 +1,7 @@
 ---
 - name: Install Org Runner
   hosts: all
+  gather_facts: yes
   become: yes
   vars:
     runner_user: root

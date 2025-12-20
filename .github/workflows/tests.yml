@@ -94,7 +94,7 @@ jobs:
       - name: Install test dependencies
         run: pip3 install ansible docker molecule molecule-plugins[docker] "requests<2.29.2" jmespath
 
-      - name: Run Molecule tests -
+      - name: Run Molecule tests - org
         run: molecule test --scenario-name org
         working-directory: "${{ github.repository }}"
         env:
