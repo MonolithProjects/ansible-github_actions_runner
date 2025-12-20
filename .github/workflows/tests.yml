@@ -106,7 +106,7 @@ jobs:
         env:
           PY_COLORS: "1"
           ANSIBLE_FORCE_COLOR: "1"
-          MOLECULE_IMAGE: ${{ matrix.config.os }}
+          MOLECULE_DISTRO: ${{ matrix.config.os }}
           MOLECULE_DOCKER_CGROUPS_MODE: ${{ matrix.config.cgroup_mode }}
           MOLECULE_DOCKER_VOLUMES: ${{ matrix.config.volumes }}
           PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
