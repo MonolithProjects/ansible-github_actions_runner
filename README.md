@@ -2,53 +2,34 @@
 
 [![awesome-runners](https://img.shields.io/badge/listed%20on-awesome--runners-blue.svg)](https://github.com/jonico/awesome-runners)
 [![Role version](https://img.shields.io/github/v/release/MonolithProjects/ansible-github_actions_runner)](https://galaxy.ansible.com/ui/standalone/roles/monolithprojects/github_actions_runner/)
-[![Role downloads](https://img.shields.io/ansible/role/d/MonolithProjects/github_actions_runner
-)](https://galaxy.ansible.com/ui/standalone/roles/monolithprojects/github_actions_runner/)
+[![Role downloads](https://img.shields.io/ansible/role/d/MonolithProjects/github_actions_runner)](https://galaxy.ansible.com/ui/standalone/roles/monolithprojects/github_actions_runner/)
 [![Molecule test](https://github.com/MonolithProjects/ansible-github_actions_runner/actions/workflows/tests.yml/badge.svg)](https://github.com/MonolithProjects/ansible-github_actions_runner/actions/workflows/tests.yml)
 [![License](https://img.shields.io/github/license/MonolithProjects/ansible-github_actions_runner)](https://github.com/MonolithProjects/ansible-github_actions_runner/blob/main/LICENSE)
 
-This role will deploy/redeploy/uninstall and register/unregister local GitHub Actions Runner on Linux and macOS Systems (see [compatibility list](#supported-operating-systems) ).
+This role will deploy/redeploy/uninstall and register/unregister local GitHub Actions Runner on Linux and macOS systems (see [compatibility list](#supported-operating-systems)).
 It supports Enterprise, Organization and Repository Runners.
-
-> [!IMPORTANT]  
-> My Galaxy account is currently broken. Please use Github for installation source.  
->
-> **CLI:**
->
->```yml
->ansible-galaxy role install git+https://github.com/MonolithProjects/ansible-github_actions_runner.git,1.21.1
->```
->
->**requirements.yml:**  
->
->```yml
->roles:
->  - name: monolithprojects.github_actions_runner
->    version: 1.21.1
->    src: https://github.com/MonolithProjects/ansible-github_actions_runner
->```
 
 ## Requirements
 
 * System must have access to the GitHub API.
 
-* The role require Personal Access Token to access the GitHub. The token can be set as `PERSONAL_ACCESS_TOKEN` environment variable.
+* The role requires a Personal Access Token to access GitHub. The token can be set as the `PERSONAL_ACCESS_TOKEN` environment variable.
 
 > **Note**  
 > The token must have the `repo` scope (when creating a repo runner), the `admin:org` scope (when creating a runner for an organization),
-> the `manage_runners:enterprise` scope (when creating a enterprise runner).
-Personal Access Token for GitHub account can be created [here](https://github.com/settings/tokens).
+> or the `manage_runners:enterprise` scope (when creating an enterprise runner).
+> Personal Access Token for GitHub account can be created [here](https://github.com/settings/tokens).
 
 > **Warning**  
-> Never store you personal access token in the GitHub repository. Use [GitHub Secrets](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets) or some different secrets service.
+> Never store your personal access token in the GitHub repository. Use [GitHub Secrets](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets) or a different secrets service.
 
 * Runner user has to be pre-created.
   Recommended role: `monolithprojects.user_management`
 
-* CentOS and RockyLinuxsystems require EPEL repository.
+* CentOS and Rocky Linux systems require EPEL repository.
   Recommended role: `robertdebock.epel`
 
-## Supported CPU architecture
+## Supported CPU Architecture
 
 * ARM, ARM64 (dependencies installation is not covered by this role)
 * AMD64, x86_64
@@ -60,10 +41,10 @@ Personal Access Token for GitHub account can be created [here](https://github.co
 * Fedora 40+
 * Debian 10+
 * Ubuntu 22.04+
-* MacOS High Sierra +
+* macOS High Sierra+
 * Windows
 
-## Weekly tested on:
+## Tested On
 
 * Debian 13
 * Fedora 43
@@ -158,8 +139,8 @@ all_runners_in_same_repo: true
 
 ## Example Playbooks
 
-In this example the Ansible role will install (or update) the GitHub Actions Runner service (latest available version). The runner will be registered for *my_awesome_repo* GitHub repo.
-Runner service will be stated and will run under the same user as the Ansible is using for ssh connection (*ansible*).
+In this example the Ansible role will install (or update) the GitHub Actions Runner service (latest available version). The runner will be registered for the *my_awesome_repo* GitHub repository.
+The runner service will be started and will run under the same user as Ansible is using for SSH connection (*ansible*).
 
 ```yaml
 ---
@@ -174,7 +155,7 @@ Runner service will be stated and will run under the same user as the Ansible is
     - role: monolithprojects.github_actions_runner
 ```
 
-Same example as above, but runner will be added to an organization and deployed on GitHub Enterprise Server.
+Same example as above, but the runner will be added to an organization and deployed on GitHub Enterprise Server.
 
 ```yaml
 ---
@@ -190,7 +171,7 @@ Same example as above, but runner will be added to an organization and deployed 
     - role: monolithprojects.github_actions_runner
 ```
 
-If you have a Github Enterprise Cloud license and you want to manage all the self-hosted runners from the enterprise:
+If you have a GitHub Enterprise Cloud license and you want to manage all the self-hosted runners from the enterprise:
 
 ```yaml
 ---
@@ -205,8 +186,8 @@ If you have a Github Enterprise Cloud license and you want to manage all the sel
     - role: monolithprojects.github_actions_runner
 ```
 
-In this example the Ansible role will deploy (or update) the GitHub Actions runner service (version 2.165.2) and register the runner for the GitHub repo. Runner service will run under the user `runner-user`. Runner will be registered with two labels.
-The runner service will be *stopped* and disabled. Runner will use custom environment variables (from file named `.env` in the self-hosted runner application directory).
+In this example the Ansible role will deploy (or update) the GitHub Actions runner service (version 2.165.2) and register the runner for the GitHub repository. The runner service will run under the user `runner-user`. The runner will be registered with two labels.
+The runner service will be *stopped* and disabled. The runner will use custom environment variables (from a file named `.env` in the self-hosted runner application directory).
 
 ```yaml
 ---
@@ -233,7 +214,7 @@ The runner service will be *stopped* and disabled. Runner will use custom enviro
     - role: monolithprojects.github_actions_runner
 ```
 
-In this example the Ansible role will uninstall the runner service and unregister it from the GitHub Repository.
+In this example the Ansible role will uninstall the runner service and unregister it from the GitHub repository.
 
 ```yaml
 ---
@@ -277,12 +258,12 @@ pip install "molecule-plugins[docker]"
 cd path/to/monolithprojects.github_actions_runner
 ```
 
-2. Set Environment variables
+2. Set environment variables:
 
 ```bash
-export PERSONAL_ACCESS_TOKEN=your_github_pat # Your Personal Access Token to Github
-export GITHUB_ACCOUNT=your_account # Your Github Account
-export GITHUB_REPO=your_repository # Github Repository where you want to setup the Runner
+export PERSONAL_ACCESS_TOKEN=your_github_pat # Your Personal Access Token to GitHub
+export GITHUB_ACCOUNT=your_account # Your GitHub Account
+export GITHUB_REPO=your_repository # GitHub Repository where you want to set up the Runner
 ```
 
 3. Run Molecule:
