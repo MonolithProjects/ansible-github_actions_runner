@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.0.1
+    rev: v6.0.0
     hooks:
       - id: check-yaml
         args: [--allow-multiple-documents]
@@ -9,7 +9,7 @@ repos:
         args: [--markdown-linebreak-ext=md]
 
   - repo: https://github.com/adrienverge/yamllint
-    rev: v1.26.3
+    rev: v1.37.1
     hooks:
       - id: yamllint
         args: [-c=.yamllint]
