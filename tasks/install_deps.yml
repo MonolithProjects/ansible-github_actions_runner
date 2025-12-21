@@ -137,7 +137,7 @@
   become: true
   when: (ansible_facts.distribution == "Ubuntu" and ansible_facts.distribution_major_version == "24")
 
-- name: Install dependencies on RHEL/CentOS/Fedora systems
+- name: Install dependencies on RHEL/RockyLinux/CentOS/Fedora systems
   ansible.builtin.package:
     name:
       - lttng-ust
@@ -149,6 +149,6 @@
     update_cache: true
   become: true
   when: (ansible_facts.distribution == "RedHat") or
-        (ansible_facts.distribution == "CentOS") or
-        (ansible_facts.distribution == "Fedora") or
-        (ansible_facts.distribution == "Rocky")
+    (ansible_facts.distribution == "CentOS") or
+    (ansible_facts.distribution == "Fedora") or
+    (ansible_facts.distribution == "Rocky")

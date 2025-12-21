@@ -1,4 +1,0 @@
----
-roles:
-  - name: robertdebock.epel
-    version: 4.1.7

@@ -17,26 +17,4 @@
       - repo-runner
   roles:
     - robertdebock.epel
-    - monolithprojects.github_actions_runner
-
-# Run the playbook again with different labels to test
-- name: Dev test playbook second run
-  hosts: all
-  gather_facts: yes
-  become: yes
-  vars:
-    runner_user: root
-    github_repo: "{{ lookup('env', 'GITHUB_REPO') }}"
-    github_account: "{{ lookup('env', 'GITHUB_ACCOUNT') }}"
-    runner_version: "latest"
-    runner_name: test_name
-    runner_on_ghes: yes
-    reinstall_runner: false
-    hide_sensitive_logs: no
-    runner_labels:
-      - label1
-      - repo-runner
-      - label2
-  roles:
-    - robertdebock.epel
-    - monolithprojects.github_actions_runner
+    - role: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') }}"

@@ -28,7 +28,7 @@
     - runner_name in (registered_runners.json.runners | map(attribute='name') | list)
     - (registered_runners.json.runners | selectattr('name', 'equalto', runner_name) | first).status == 'offline'
 
-- name: Unarchive runner package
+- name: Unarchive GitHub Actions Runner package version {{ runner_version }}
   ansible.builtin.unarchive:
     src:
       "https://github.com/{{ runner_download_repository }}/releases/download/v{{ runner_version }}/\
@@ -114,6 +114,12 @@
       map(attribute='name') |
       list
 
+- debug:
+    var: reinstall_runner
+
+- debug:
+    var: registered_runners.json.runners|map(attribute='name')|list
+
 - name: Replace registered runner # noqa no-changed-when
   environment:
     RUNNER_ALLOW_RUNASROOT: "1"
@@ -149,7 +155,7 @@
     src: "{{ runner_dir }}/.service"
   register: runner_service
 
-- name: START and enable Github Actions Runner service (Linux) # noqa no-changed-when
+- name: START and enable Github Actions Runner service on Linux # noqa no-changed-when
   ansible.builtin.command: "./svc.sh start"
   args:
     chdir: "{{ runner_dir }}"
@@ -162,7 +168,7 @@
     runner_state|lower == "started" and
     ansible_facts.services[(runner_service.content | b64decode) | trim ]['state'] | default('stopped') != 'running'
 
-- name: START and enable Github Actions Runner service (macOS) # TODO: Idempotence
+- name: START and enable Github Actions Runner service on MacOS # TODO: Idempotence
   ansible.builtin.command: "./svc.sh start" # noqa no-changed-when
   args:
     chdir: "{{ runner_dir }}"

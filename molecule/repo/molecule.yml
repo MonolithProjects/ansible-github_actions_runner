@@ -34,7 +34,7 @@ scenario:
     - create
     - prepare
     - converge
-    - idempotence
+    # - idempotence # Converge is testing two different versions of the runner
     - side_effect
     - verify
     - cleanup

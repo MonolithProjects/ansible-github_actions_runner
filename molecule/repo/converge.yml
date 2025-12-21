@@ -7,15 +7,15 @@
     runner_user: root
     github_repo: "{{ lookup('env', 'GITHUB_REPO') }}"
     github_account: "{{ lookup('env', 'GITHUB_ACCOUNT') }}"
-    runner_version: "latest"
+    runner_version: "2.329.0"
     runner_labels:
       - label1
       - repo-runner
   roles:
     - robertdebock.epel
-    - monolithprojects.github_actions_runner
+    - role: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') }}"
 
-# Run the playbook again with different labels to test
+# Run the playbook again with different labels and version to test
 - name: Update Repo runner
   hosts: all
   gather_facts: yes
@@ -25,10 +25,11 @@
     github_repo: "{{ lookup('env', 'GITHUB_REPO') }}"
     github_account: "{{ lookup('env', 'GITHUB_ACCOUNT') }}"
     runner_version: "latest"
+    hide_sensitive_logs: false
     runner_labels:
       - label1
       - repo-runner
       - label2
   roles:
     - robertdebock.epel
-    - monolithprojects.github_actions_runner
+    - role: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') }}"

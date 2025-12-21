@@ -15,54 +15,54 @@ on:
   workflow_dispatch:
 
 jobs:
-  # repo:
-  #   name: Test GHA Runner Role
-  #   environment:
-  #     name: test
-  #   runs-on: ubuntu-24.04
-  #   strategy:
-  #     fail-fast: false
-  #     max-parallel: 5
-  #     matrix:
-  #       config:
-  #         - os: "debian13"
-  #         - os: "fedora43"
-  #         - os: "ubuntu2404"
-  #         - os: "rockylinux9"
-  #   steps:
-  #     - name: checkout
-  #       uses: actions/checkout@v6
-  #       with:
-  #         path: "${{ github.repository }}"
+  repo:
+    name: Test GHA Runner Role
+    environment:
+      name: test
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      max-parallel: 5
+      matrix:
+        config:
+          - os: "debian13"
+          - os: "fedora43"
+          - os: "ubuntu2404"
+          - os: "rockylinux9"
+    steps:
+      - name: checkout
+        uses: actions/checkout@v6
+        with:
+          path: "${{ github.repository }}"
 
-  #     - name: Remove unnecessary files
-  #       run: |
-  #         sudo rm -rf /usr/share/dotnet
-  #         sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+      - name: Remove unnecessary files
+        run: |
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
 
-  #     - name: Set up Python 3
-  #       uses: actions/setup-python@v6
-  #       with:
-  #         python-version: "3.14"
+      - name: Set up Python 3
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.14"
 
-  #     - name: Install test dependencies
-  #       run: |
-  #         pip3 install ansible docker molecule molecule-plugins[docker] "requests<2.29.2" jmespath
+      - name: Install test dependencies
+        run: |
+          pip3 install ansible docker molecule molecule-plugins[docker] "requests<2.29.2" jmespath
 
-  #     - name: Run Molecule test - repo
-  #       run: molecule test --scenario-name repo
-  #       working-directory: "${{ github.repository }}"
-  #       env:
-  #         PY_COLORS: "1"
-  #         ANSIBLE_FORCE_COLOR: "1"
-  #         MOLECULE_DISTRO: ${{ matrix.config.os }}
-  #         PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-  #         GITHUB_ACCOUNT: monolithprojects-testorg
-  #         GITHUB_REPO: ansible-github_actions_runner-testrepo
+      - name: Run Molecule test - repo
+        run: molecule test --scenario-name repo
+        working-directory: "${{ github.repository }}"
+        env:
+          PY_COLORS: "1"
+          ANSIBLE_FORCE_COLOR: "1"
+          MOLECULE_DISTRO: ${{ matrix.config.os }}
+          PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          GITHUB_ACCOUNT: monolithprojects-testorg
+          GITHUB_REPO: ansible-github_actions_runner-testrepo
 
   org:
     name: Test Org Runner
-    # needs: repo
+    needs: repo
     environment:
       name: test
     runs-on: ubuntu-24.04
