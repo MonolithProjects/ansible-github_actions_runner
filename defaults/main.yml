@@ -45,7 +45,8 @@ runner_download_repository: "actions/runner"
 # Several arguments must be set as one string (i.e. "--ephemeral --my_special_fork")
 runner_extra_config_args: ""
 
-# Disable default labels (self-hosted, Linux, X64) and require custom labels. Set `runner_no_default_labels: true` and provide at least one label in `runner_labels` to use this feature.
+# Disable default labels (self-hosted, Linux, X64) and require custom labels.
+# Set `runner_no_default_labels: true` and provide at least one label in `runner_labels` to use this feature.
 runner_no_default_labels: false
 
 # Name to assign to this runner in GitHub (System hostname as default)

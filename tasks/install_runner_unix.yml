@@ -114,12 +114,6 @@
       map(attribute='name') |
       list
 
-- debug:
-    var: reinstall_runner
-
-- debug:
-    var: registered_runners.json.runners|map(attribute='name')|list
-
 - name: Replace registered runner # noqa no-changed-when
   environment:
     RUNNER_ALLOW_RUNASROOT: "1"
