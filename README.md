@@ -15,12 +15,12 @@ It supports Enterprise, Organization and Repository Runners.
 
 * The role requires a Personal Access Token to access GitHub. The token can be set as the `PERSONAL_ACCESS_TOKEN` environment variable.
 
-> **Note**  
+> **Note**
 > The token must have the `repo` scope (when creating a repo runner), the `admin:org` scope (when creating a runner for an organization),
 > or the `manage_runners:enterprise` scope (when creating an enterprise runner).
 > Personal Access Token for GitHub account can be created [here](https://github.com/settings/tokens).
 
-> **Warning**  
+> **Warning**
 > Never store your personal access token in the GitHub repository. Use [GitHub Secrets](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets) or a different secrets service.
 
 * Runner user has to be pre-created.
@@ -86,6 +86,9 @@ github_api_runners_per_page: 100
 
 # Personal Access Token for your GitHub account
 access_token: "{{ lookup('env', 'PERSONAL_ACCESS_TOKEN') }}"
+
+# Public github Access Token for the actions-runner release download
+public_gh_access_token: "{{ lookup('env', 'PUBLIC_GH_ACCESS_TOKEN') }}"
 
 # Is it the runner for organization or not?
 runner_org: false
