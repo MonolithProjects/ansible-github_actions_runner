@@ -5,17 +5,17 @@
   register: runner_service_file_path
 
 - name: Read service name from file
-  ansible.windows.win_command: "cat {{ runner_dir }}\\.service"
+  ansible.windows.win_shell: "type {{ runner_dir }}\\.service"
   register: runner_service
   changed_when: false
   when: runner_service_file_path.stat.exists
 
 - name: Uninstall service runner
   ansible.windows.win_shell: |
-    if(Get-Service {{ runner_service.stdout }} -ErrorAction SilentlyContinue) {
-      Write-Host "Stopping and removing service: {{ runner_service.stdout }}"
-      sc.exe stop "{{ runner_service.stdout }}"
-      sc.exe delete "{{ runner_service.stdout }}"
+    if(Get-Service {{ runner_service.stdout | trim }} -ErrorAction SilentlyContinue) {
+      Write-Host "Stopping and removing service: {{ runner_service.stdout | trim }}"
+      sc.exe stop "{{ runner_service.stdout | trim }}"
+      sc.exe delete "{{ runner_service.stdout | trim }}"
     }
   args:
     chdir: "{{ runner_dir }}"
