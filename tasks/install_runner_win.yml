@@ -120,6 +120,7 @@
 - name: Read service name from file
   ansible.windows.win_shell: "type {{ runner_dir }}\\.service"
   register: runner_service
+  check_mode: false
   changed_when: false
 
 - name: START and enable Github Actions Runner service
