@@ -31,7 +31,7 @@ jobs:
           - os: "rockylinux9"
     steps:
       - name: checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           path: "${{ github.repository }}"
 
@@ -77,7 +77,7 @@ jobs:
           - os: "rockylinux9"
     steps:
       - name: checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           path: "${{ github.repository }}"
 
