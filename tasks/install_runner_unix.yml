@@ -122,6 +122,7 @@
     --url {{ github_full_url }} \
     --name '{{ runner_name }}' \
     --labels {{ runner_labels | join(',') }} \
+    --runnergroup {{ runner_group }} \
     --unattended \
     {{ '--no-default-labels' if runner_no_default_labels | bool else '' }} \
     {{ runner_extra_config_args }} \
